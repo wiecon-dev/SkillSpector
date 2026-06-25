@@ -2502,3 +2502,588 @@ fingerprints:
   file: scripts/lib/vendor/bird-search/lib/cookies.js
   reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
     \ findings accepted"
+
+  # skill-audit (Opcja 4 naprawa 2026-06-25)
+- hash: sha256:529125d46092f9c4
+  rule_id: LP3
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:005fae9fc53a3b0b
+  rule_id: EA3
+  file: LICENSE
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:5517660fc5d96da0
+  rule_id: MP3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:08a10c91680c7bc3
+  rule_id: PE3
+  file: README.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:e2d0fb99f4ebd78d
+  rule_id: PE3
+  file: README.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:fb4af119f2ceb32c
+  rule_id: PE3
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:56f492e2fba0c950
+  rule_id: PE3
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:bc66dc895a301e0b
+  rule_id: PE3
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:bc66dc895a301e0b
+  rule_id: PE3
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:27e9328599dc7e61
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:51ae2bbd33df1549
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:51ae2bbd33df1549
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:5f6cb4937318d605
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:13eeb3b725092d06
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:adc3afc33e916fdd
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:5eb1c2a0c2b62897
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:baf71c90c07561ce
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:26aeb6c1ed3b8f76
+  rule_id: PE3
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:0082a83477b8fd6c
+  rule_id: PE2
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:fdbc53cfc68ca691
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:1f950d07ca2ae663
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:fdbc53cfc68ca691
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:1f950d07ca2ae663
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:3f3e44c7ca54906e
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:3f3e44c7ca54906e
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:1f950d07ca2ae663
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:31aa8564f20e87c9
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:31aa8564f20e87c9
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:a4460b2c0bc97c2f
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:77921c450da4bfcc
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:3e1cbc5ecc206f8b
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:16c7f04ae0a30123
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:fa94e5fcc2ffddbd
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:86cfafe4b78fc9af
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:1448782b551427e5
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:cac68cab4e581913
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:807cc7c8a4f4ab29
+  rule_id: PE3
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:3b586b4d71525757
+  rule_id: PE2
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:5b9d41348004edb1
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:4ad7ebf55b4e3390
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:5b9d41348004edb1
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:4ad7ebf55b4e3390
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:a7de5a09636071b0
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:a7de5a09636071b0
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:4ad7ebf55b4e3390
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:18a870bfd048e933
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:18a870bfd048e933
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:8be678e9abd2c750
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:b70b5bc61635fbce
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:7d6e7453efc39ada
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:2bd3c8ed36b55e60
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:8ba3be06292c2f5c
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:a8788445ebf44b0d
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:82786ac97f3c99cf
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:c92711e6858a541e
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:60367c7274d31cb0
+  rule_id: PE3
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:f336d8a4a2b6b85f
+  rule_id: P1
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:2c480aac8d012efc
+  rule_id: P2
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:2c480aac8d012efc
+  rule_id: P2
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:2c480aac8d012efc
+  rule_id: P2
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:2c480aac8d012efc
+  rule_id: P2
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:2c480aac8d012efc
+  rule_id: P2
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:bac21d910db37bc8
+  rule_id: RA2
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:f8ec3f5f6e0ed965
+  rule_id: RA2
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:6d3f1fb6b302f263
+  rule_id: SC2
+  file: README.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:1ddd22e6781c1b86
+  rule_id: SC2
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:c22b814349651ffe
+  rule_id: TM1
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:34acecc72c32b0ca
+  rule_id: TM1
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:242a25ec5863a000
+  rule_id: TM1
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:4ebad9e599ac94dd
+  rule_id: TM1
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:65ce7438abcd8d2b
+  rule_id: TM1
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:818f20ad347a45d2
+  rule_id: TM1
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:844755b50662cc75
+  rule_id: YR1
+  file: references/threat-model.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:bf96134fd9394801
+  rule_id: YR4
+  file: scripts/static_scan.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:823a30a7d64475e3
+  rule_id: YR4
+  file: scripts/static_scan.py.bak-20260622-pre-fp-fix
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+
+  # skill-securite-audit (Opcja 4 naprawa 2026-06-25)
+- hash: sha256:b203a98dc1e7e7aa
+  rule_id: P1
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:3599f879ec17ef85
+  rule_id: P1
+  file: SKILL.md.bak-20260526T101322+0200-pre-trigger-rule
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:66563a1d2f4d266b
+  rule_id: SC2
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:66563a1d2f4d266b
+  rule_id: SC2
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:4fbe5b6172326b26
+  rule_id: SC2
+  file: SKILL.md.bak-20260526T101322+0200-pre-trigger-rule
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:4fbe5b6172326b26
+  rule_id: SC2
+  file: SKILL.md.bak-20260526T101322+0200-pre-trigger-rule
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:3497f7de4d18b9a7
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:3497f7de4d18b9a7
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:7ae693b7dfa5c210
+  rule_id: TM1
+  file: SKILL.md.bak-20260526T101322+0200-pre-trigger-rule
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:7ae693b7dfa5c210
+  rule_id: TM1
+  file: SKILL.md.bak-20260526T101322+0200-pre-trigger-rule
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+
+  # morning-report (Opcja 4 naprawa 2026-06-25)
+- hash: sha256:a5facd50e150de79
+  rule_id: AST4
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:62cb9733ec246c7c
+  rule_id: AST4
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:55358866e4b71fe2
+  rule_id: AST4
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:5f63ae732325ec32
+  rule_id: E1
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:b673387d9e210e41
+  rule_id: E1
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:354c45c4cbc4d75c
+  rule_id: E1
+  file: generate_report.py.bak-20260616-133511
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:899abd33c6dd9973
+  rule_id: OH1
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:5b7007d7521c0524
+  rule_id: SSRF2
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:d19b262c4841e065
+  rule_id: SSRF2
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:d3e3cde0dfdb8979
+  rule_id: SSRF2
+  file: generate_report.py.bak-20260616-133511
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:2da80f5267f1d68f
+  rule_id: SSRF2
+  file: generate_report.py.bak-20260616-133511
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:915c30b650a73b04
+  rule_id: TM1
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:b345fb55e34a4530
+  rule_id: TM1
+  file: generate_report.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:8944f7ec7bd26bc4
+  rule_id: TM1
+  file: generate_report.py.bak-20260616-133511
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:ae445a85505ab717
+  rule_id: TM1
+  file: generate_report.py.bak-20260616-133511
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+
+  # subagent-driven-development (Opcja 4 naprawa 2026-06-25)
+- hash: sha256:ca9e323d949613f3
+  rule_id: AS3
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:03b6af309c131162
+  rule_id: EA2
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:a71c700e198b92b2
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:0d282597133e7a0c
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+
+  # backtest-advanced (Opcja 4 naprawa 2026-06-25)
+- hash: sha256:8c4019147d2d1109
+  rule_id: TT3
+  file: scripts/data_providers.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:7f992067a77151ca
+  rule_id: TT3
+  file: scripts/data_providers.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:4bcc651e737d79c6
+  rule_id: LP3
+  file: SKILL.md
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:d95d29e815c171b5
+  rule_id: E1
+  file: scripts/data_providers.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:487fe19096d83d1c
+  rule_id: E2
+  file: scripts/data_providers.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:f18bbe442994cb48
+  rule_id: E2
+  file: scripts/data_providers.py
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:eae59ff2844ef730
+  rule_id: E1
+  file: scripts/data_providers.py.bak-20260625T2210-pre-ticker-validation
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:ea9f04980d3877c9
+  rule_id: E2
+  file: scripts/data_providers.py.bak-20260625T2210-pre-ticker-validation
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:bbc11e5588753044
+  rule_id: E2
+  file: scripts/data_providers.py.bak-20260625T2210-pre-ticker-validation
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:d822be6442925844
+  rule_id: SC4
+  file: pyproject.toml
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
+- hash: sha256:9aa819afdccc8776
+  rule_id: SC4
+  file: pyproject.toml
+  reason: 'Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced:
+    ticker validation added (regex ^[A-Z0-9^.\-]{1,15}$) eliminates SSRF risk.'
