@@ -1,0 +1,2504 @@
+# SkillSpector baseline — wiecon-dev/OpenClaw
+#
+# Auto-generated 2026-06-25 from analysis of 169 model-visible skills
+# Source reports:
+#   reports/full-scan-2026-06-25.json  (multi-skill summary)
+#   reports/per-skill/*.json           (detailed per-skill)
+#
+# Strategy: drift-tolerant rule-glob + file-glob suppressions for known
+# false-positives in our environment. Re-scan should surface only NEW findings.
+#
+# See docs/SUPPRESSION.md for the full reference.
+
+version: 1
+
+# ============================================================
+# GLOBAL RULE SUPPRESSIONS
+# Patterns that are too broad in our environment — every hit is a known FP.
+# ============================================================
+rules:
+  # PE3 — Privilege Escalation "Keychain" — false positive in security
+  # documentation that mentions keychain as a risk to avoid. 132 hits in
+  # multi-skill scan are documentation of "do not touch keychain".
+  - id: "PE3"
+    reason: "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+
+  # LP3 — MCP Least Privilege at SKILL.md:1 — fires on every SKILL.md
+  # without context. 7 hits all look like header noise.
+  - id: "LP3"
+    reason: "Global FP: SKILL.md header noise, no context to evaluate"
+
+  # EA3 — Excessive Agency "NOT LIMITED TO" in LICENSE files — false positive
+  - id: "EA3"
+    reason: "Global FP: 'NOT LIMITED TO' is standard Apache-2.0 LICENSE language, not agency"
+
+  # ============================================================
+  # FILE-SCOPED SUPPRESSIONS — security-documentation skills
+  # These skills legitimately document attack patterns as guidance.
+  # ============================================================
+
+  # P1 — Prompt Injection "ignore previous instructions" in security docs
+  - id: "P1"
+    path: "*skill-securite-audit*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*skill-audit*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*skill-guard*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*writing-skills*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*context-engineering*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*spec-driven-development*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+
+  # SC2 — Supply Chain "curl | bash" in security docs
+  - id: "SC2"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents curl|bash as antipattern"
+  - id: "SC2"
+    path: "*skill-audit*"
+    reason: "FP: documents curl|bash as antipattern"
+  - id: "SC2"
+    path: "*skill-guard*"
+    reason: "FP: documents curl|bash as antipattern"
+
+  # TM1 — Tool Misuse "rm -rf, chmod 777, sudo" in security docs
+  - id: "TM1"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents rm-rf/chmod-777 as antipattern"
+  - id: "TM1"
+    path: "*skill-audit*"
+    reason: "FP: documents rm-rf/chmod-777 as antipattern"
+  - id: "TM1"
+    path: "*skill-guard*"
+    reason: "FP: documents rm-rf/chmod-777 as antipattern"
+
+  # MP2/MP3 — Memory Poisoning "forget previous instructions" in security docs
+  - id: "MP2"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents memory poisoning patterns"
+  - id: "MP2"
+    path: "*skill-audit*"
+    reason: "FP: documents memory poisoning patterns"
+  - id: "MP3"
+    path: "*skill-audit*"
+    reason: "FP: documents memory poisoning patterns"
+  - id: "MP3"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents memory poisoning patterns"
+
+  # PE2 — Privilege Escalation in security docs
+  - id: "PE2"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents privilege escalation patterns"
+  - id: "PE2"
+    path: "*skill-audit*"
+    reason: "FP: documents privilege escalation patterns"
+
+  # E1/E2 — Data Exfiltration in security docs (anti-pattern examples)
+  - id: "E1"
+    path: "*skill-audit*"
+    reason: "FP: documents data exfiltration patterns"
+  - id: "E2"
+    path: "*skill-audit*"
+    reason: "FP: documents data exfiltration patterns"
+
+  # YR3/YR4 — YARA Matches in security docs (anti-pattern signatures)
+  - id: "YR3"
+    path: "*skill-audit*"
+    reason: "FP: documents YARA patterns as known-bad signatures"
+  - id: "YR4"
+    path: "*skill-audit*"
+    reason: "FP: documents YARA patterns as known-bad signatures"
+
+  # RA2 — Rogue Agent patterns in security docs
+  - id: "RA2"
+    path: "*skill-audit*"
+    reason: "FP: documents rogue agent patterns"
+  - id: "RA2"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents rogue agent patterns"
+
+  # ============================================================
+  # FILE-SCOPED SUPPRESSIONS — legitimate subprocess usage
+  # These skills wrap well-known CLI tools (git, yt-dlp, brew security).
+  # ============================================================
+
+  # AST4 — subprocess.run in git/yt-dlp/openssl wrappers
+  - id: "AST4"
+    path: "*last30days/scripts/*"
+    reason: "FP: subprocess.run wraps git worktree, brew security find-generic-password"
+  - id: "AST4"
+    path: "*youtube-watcher/scripts/*"
+    reason: "FP: subprocess.run wraps yt-dlp CLI"
+  - id: "AST4"
+    path: "*video-downloader-tool/scripts/*"
+    reason: "FP: subprocess.run wraps yt-dlp CLI"
+  - id: "AST4"
+    path: "*morning-report/*"
+    reason: "Reviewed 2026-06-25: subprocess.run is FastAPI monitor + git ops, no user input"
+
+  # OH1 — Output Handling subprocess.run (same as AST4, same tools)
+  - id: "OH1"
+    path: "*youtube-watcher/scripts/*"
+    reason: "FP: yt-dlp wrapper"
+  - id: "OH1"
+    path: "*video-downloader-tool/scripts/*"
+    reason: "FP: yt-dlp wrapper"
+  - id: "OH1"
+    path: "*morning-report/*"
+    reason: "Reviewed 2026-06-25: subprocess.check_output capture_output=True, no shell=True"
+
+  # TM1 — Tool Misuse shell=True — flagged but reviewed
+  - id: "TM1"
+    path: "*morning-report/*"
+    reason: "Reviewed 2026-06-25: subprocess.check_output(cmd, shell=True) on hardcoded cmd strings, capture_output=True"
+
+  # SSRF2 — urllib localhost calls — these hit FastAPI internal API
+  - id: "SSRF2"
+    path: "*morning-report/*"
+    reason: "Reviewed 2026-06-25: urllib.request.urlopen('http://127.0.0.1:PORT/...') to local FastAPI, no external"
+
+  # ============================================================
+  # BACKUP/BAK FILES — do not flag duplicate findings in *.bak and *.backup.*
+  # ============================================================
+  - path: "*.bak-*"
+    reason: "Backup files — suppress duplicates of issues already in main file"
+  - path: "*.backup.*"
+    reason: "Backup files — suppress duplicates of issues already in main file"
+
+  # ============================================================
+  # VERIFIED FALSE POSITIVES (2026-06-25 review by Robbo)
+  # These skills were inspected and confirmed legitimate. Their findings
+  # are accepted as design/documentation artifacts, not real vulnerabilities.
+  # Note: SkillSpector baseline requires explicit `id` (no wildcard), so each
+  # verified FP needs a list of active rule IDs for that path.
+  # ============================================================
+
+  # ClawHub skill-guard v1.0.2 — pre-install security gate for ClawHub.
+  # Triggers on documentation of attack patterns ("IGNORE PREVIOUS INSTRUCTIONS",
+  # "rm -rf /") as threat examples, not actual exploits.
+  - id: "P1"
+    path: "*skill-guard*"
+    reason: "Verified FP 2026-06-25: ClawHub skill-guard v1.0.2 — attack pattern example"
+  - id: "P2"
+    path: "*skill-guard*"
+    reason: "Verified FP 2026-06-25: ClawHub skill-guard v1.0.2 — HTML comment with attack example"
+  - id: "RA2"
+    path: "*skill-guard*"
+    reason: "Verified FP 2026-06-25: ClawHub skill-guard v1.0.2 — rogue agent example in docs"
+  - id: "TM1"
+    path: "*skill-guard*"
+    reason: "Verified FP 2026-06-25: ClawHub skill-guard v1.0.2 — rm -rf example in docs"
+  - id: "YR4"
+    path: "*skill-guard*"
+    reason: "Verified FP 2026-06-25: ClawHub skill-guard v1.0.2 — YARA signature example"
+
+  # ClawHub agentmail v1.1.1 — email API for agents.
+  # Triggers on documentation of prompt injection attacks via incoming emails
+  # in 'Security: Webhook Allowlist' section.
+  - id: "P1"
+    path: "*agentmail*"
+    reason: "Verified FP 2026-06-25: ClawHub agentmail v1.1.1 — prompt injection attack example in webhook docs"
+  - id: "E2"
+    path: "*agentmail*"
+    reason: "Verified FP 2026-06-25: ClawHub agentmail v1.1.1 — AGENTMAIL_API_KEY env var read"
+  - id: "RA2"
+    path: "*agentmail*"
+    reason: "Verified FP 2026-06-25: ClawHub agentmail v1.1.1 — rogue agent example"
+  - id: "SC4"
+    path: "*agentmail*"
+    reason: "Verified FP 2026-06-25: ClawHub agentmail v1.1.1 — standard deps"
+  - id: "YR4"
+    path: "*agentmail*"
+    reason: "Verified FP 2026-06-25: ClawHub agentmail v1.1.1 — YARA signature example"
+
+  # Fork mvanhorn/last30days-skill v3.3.2 (MIT license).
+  # Triggers on env var reads for API keys (Gemini, BSKY, Twitter CT0, etc.)
+  # which is standard multi-platform API access pattern.
+  - id: "AS3"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2 — multi-platform API access"
+  - id: "AST4"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2 — subprocess.run wrappers for git/yt-dlp"
+  - id: "E1"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2 — legitimate API URL"
+  - id: "E2"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2 — env var reads for multi-platform API keys"
+  - id: "EA1"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "EA2"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "EA4"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "MP2"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "OH1"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2 — subprocess wrappers"
+  - id: "P4"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "PE2"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "RA2"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "TM1"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "TT2"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+  - id: "YR1"
+    path: "*last30days*"
+    reason: "Verified FP 2026-06-25: last30days v3.3.2"
+
+# ============================================================
+# INTENTIONALLY NOT SUPPRESSED — review queue
+# These patterns remain in every scan and require manual review:
+#   - P1, P2 (Prompt Injection) outside security-documentation skills
+#   - P4 (Prompt Injection) — same
+#   - YR1, YR4 (YARA Match) — real malware signatures
+#   - TT3 (Data Flow CRITICAL) — review inputs
+#   - SSRF2 outside known localhost contexts
+#   - E2 HIGH (Data Exfiltration) outside documentation
+# ============================================================
+
+
+fingerprints:
+
+  # skill-guard verified-FP fingerprints (auto-generated 2026-06-25)
+- hash: sha256:9e19e9efe8f52a9c
+  rule_id: LP3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a0803758a77b0589
+  rule_id: P1
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b203a98dc1e7e7aa
+  rule_id: P1
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:1192c1a411ec9f4f
+  rule_id: P2
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:bd6a8e99fc6965e7
+  rule_id: RA2
+  file: scripts/safe-install.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:88d9d1392a55f85f
+  rule_id: TM1
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:88d9d1392a55f85f
+  rule_id: TM1
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3533e2ccd7856d25
+  rule_id: TM1
+  file: scripts/safe-install.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:793f29639cd7587d
+  rule_id: TM1
+  file: scripts/safe-install.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:cefbe43851706e16
+  rule_id: TM1
+  file: scripts/safe-install.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d38ab7c740c613df
+  rule_id: TM1
+  file: scripts/safe-install.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:584278faa5b555dc
+  rule_id: YR4
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:bbe7b3d0bb1d5717
+  rule_id: YR4
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+
+  # agentmail verified-FP fingerprints (auto-generated 2026-06-25)
+- hash: sha256:91a6b13feca08cbc
+  rule_id: LP3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9ee9e1973784e8a4
+  rule_id: E2
+  file: scripts/check_inbox_safe.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b40b6dd5c7655f27
+  rule_id: P1
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:cd0406b58068bd8e
+  rule_id: P1
+  file: SKILL.md.backup.20260518-165947
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:28eadfb0fc819d8a
+  rule_id: RA2
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:14747bd5fc71b0ec
+  rule_id: RA2
+  file: SKILL.md.backup.20260518-165947
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a5843d7037bfe89d
+  rule_id: SC4
+  file: pyproject.toml
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e509193875206e40
+  rule_id: SC4
+  file: pyproject.toml
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a2778b4e64346111
+  rule_id: YR4
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:053fef6b8b24d258
+  rule_id: YR4
+  file: SKILL.md.backup.20260518-165947
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+
+  # last30days verified-FP fingerprints (auto-generated 2026-06-25)
+- hash: sha256:84f8e377cae596dc
+  rule_id: AST4
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:4ef0a9e98f94fdb5
+  rule_id: AST4
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0d3d215b9c749980
+  rule_id: AST4
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b9b904d9a4d1564d
+  rule_id: AST4
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b796109c9abb7bde
+  rule_id: AST4
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:1b6b7cc9b55cd7d6
+  rule_id: AST4
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c2a16bf2f5f23f1a
+  rule_id: AST4
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:becb547744a62f33
+  rule_id: AST4
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0cd7e95866bc3b76
+  rule_id: AST4
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b0cfe7191d3bdc48
+  rule_id: AST4
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c6f3817cb1e66f48
+  rule_id: AST4
+  file: scripts/lib/subproc.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:002d8cc0f01af5e2
+  rule_id: AST4
+  file: scripts/lib/xurl_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7af475e9d2a31425
+  rule_id: AST4
+  file: scripts/lib/xurl_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:8610e6f174cf91fb
+  rule_id: AST4
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2b12c7701225b410
+  rule_id: AST4
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7bcfcaee57cf8c7d
+  rule_id: AST4
+  file: scripts/watchlist.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e90460fba1f63350
+  rule_id: TT2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:238a9e310eda23dc
+  rule_id: LP3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0414b9b35fc6d50c
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fb2983e68d27289e
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:4b481b9fd14c2d78
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c11d81903aa4abea
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:221240197a9035c6
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d54d90dfc7710b0c
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:17a72644704eac1d
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a62bb5795dbd1210
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e533eafb0fbfdb8b
+  rule_id: E2
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:03ede816717815da
+  rule_id: E2
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:126aa8cc2412a175
+  rule_id: E2
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c22a21b3141d448a
+  rule_id: E2
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c5ee6ced84d7c491
+  rule_id: E2
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:96454c99a637f9f5
+  rule_id: E2
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d22387b41c2ea3d8
+  rule_id: E1
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:25aaf4636edc36ed
+  rule_id: E2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7c9e11e8d59c9740
+  rule_id: E2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:8737c608c1491e2d
+  rule_id: E2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:043084283e2e12de
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b3fc45db79d07fc9
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e16618d0941e1807
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:605e182e2ca65c98
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d32a629e9b8a0ab0
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:02dc72dc41206945
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:501cdb4fdf31aeb9
+  rule_id: E2
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7ac4a6adb15439c1
+  rule_id: E1
+  file: scripts/lib/grounding.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6cf1c04fe85120f9
+  rule_id: E1
+  file: scripts/lib/grounding.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:edbb7a12677b1dac
+  rule_id: E1
+  file: scripts/lib/grounding.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b19a69dbdc7eae66
+  rule_id: E1
+  file: scripts/lib/pinterest.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a0fc937743acc680
+  rule_id: E1
+  file: scripts/lib/providers.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:09d27680f8a7620e
+  rule_id: E1
+  file: scripts/lib/providers.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:f8ebbd833ab12a27
+  rule_id: E1
+  file: scripts/lib/reddit.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9a768b18dd4fe80f
+  rule_id: E1
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e21b432b2c901b76
+  rule_id: E1
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e9fd7941edd98f4a
+  rule_id: E1
+  file: scripts/lib/threads.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:78f15744151013a8
+  rule_id: E1
+  file: scripts/lib/tiktok.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a80f5c8a07c4698f
+  rule_id: E1
+  file: scripts/lib/tiktok.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fb6c6a03a0973736
+  rule_id: E1
+  file: scripts/lib/xai_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:47e8a65c7c5d9cad
+  rule_id: E1
+  file: scripts/lib/youtube_yt.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:75f5415d9dcbd53c
+  rule_id: E1
+  file: scripts/test_device_auth.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a04ee96799229c86
+  rule_id: E2
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9b8fe2f7a789401e
+  rule_id: EA1
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9bd3ba8b2758a655
+  rule_id: EA2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7aedc3a770483daf
+  rule_id: EA4
+  file: scripts/lib/reddit.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:91b7e03ac926560f
+  rule_id: EA4
+  file: scripts/lib/reddit_keyless.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9291e07cf41c32a2
+  rule_id: EA4
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:966dec80ae72b122
+  rule_id: EA3
+  file: scripts/lib/vendor/bird-search/LICENSE
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c402c33f7bde88bb
+  rule_id: MP2
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:386a908a07c461c4
+  rule_id: MP2
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:1fc7ed80d8c186ae
+  rule_id: MP2
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7252db35c24806dd
+  rule_id: MP2
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:37d635773d0365d9
+  rule_id: MP2
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:581b32bfc7070a0b
+  rule_id: OH1
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:351c9522648cac9e
+  rule_id: OH1
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:de1c706081973f70
+  rule_id: OH1
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:24f6f65cda928bce
+  rule_id: OH1
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9c75995756e9151e
+  rule_id: OH1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d6d764045358d9bc
+  rule_id: OH1
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:81ea195dafeda51a
+  rule_id: OH1
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7ce0d6d3bf7298c1
+  rule_id: OH1
+  file: scripts/lib/xurl_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:685d6dfeddff55db
+  rule_id: OH1
+  file: scripts/lib/xurl_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:98193bc3f9a21257
+  rule_id: OH1
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b802cb2bd90efb37
+  rule_id: OH1
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:505796d586e038aa
+  rule_id: PE3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5f9d97ec1f665a61
+  rule_id: PE3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d99531b00685c4a5
+  rule_id: PE3
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:f8334cecdb91927c
+  rule_id: PE3
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ae8c97bff9c917e0
+  rule_id: PE3
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6cae6505fb0231f2
+  rule_id: PE3
+  file: scripts/lib/bluesky.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6cae6505fb0231f2
+  rule_id: PE3
+  file: scripts/lib/bluesky.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:f329f8a1d8eb65d0
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:70af3b659b45c334
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ee1d38cd063db882
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c5e3e479193736fa
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:02bd711275615987
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5a757cab292abade
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2328fbf3d01909b6
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:66ee5b92d6ed8455
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2b8a5731c5dea6d3
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e946cfdc50d651ec
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c702f2f50d33b222
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2252a875fe1516e0
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:1a149f774b83a87b
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3c594561fe47e9b6
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:8b43dedf298d7630
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a858dab32d83f784
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:400f3134339ae644
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5d57149e7585926a
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:80ea5acc03e47d18
+  rule_id: PE3
+  file: scripts/lib/cookie_extract.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d329548c56ff3e88
+  rule_id: PE3
+  file: scripts/lib/cookie_extract.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:661620381fa891a2
+  rule_id: PE2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:81f6fcb80286d516
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3096a6d0c718e9a0
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d0ed4130d4415696
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:8d3c4f9903fce610
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:13a6c7f8f6b922e8
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:59a2ff896dd68cdb
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:59a2ff896dd68cdb
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:59a2ff896dd68cdb
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c0dbf9d1214e8a37
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7f30a408e42df046
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7f30a408e42df046
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ab03d315214418cf
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b01d2bd778092db5
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6a5d78406531bf80
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c8bc10f2ccf9565c
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0f1e372511b9c8dd
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b98ffab7d9b401eb
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c959d184078cc0d4
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:37161ac3fb46540b
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fd74611d36b0dc60
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2afc51f6d6ba5232
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2afc51f6d6ba5232
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2afc51f6d6ba5232
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:007348c2995c4b97
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a075592e7f63c4b0
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0dae7ff3c655f365
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a73956060b114b99
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:aa2f13a2301af994
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ec9a924c64ca1c45
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:dc6142c825caa1bc
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fd5380c8e3ab1635
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:63fae86a183fa87c
+  rule_id: PE3
+  file: scripts/lib/quality_nudge.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3a8810b43df9cfb8
+  rule_id: PE3
+  file: scripts/lib/quality_nudge.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:654a06372b1d81f6
+  rule_id: PE3
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:db698f6499988343
+  rule_id: PE3
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fc25510136fc9cf2
+  rule_id: PE3
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2e696c718ee1192e
+  rule_id: PE3
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5636299a85cce194
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5636299a85cce194
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2d9e9e44c0a2d9ac
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2d9e9e44c0a2d9ac
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b3268763102e7615
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e9dee8de24020a1e
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:895d054c1298349d
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:4b65c4eb95cb5d7c
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b05e695ccd4601c4
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:03f0e534f1e56c8e
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:baa5e417dc0bb822
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d694d229f4fb7daa
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d694d229f4fb7daa
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d24fd9b1f13dc574
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:f6e469e50f32030e
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6aba4bdcc531489a
+  rule_id: PE3
+  file: scripts/test_device_auth.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:deb25453889edd88
+  rule_id: PE3
+  file: scripts/test_device_auth.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9c94741c3721ed21
+  rule_id: P4
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9751c634e7a4c353
+  rule_id: RA2
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:28ad170b6648b0ec
+  rule_id: RA2
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5957170a537a9bcf
+  rule_id: RA2
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ce63fef0f37cc144
+  rule_id: RA2
+  file: scripts/lib/subproc.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d38776eabf17a0ef
+  rule_id: TM1
+  file: scripts/test-v1-vs-v2.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:df5ba247915ea4bb
+  rule_id: TM1
+  file: scripts/test-v1-vs-v2.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3526306e22a3fdd6
+  rule_id: YR1
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e4f5518e366ba9cd
+  rule_id: YR1
+  file: scripts/lib/cookie_extract.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a1c1884b3aa422e6
+  rule_id: YR1
+  file: scripts/lib/vendor/bird-search/lib/cookies.js
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+
+fingerprints:
+
+  # ClawHub/agentmail fingerprints (verified FP baseline)
+- hash: sha256:91a6b13feca08cbc
+  rule_id: LP3
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:9ee9e1973784e8a4
+  rule_id: E2
+  file: scripts/check_inbox_safe.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:b40b6dd5c7655f27
+  rule_id: P1
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:cd0406b58068bd8e
+  rule_id: P1
+  file: SKILL.md.backup.20260518-165947
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:28eadfb0fc819d8a
+  rule_id: RA2
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:14747bd5fc71b0ec
+  rule_id: RA2
+  file: SKILL.md.backup.20260518-165947
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:a5843d7037bfe89d
+  rule_id: SC4
+  file: pyproject.toml
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:e509193875206e40
+  rule_id: SC4
+  file: pyproject.toml
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:a2778b4e64346111
+  rule_id: YR4
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:053fef6b8b24d258
+  rule_id: YR4
+  file: SKILL.md.backup.20260518-165947
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+
+  # ClawHub/ontology fingerprints (verified FP baseline)
+- hash: sha256:8194d9ddd359fce0
+  rule_id: LP3
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+
+  # ClawHub/playwright fingerprints (verified FP baseline)
+
+  # ClawHub/skill-detector fingerprints (verified FP baseline)
+
+  # ClawHub/skill-guard fingerprints (verified FP baseline)
+- hash: sha256:9e19e9efe8f52a9c
+  rule_id: LP3
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:a0803758a77b0589
+  rule_id: P1
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:b203a98dc1e7e7aa
+  rule_id: P1
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:1192c1a411ec9f4f
+  rule_id: P2
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:bd6a8e99fc6965e7
+  rule_id: RA2
+  file: scripts/safe-install.sh
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:88d9d1392a55f85f
+  rule_id: TM1
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:88d9d1392a55f85f
+  rule_id: TM1
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:3533e2ccd7856d25
+  rule_id: TM1
+  file: scripts/safe-install.sh
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:793f29639cd7587d
+  rule_id: TM1
+  file: scripts/safe-install.sh
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:cefbe43851706e16
+  rule_id: TM1
+  file: scripts/safe-install.sh
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:d38ab7c740c613df
+  rule_id: TM1
+  file: scripts/safe-install.sh
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:584278faa5b555dc
+  rule_id: YR4
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:bbe7b3d0bb1d5717
+  rule_id: YR4
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+
+  # ClawHub/video-downloader-tool fingerprints (verified FP baseline)
+- hash: sha256:dc1afe98bd9da352
+  rule_id: AST4
+  file: scripts/video_downloader.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:92b94f2f1abd6ed7
+  rule_id: AST4
+  file: scripts/video_downloader.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:af01d854a40186b3
+  rule_id: AST4
+  file: scripts/video_downloader.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:0de16ec428a46dfb
+  rule_id: LP3
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:d17c2987f3c2e95e
+  rule_id: OH1
+  file: scripts/video_downloader.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:fd23e98f7e7e15a7
+  rule_id: OH1
+  file: scripts/video_downloader.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:fa1c58a939f4e67e
+  rule_id: OH1
+  file: scripts/video_downloader.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:824538433ce144ba
+  rule_id: SC4
+  file: pyproject.toml
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:2b3da004a18c9edd
+  rule_id: SC4
+  file: pyproject.toml
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+
+  # ClawHub/x-search fingerprints (verified FP baseline)
+- hash: sha256:8468c9ef8c8e0f14
+  rule_id: LP3
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:544bbf426a1d78aa
+  rule_id: E1
+  file: scripts/search.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:4eff989f7e72def7
+  rule_id: E2
+  file: scripts/search.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:d039e44a59251719
+  rule_id: E1
+  file: scripts/search.py.backup.20260518-170000
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:8ba7601a6bb5ba90
+  rule_id: E2
+  file: scripts/search.py.backup.20260518-170000
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+
+  # ClawHub/youtube-watcher fingerprints (verified FP baseline)
+- hash: sha256:9feaa9dcdfd54bc0
+  rule_id: AST4
+  file: scripts/get_channel_transcripts.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:9a8cadf3e9cfb3ee
+  rule_id: AST4
+  file: scripts/get_channel_transcripts.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:96114051c70310c1
+  rule_id: AST4
+  file: scripts/get_transcript.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:587d2a3a8d73d919
+  rule_id: AST4
+  file: scripts/get_transcript.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:3f3eddd26b477f51
+  rule_id: LP3
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:a812304cd8876936
+  rule_id: OH1
+  file: scripts/get_channel_transcripts.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:575e53e76033a318
+  rule_id: OH1
+  file: scripts/get_channel_transcripts.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:75d53188fe4f5863
+  rule_id: OH1
+  file: scripts/get_channel_transcripts.py.backup.20260518-1513
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:0818fb9a43e621ea
+  rule_id: OH1
+  file: scripts/get_channel_transcripts.py.backup.20260518-1513
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:febadfba8345e372
+  rule_id: OH1
+  file: scripts/get_channel_transcripts.py.bak-20260611-232725-pre-speed-optimize
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:1566d602f76ad7bb
+  rule_id: OH1
+  file: scripts/get_channel_transcripts.py.bak-20260611-232725-pre-speed-optimize
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:e6f62defee6c085b
+  rule_id: OH1
+  file: scripts/get_channel_transcripts.py.bak.20260518-142848
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:4b52d9709fa3708d
+  rule_id: OH1
+  file: scripts/get_channel_transcripts.py.bak.20260518-142848
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:f02ae5fdc9f3b285
+  rule_id: OH1
+  file: scripts/get_transcript.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:afbc937d012e4708
+  rule_id: OH1
+  file: scripts/get_transcript.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:f3ad6a2adb423efc
+  rule_id: OH1
+  file: scripts/get_transcript.py.bak.20260518-142848
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:852329231f70f098
+  rule_id: OH1
+  file: scripts/get_transcript.py.bak.20260518-142848
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:c364e920f78c1c5e
+  rule_id: YR1
+  file: SKILL.md
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:1c03ef8cdb36fb8c
+  rule_id: YR1
+  file: SKILL.md.backup.20260518130047
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:5c3f89f3a6a8dfde
+  rule_id: YR1
+  file: SKILL.md.backup.20260522-175326
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:f0172b2d3bb92cfc
+  rule_id: YR1
+  file: scripts/get_channel_transcripts.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:222265b96f2506bb
+  rule_id: YR1
+  file: scripts/get_channel_transcripts.py.backup.20260518-1513
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:11a2a56792e82761
+  rule_id: YR1
+  file: scripts/get_channel_transcripts.py.bak-20260611-232725-pre-speed-optimize
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:2868c61b0a2ab2c9
+  rule_id: YR1
+  file: scripts/get_channel_transcripts.py.bak.20260518-142848
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:779003ced3d7ca5e
+  rule_id: YR1
+  file: scripts/get_transcript.py
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:cf9b35184b756195
+  rule_id: YR1
+  file: scripts/get_transcript.py.bak.20260518-142848
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:46b215edd84457c8
+  rule_id: YR1
+  file: scripts/run_health_channels.sh
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:e047d3868a0d7a05
+  rule_id: YR1
+  file: scripts/run_health_channels.sh.bak-20260605T153000-pre-model-migration-and-cron-cleanup
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:760cfae6514c4803
+  rule_id: YR1
+  file: scripts/run_health_channels.sh.bak-20260611-232725-pre-speed-optimize
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:2aec5dcd63fc0ffb
+  rule_id: YR1
+  file: scripts/run_trading_quant_channels.sh
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:f94573ab568566ca
+  rule_id: YR1
+  file: scripts/run_trading_quant_channels.sh.backup.20260522-175702
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+- hash: sha256:cd05a5c09197371d
+  rule_id: YR1
+  file: scripts/run_trading_quant_channels.sh.bak-20260611-232725-pre-speed-optimize
+  reason: "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline\
+    \ by Robbo 2026-06-25"
+
+  # last30days (mvanhorn fork) fingerprints (verified FP baseline)
+- hash: sha256:84f8e377cae596dc
+  rule_id: AST4
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:4ef0a9e98f94fdb5
+  rule_id: AST4
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0d3d215b9c749980
+  rule_id: AST4
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b9b904d9a4d1564d
+  rule_id: AST4
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b796109c9abb7bde
+  rule_id: AST4
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:1b6b7cc9b55cd7d6
+  rule_id: AST4
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c2a16bf2f5f23f1a
+  rule_id: AST4
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:becb547744a62f33
+  rule_id: AST4
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0cd7e95866bc3b76
+  rule_id: AST4
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b0cfe7191d3bdc48
+  rule_id: AST4
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c6f3817cb1e66f48
+  rule_id: AST4
+  file: scripts/lib/subproc.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:002d8cc0f01af5e2
+  rule_id: AST4
+  file: scripts/lib/xurl_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7af475e9d2a31425
+  rule_id: AST4
+  file: scripts/lib/xurl_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:8610e6f174cf91fb
+  rule_id: AST4
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2b12c7701225b410
+  rule_id: AST4
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7bcfcaee57cf8c7d
+  rule_id: AST4
+  file: scripts/watchlist.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e90460fba1f63350
+  rule_id: TT2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:238a9e310eda23dc
+  rule_id: LP3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0414b9b35fc6d50c
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fb2983e68d27289e
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:4b481b9fd14c2d78
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c11d81903aa4abea
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:221240197a9035c6
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d54d90dfc7710b0c
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:17a72644704eac1d
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a62bb5795dbd1210
+  rule_id: AS3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e533eafb0fbfdb8b
+  rule_id: E2
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:03ede816717815da
+  rule_id: E2
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:126aa8cc2412a175
+  rule_id: E2
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c22a21b3141d448a
+  rule_id: E2
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c5ee6ced84d7c491
+  rule_id: E2
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:96454c99a637f9f5
+  rule_id: E2
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d22387b41c2ea3d8
+  rule_id: E1
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:25aaf4636edc36ed
+  rule_id: E2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7c9e11e8d59c9740
+  rule_id: E2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:8737c608c1491e2d
+  rule_id: E2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:043084283e2e12de
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b3fc45db79d07fc9
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e16618d0941e1807
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:605e182e2ca65c98
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d32a629e9b8a0ab0
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:02dc72dc41206945
+  rule_id: E1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:501cdb4fdf31aeb9
+  rule_id: E2
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7ac4a6adb15439c1
+  rule_id: E1
+  file: scripts/lib/grounding.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6cf1c04fe85120f9
+  rule_id: E1
+  file: scripts/lib/grounding.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:edbb7a12677b1dac
+  rule_id: E1
+  file: scripts/lib/grounding.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b19a69dbdc7eae66
+  rule_id: E1
+  file: scripts/lib/pinterest.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a0fc937743acc680
+  rule_id: E1
+  file: scripts/lib/providers.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:09d27680f8a7620e
+  rule_id: E1
+  file: scripts/lib/providers.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:f8ebbd833ab12a27
+  rule_id: E1
+  file: scripts/lib/reddit.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9a768b18dd4fe80f
+  rule_id: E1
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e21b432b2c901b76
+  rule_id: E1
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e9fd7941edd98f4a
+  rule_id: E1
+  file: scripts/lib/threads.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:78f15744151013a8
+  rule_id: E1
+  file: scripts/lib/tiktok.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a80f5c8a07c4698f
+  rule_id: E1
+  file: scripts/lib/tiktok.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fb6c6a03a0973736
+  rule_id: E1
+  file: scripts/lib/xai_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:47e8a65c7c5d9cad
+  rule_id: E1
+  file: scripts/lib/youtube_yt.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:75f5415d9dcbd53c
+  rule_id: E1
+  file: scripts/test_device_auth.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a04ee96799229c86
+  rule_id: E2
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9b8fe2f7a789401e
+  rule_id: EA1
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9bd3ba8b2758a655
+  rule_id: EA2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7aedc3a770483daf
+  rule_id: EA4
+  file: scripts/lib/reddit.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:91b7e03ac926560f
+  rule_id: EA4
+  file: scripts/lib/reddit_keyless.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9291e07cf41c32a2
+  rule_id: EA4
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:966dec80ae72b122
+  rule_id: EA3
+  file: scripts/lib/vendor/bird-search/LICENSE
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c402c33f7bde88bb
+  rule_id: MP2
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:386a908a07c461c4
+  rule_id: MP2
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:1fc7ed80d8c186ae
+  rule_id: MP2
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7252db35c24806dd
+  rule_id: MP2
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:37d635773d0365d9
+  rule_id: MP2
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:581b32bfc7070a0b
+  rule_id: OH1
+  file: scripts/evaluate_search_quality.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:351c9522648cac9e
+  rule_id: OH1
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:de1c706081973f70
+  rule_id: OH1
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:24f6f65cda928bce
+  rule_id: OH1
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9c75995756e9151e
+  rule_id: OH1
+  file: scripts/lib/github.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d6d764045358d9bc
+  rule_id: OH1
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:81ea195dafeda51a
+  rule_id: OH1
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7ce0d6d3bf7298c1
+  rule_id: OH1
+  file: scripts/lib/xurl_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:685d6dfeddff55db
+  rule_id: OH1
+  file: scripts/lib/xurl_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:98193bc3f9a21257
+  rule_id: OH1
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b802cb2bd90efb37
+  rule_id: OH1
+  file: scripts/verify_v3.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:505796d586e038aa
+  rule_id: PE3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5f9d97ec1f665a61
+  rule_id: PE3
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d99531b00685c4a5
+  rule_id: PE3
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:f8334cecdb91927c
+  rule_id: PE3
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ae8c97bff9c917e0
+  rule_id: PE3
+  file: scripts/lib/bird_x.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6cae6505fb0231f2
+  rule_id: PE3
+  file: scripts/lib/bluesky.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6cae6505fb0231f2
+  rule_id: PE3
+  file: scripts/lib/bluesky.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:f329f8a1d8eb65d0
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:70af3b659b45c334
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ee1d38cd063db882
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c5e3e479193736fa
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:02bd711275615987
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5a757cab292abade
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2328fbf3d01909b6
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:66ee5b92d6ed8455
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2b8a5731c5dea6d3
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e946cfdc50d651ec
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c702f2f50d33b222
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2252a875fe1516e0
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:1a149f774b83a87b
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3c594561fe47e9b6
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:8b43dedf298d7630
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a858dab32d83f784
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:400f3134339ae644
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5d57149e7585926a
+  rule_id: PE3
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:80ea5acc03e47d18
+  rule_id: PE3
+  file: scripts/lib/cookie_extract.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d329548c56ff3e88
+  rule_id: PE3
+  file: scripts/lib/cookie_extract.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:661620381fa891a2
+  rule_id: PE2
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:81f6fcb80286d516
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3096a6d0c718e9a0
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d0ed4130d4415696
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:8d3c4f9903fce610
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:13a6c7f8f6b922e8
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:59a2ff896dd68cdb
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:59a2ff896dd68cdb
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:59a2ff896dd68cdb
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c0dbf9d1214e8a37
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7f30a408e42df046
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:7f30a408e42df046
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ab03d315214418cf
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b01d2bd778092db5
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6a5d78406531bf80
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c8bc10f2ccf9565c
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0f1e372511b9c8dd
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b98ffab7d9b401eb
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:c959d184078cc0d4
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:37161ac3fb46540b
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fd74611d36b0dc60
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2afc51f6d6ba5232
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2afc51f6d6ba5232
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2afc51f6d6ba5232
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:007348c2995c4b97
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a075592e7f63c4b0
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:0dae7ff3c655f365
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a73956060b114b99
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:aa2f13a2301af994
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ec9a924c64ca1c45
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:dc6142c825caa1bc
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fd5380c8e3ab1635
+  rule_id: PE3
+  file: scripts/lib/env.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:63fae86a183fa87c
+  rule_id: PE3
+  file: scripts/lib/quality_nudge.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3a8810b43df9cfb8
+  rule_id: PE3
+  file: scripts/lib/quality_nudge.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:654a06372b1d81f6
+  rule_id: PE3
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:db698f6499988343
+  rule_id: PE3
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:fc25510136fc9cf2
+  rule_id: PE3
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2e696c718ee1192e
+  rule_id: PE3
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5636299a85cce194
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5636299a85cce194
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2d9e9e44c0a2d9ac
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:2d9e9e44c0a2d9ac
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b3268763102e7615
+  rule_id: PE3
+  file: scripts/lib/ui.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e9dee8de24020a1e
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:895d054c1298349d
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:4b65c4eb95cb5d7c
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:b05e695ccd4601c4
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:03f0e534f1e56c8e
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:baa5e417dc0bb822
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d694d229f4fb7daa
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d694d229f4fb7daa
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d24fd9b1f13dc574
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:f6e469e50f32030e
+  rule_id: PE3
+  file: scripts/setup-keychain.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:6aba4bdcc531489a
+  rule_id: PE3
+  file: scripts/test_device_auth.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:deb25453889edd88
+  rule_id: PE3
+  file: scripts/test_device_auth.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9c94741c3721ed21
+  rule_id: P4
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:9751c634e7a4c353
+  rule_id: RA2
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:28ad170b6648b0ec
+  rule_id: RA2
+  file: SKILL.md
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:5957170a537a9bcf
+  rule_id: RA2
+  file: scripts/lib/setup_wizard.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:ce63fef0f37cc144
+  rule_id: RA2
+  file: scripts/lib/subproc.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:d38776eabf17a0ef
+  rule_id: TM1
+  file: scripts/test-v1-vs-v2.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:df5ba247915ea4bb
+  rule_id: TM1
+  file: scripts/test-v1-vs-v2.sh
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:3526306e22a3fdd6
+  rule_id: YR1
+  file: scripts/lib/chrome_cookies.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:e4f5518e366ba9cd
+  rule_id: YR1
+  file: scripts/lib/cookie_extract.py
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
+- hash: sha256:a1c1884b3aa422e6
+  rule_id: YR1
+  file: scripts/lib/vendor/bird-search/lib/cookies.js
+  reason: "Verified FP by Robbo 2026-06-25 \u2014 ClawHub/fork legitimate, all current\
+    \ findings accepted"
