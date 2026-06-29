@@ -1,0 +1,479 @@
+{
+  "skill": {
+    "name": "spec",
+    "source": "/srv/samba/openclaw/github_forks/gstack/openclaw/skills/spec",
+    "scanned_at": "2026-06-29T17:58:18.467195+00:00"
+  },
+  "risk_assessment": {
+    "score": 64,
+    "severity": "HIGH",
+    "recommendation": "DO_NOT_INSTALL"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 2359,
+      "executable": false,
+      "size_bytes": 126970
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 220
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 16,
+      "executable": false,
+      "size_bytes": 427
+    }
+  ],
+  "issues": [
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 14,
+        "end_line": null
+      },
+      "finding": "write up a ticket\n  - turn this into an issue\n  - make this a github issue\n  - turn this into a backlog item\n---\n<!-- AUTO-GENERATED from SKILL.md.tmpl \u2014 do not edit directly -->\n<!-- Regenerate: bun ",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "triggers:\n  - spec this out\n  - file an issue\n  - write up a ticket\n  - turn this into an issue\n  - make this a github issue\n  - turn this into a backlog item",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 84,
+        "end_line": null
+      },
+      "finding": "mkdir -p ~/.gstack",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "echo \"EXPLAIN_LEVEL: $_EXPLAIN_LEVEL\"\n_QUESTION_TUNING=$(~/.claude/skills/gstack/bin/gstack-config get question_tuning 2>/dev/null || echo \"false\")\necho \"QUESTION_TUNING: $_QUESTION_TUNING\"\nmkdir -p ~/.gstack/analytics\nif [ \"$_TEL\" != \"off\" ]; then\necho '{\"skill\":\"spec\",\"ts\":\"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'\",\"repo\":\"'$(_repo=$(basename \"$(git rev-parse --show-toplevel 2>/dev/null)\" 2>/dev/null | tr -cd 'a-zA-Z0-9._-'); echo \"${_repo:-unknown}\")'\"}'  >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true\nfi",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 156,
+        "end_line": null
+      },
+      "finding": "write snooze state if declined).\n\nIf output shows `JUST_UPGRADED <from> <to>`: print \"Running gstack v{to} (just updated!)\". If `SPAWNED_SESSION` is true, skip feature discovery.\n\nFeature discovery, m",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "\nIf `SKILL_PREFIX` is `\"true\"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.\n\nIf output shows `UPGRADE_AVAILABLE <old> <new>`: read `~/.claude/skills/gstack/gstack-upgrade/SKILL.md` and follow the \"Inline upgrade flow\" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined).\n\nIf output shows `JUST_UPGRADED <from> <to>`: print \"Running gstack v{to} (just updated!)\". If `SPAWNED_SESSION` is true, skip feature discovery.\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 259,
+        "end_line": null
+      },
+      "finding": "create it.\n\nUse AskUserQuestion:\n\n> gstack works best when your project's CLAUDE.md includes skill routing rules.\n\nOptions:\n- A) Add routing rules to CLAUDE.md (recommended)\n- B) No thanks, I'll invok",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "Skip this section if `ACTIVATED` and `FIRST_LOOP_SHOWN` are both `yes`.\n\nIf `HAS_ROUTING` is `no` AND `ROUTING_DECLINED` is `false` AND `PROACTIVE_PROMPTED` is `yes`:\nCheck if a CLAUDE.md file exists in the project root. If it does not exist, create it.\n\nUse AskUserQuestion:\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 342,
+        "end_line": null
+      },
+      "finding": "write the decision to the plan file as a substitute. Follow the **failure fallback** below.\n\n### When AskUserQuestion is unavailable or a call fails\n\nTell three outcomes apart:\n\n1. **Auto-decide denia",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "\n**Rule (non-Conductor):** if any `mcp__*__AskUserQuestion` variant is in your tool list, prefer it. Hosts may disable native AUQ via `--disallowedTools AskUserQuestion` (Conductor does, by default) and route through their MCP variant; calling native there silently fails. Same questions/options shape; same decision-brief format applies.\n\nIf AskUserQuestion is unavailable (no variant in your tool list) OR a call to it fails, do NOT silently auto-decide or write the decision to the plan file as a substitute. Follow the **failure fallback** below.\n\n### When AskUserQuestion is unavailable or a call fails\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 701,
+        "end_line": null
+      },
+      "finding": "write a brief `[PROGRESS]` summary: done, next, surprises.\n\nIf you are looping on the same diagnostic, same file, or failed fix variants, STOP and reassess. Consider escalation or /context-save. Progr",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "\n## Context Health (soft directive)\n\nDuring long-running skill sessions, periodically write a brief `[PROGRESS]` summary: done, next, surprises.\n\nIf you are looping on the same diagnostic, same file, or failed fix variants, STOP and reassess. Consider escalation or /context-save. Progress summaries must NEVER mutate git state.\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1154,
+        "end_line": null
+      },
+      "finding": "mkdir -p ~/.gstack",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "echo \"EXPLAIN_LEVEL: $_EXPLAIN_LEVEL\"\n_QUESTION_TUNING=$(~/.claude/skills/gstack/bin/gstack-config get question_tuning 2>/dev/null || echo \"false\")\necho \"QUESTION_TUNING: $_QUESTION_TUNING\"\nmkdir -p ~/.gstack/analytics\nif [ \"$_TEL\" != \"off\" ]; then\necho '{\"skill\":\"spec\",\"ts\":\"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'\",\"repo\":\"'$(_repo=$(basename \"$(git rev-parse --show-toplevel 2>/dev/null)\" 2>/dev/null | tr -cd 'a-zA-Z0-9._-'); echo \"${_repo:-unknown}\")'\"}'  >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true\nfi",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1226,
+        "end_line": null
+      },
+      "finding": "write snooze state if declined).\n\nIf output shows `JUST_UPGRADED <from> <to>`: print \"Running gstack v{to} (just updated!)\". If `SPAWNED_SESSION` is true, skip feature discovery.\n\nFeature discovery, m",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "\nIf `SKILL_PREFIX` is `\"true\"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.\n\nIf output shows `UPGRADE_AVAILABLE <old> <new>`: read `~/.claude/skills/gstack/gstack-upgrade/SKILL.md` and follow the \"Inline upgrade flow\" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined).\n\nIf output shows `JUST_UPGRADED <from> <to>`: print \"Running gstack v{to} (just updated!)\". If `SPAWNED_SESSION` is true, skip feature discovery.\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1329,
+        "end_line": null
+      },
+      "finding": "create it.\n\nUse AskUserQuestion:\n\n> gstack works best when your project's CLAUDE.md includes skill routing rules.\n\nOptions:\n- A) Add routing rules to CLAUDE.md (recommended)\n- B) No thanks, I'll invok",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "Skip this section if `ACTIVATED` and `FIRST_LOOP_SHOWN` are both `yes`.\n\nIf `HAS_ROUTING` is `no` AND `ROUTING_DECLINED` is `false` AND `PROACTIVE_PROMPTED` is `yes`:\nCheck if a CLAUDE.md file exists in the project root. If it does not exist, create it.\n\nUse AskUserQuestion:\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1412,
+        "end_line": null
+      },
+      "finding": "write the decision to the plan file as a substitute. Follow the **failure fallback** below.\n\n### When AskUserQuestion is unavailable or a call fails\n\nTell three outcomes apart:\n\n1. **Auto-decide denia",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "\n**Rule (non-Conductor):** if any `mcp__*__AskUserQuestion` variant is in your tool list, prefer it. Hosts may disable native AUQ via `--disallowedTools AskUserQuestion` (Conductor does, by default) and route through their MCP variant; calling native there silently fails. Same questions/options shape; same decision-brief format applies.\n\nIf AskUserQuestion is unavailable (no variant in your tool list) OR a call to it fails, do NOT silently auto-decide or write the decision to the plan file as a substitute. Follow the **failure fallback** below.\n\n### When AskUserQuestion is unavailable or a call fails\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1771,
+        "end_line": null
+      },
+      "finding": "write a brief `[PROGRESS]` summary: done, next, surprises.\n\nIf you are looping on the same diagnostic, same file, or failed fix variants, STOP and reassess. Consider escalation or /context-save. Progr",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "\n## Context Health (soft directive)\n\nDuring long-running skill sessions, periodically write a brief `[PROGRESS]` summary: done, next, surprises.\n\nIf you are looping on the same diagnostic, same file, or failed fix variants, STOP and reassess. Consider escalation or /context-save. Progress summaries must NEVER mutate git state.\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1894,
+        "end_line": null
+      },
+      "finding": "write the exact bytes to `$REDACT_FILE`; `~/.claude",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "#### Redaction scan \u2014 pre-issue (the issue body you're about to file)\n\nRun the SAME scan-at-sink procedure shown above (resolve `$REDACT_VIS` once and\nreuse it; write the exact bytes to `$REDACT_FILE`; `~/.claude/skills/gstack/bin/gstack-redact --from-file \"$REDACT_FILE\"\n--repo-visibility \"$REDACT_VIS\" --json`), now on the issue body you're about to file. Apply the same\nexit-3/2/0 handling. On exit 3, do NOT file the issue; HIGH has no skip. Pass the\nsame `$REDACT_FILE` downstream so the bytes scanned are the bytes sent.",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1924,
+        "end_line": null
+      },
+      "finding": "write the exact bytes to `$REDACT_FILE`; `~/.claude/skills/gstack/bin/gstack-redact --from-file \"$REDACT_FILE\"\n--repo-visibility \"$REDACT_VIS\" --json`), now on the body about to be archived. Apply the",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "#### Redaction scan \u2014 pre-archive (the body about to be archived)\n\nRun the SAME scan-at-sink procedure shown above (resolve `$REDACT_VIS` once and\nreuse it; write the exact bytes to `$REDACT_FILE`; `~/.claude/skills/gstack/bin/gstack-redact --from-file \"$REDACT_FILE\"\n--repo-visibility \"$REDACT_VIS\" --json`), now on the body about to be archived. Apply the same\nexit-3/2/0 handling. On exit 3, do NOT write the archive; HIGH has no skip. Pass the\nsame `$REDACT_FILE` downstream so the bytes scanned are the bytes sent.",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 38,
+        "end_line": null
+      },
+      "finding": "rm {} + 2>/dev/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "mkdir -p ~/.gstack/sessions\ntouch ~/.gstack/sessions/\"$PPID\"\n_SESSIONS=$(find ~/.gstack/sessions -mmin -120 -type f 2>/dev/null | wc -l | tr -d ' ')\nfind ~/.gstack/sessions -mmin +120 -type f -exec rm {} + 2>/dev/null || true\n_PROACTIVE=$(~/.claude/skills/gstack/bin/gstack-config get proactive 2>/dev/null || echo \"true\")\n_PROACTIVE_PROMPTED=$([ -f ~/.gstack/.proactive-prompted ] && echo \"yes\" || echo \"no\")\n_BRANCH=$(git branch --show-current 2>/dev/null || echo \"unknown\")",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 93,
+        "end_line": null
+      },
+      "finding": "rm -f \"$_PF\" 2>/dev/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "    if [ \"$_TEL\" != \"off\" ] && [ -x \"~/.claude/skills/gstack/bin/gstack-telemetry-log\" ]; then\n      ~/.claude/skills/gstack/bin/gstack-telemetry-log --event-type skill_run --skill _pending_finalize --outcome unknown --session-id \"$_SESSION_ID\" 2>/dev/null || true\n    fi\n    rm -f \"$_PF\" 2>/dev/null || true\n  fi\n  break\ndone",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 309,
+        "end_line": null
+      },
+      "finding": "rm -r .claude/skills/gstack/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "- B) No, I'll handle it myself\n\nIf A:\n1. Run `git rm -r .claude/skills/gstack/`\n2. Run `echo '.claude/skills/gstack/' >> .gitignore`\n3. Run `~/.claude/skills/gstack/bin/gstack-team-init required` (or `optional`)\n4. Run `git add .claude/ .gitignore CLAUDE.md && git commit -m \"chore: migrate gstack from vendored to team mode\"`",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1108,
+        "end_line": null
+      },
+      "finding": "rm {} + 2>/dev/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "mkdir -p ~/.gstack/sessions\ntouch ~/.gstack/sessions/\"$PPID\"\n_SESSIONS=$(find ~/.gstack/sessions -mmin -120 -type f 2>/dev/null | wc -l | tr -d ' ')\nfind ~/.gstack/sessions -mmin +120 -type f -exec rm {} + 2>/dev/null || true\n_PROACTIVE=$(~/.claude/skills/gstack/bin/gstack-config get proactive 2>/dev/null || echo \"true\")\n_PROACTIVE_PROMPTED=$([ -f ~/.gstack/.proactive-prompted ] && echo \"yes\" || echo \"no\")\n_BRANCH=$(git branch --show-current 2>/dev/null || echo \"unknown\")",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1163,
+        "end_line": null
+      },
+      "finding": "rm -f \"$_PF\" 2>/dev/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "    if [ \"$_TEL\" != \"off\" ] && [ -x \"~/.claude/skills/gstack/bin/gstack-telemetry-log\" ]; then\n      ~/.claude/skills/gstack/bin/gstack-telemetry-log --event-type skill_run --skill _pending_finalize --outcome unknown --session-id \"$_SESSION_ID\" 2>/dev/null || true\n    fi\n    rm -f \"$_PF\" 2>/dev/null || true\n  fi\n  break\ndone",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1379,
+        "end_line": null
+      },
+      "finding": "rm -r .claude/skills/gstack/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "- B) No, I'll handle it myself\n\nIf A:\n1. Run `git rm -r .claude/skills/gstack/`\n2. Run `echo '.claude/skills/gstack/' >> .gitignore`\n3. Run `~/.claude/skills/gstack/bin/gstack-team-init required` (or `optional`)\n4. Run `git add .claude/ .gitignore CLAUDE.md && git commit -m \"chore: migrate gstack from vendored to team mode\"`",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM3",
+      "category": "Tool Misuse",
+      "pattern": "Unsafe Defaults",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1889,
+        "end_line": null
+      },
+      "finding": "world-readable",
+      "explanation": "Tool defaults are unsafe or overly permissive (e.g. disabled TLS verification, no authentication, world-writable permissions). Unsafe defaults widen the attack surface.",
+      "remediation": "Override unsafe defaults with secure settings (verify=True, auth required, restrictive permissions). Review and harden all tool configurations.",
+      "code_snippet": "#### File the issue (always)\n\n**Re-scan before filing** (Phase 4 edits can introduce content the 4.5b scan\nnever saw, and the issue is world-readable):\n\n#### Redaction scan \u2014 pre-issue (the issue body you're about to file)\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'agent_skill_destructive_autonomous_actions': Autonomous destructive filesystem, shell history, or repository actions in AI agent skills [agent_skills]",
+      "severity": "HIGH",
+      "confidence": 0.375,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 179,
+        "end_line": null
+      },
+      "finding": "rm -f ~/; rm -f ~/; rm -f ~/; rm -f ~/; do NOT ask; Do NOT ask; silently; silently; silently; silently; silently; silently; silently; silently; silently; silently; silently; Non-interactive",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "\nAlways run (regardless of choice):\n```bash\nrm -f ~/.gstack/.writing-style-prompt-pending\ntouch ~/.gstack/.writing-style-prompted\n```\n",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 3,
+    "scanned_components": 3,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 21,
+    "findings_after_filtering": 21,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

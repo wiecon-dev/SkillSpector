@@ -2091,3 +2091,519 @@ fingerprints:
   rule_id: MP3
   file: SKILL.md
   reason: 'Verified FP 2026-06-29: office-hours gstack documentation skill'
+- hash: sha256:f91ccdc2e723bbed
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:5aa8e0ec7d069eaa
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:e17299ed8eb292a7
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:af7b40dea79647b8
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:f9ac727872086d72
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:d33448b95ece39a8
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:7e1cfff8dbe3498d
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:4e8b42799747af71
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:0435d24fba786093
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-restore gstack documentation skill'
+- hash: sha256:0b8beb2988b78401
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:f498f2174dc756c6
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:bd32e66b8f378f8e
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:32b351c81ced8021
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:2af82e7ab400df31
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:0410ee1a19c722c2
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:c912b6dcd7aa2ffd
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:26f1fd8745aa7156
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:6b75747aefd3232c
+  rule_id: TR2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:f4ff05598f544ad1
+  rule_id: TR2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:2fc005fb64520c9e
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:bca0dd22f2027ee1
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:59f880d53794cba9
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:abfa77faffa6e8e2
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: context-save gstack documentation skill'
+- hash: sha256:17a0f30d241167fe
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:bf7dd4ed932cd0b3
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:3f0a116cf7409ed0
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:c5f5e51b76937cc4
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:ab25d00d81d333b0
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:7f8b44ec61c074e2
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:8a0b9e78a3af7836
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:9836c18223b6e400
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:017291a1e9c7da14
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:c4f223b272e3e76c
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:2e1d245f0a23238a
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-consultation gstack documentation skill'
+- hash: sha256:f6d2d3494183179c
+  rule_id: AR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:fdfdc18beb854570
+  rule_id: EA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:ffbcf16af0784849
+  rule_id: P2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:a5f772947d037413
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:6fb63267ee345de6
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:8a6140ab5d4d18d0
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:0b2ae7f21a8c6b68
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:bb42ddf9a62e7049
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:f2dbf1aa7c9841f8
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:5c0f432774aaf427
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:85eef5dbafbfb6ba
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:fb5248324835bbae
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:b359c9ff91d16a3f
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:fb6a8f3992568c42
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-html gstack documentation skill'
+- hash: sha256:f3aafb441c19f33d
+  rule_id: AR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-review gstack documentation skill'
+- hash: sha256:2b0e332311e9f1e3
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-review gstack documentation skill'
+- hash: sha256:34cf01ed5a50e210
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-review gstack documentation skill'
+- hash: sha256:345081f6d0f1f1aa
+  rule_id: AR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:297589b5435b672e
+  rule_id: E1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:66b1681483ab813b
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:8427bc50cc20992d
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:dd047ce0388b2b14
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:3317b485f3fb1967
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:74dc0037d99880c8
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:5358eeddd7f5f48d
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:7ed881054c64ecb5
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:ee77248c54441511
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:a6703c1127f13900
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:a6f749113dba20c9
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:f3b62f2cf6c20bed
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: design-shotgun gstack documentation skill'
+- hash: sha256:58698708535cbc66
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:8e78d2d2662fd2d4
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:5c367e9ce9f2600b
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:d750196c03b962e1
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:5f37615819e866cb
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:357073fd4d83e413
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:0c1bcb59a0c0eb3b
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:e711e826124af1e8
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:ac8e5fef495e690a
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: document-generate gstack documentation skill'
+- hash: sha256:c1eddc03a132f4b3
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:3acba159c0365e0e
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:0097ae1d60063477
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:65377e445c282c92
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:f5525381f9b58871
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:6cb14eecd65debac
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:4dfb05d0bc4fdbf4
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:7082d269493ca05e
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:01c459e814ddcec4
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: health gstack documentation skill'
+- hash: sha256:ea8f47335e573ea7
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: make-pdf gstack documentation skill'
+- hash: sha256:d6353926fed6e430
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: make-pdf gstack documentation skill'
+- hash: sha256:f649bb1f19579f41
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: make-pdf gstack documentation skill'
+- hash: sha256:14566e9ded9b9ae9
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: make-pdf gstack documentation skill'
+- hash: sha256:e69356dbc47c00ac
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: make-pdf gstack documentation skill'
+- hash: sha256:6a4f4977e7492625
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: make-pdf gstack documentation skill'
+- hash: sha256:eec659fb277cd57e
+  rule_id: AR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:6680a2ba87089e98
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:037555fd461a860d
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:10c30be1a48d35e5
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:2954e3d2f8588df4
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:6e6ca6a477c62c24
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:0c27d2c90eba661d
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:f588fe20462c026a
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:694e5084a7c503e4
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:53c467e75aefb347
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:c6ab08f81c61d970
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:1c241b409032077c
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:69937d778a21bf3e
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: qa gstack documentation skill'
+- hash: sha256:40ae85a2c1165207
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: review gstack documentation skill'
+- hash: sha256:4f0492c8a0a9c2ce
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: review gstack documentation skill'
+- hash: sha256:344749eaf95f8076
+  rule_id: P6
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: review gstack documentation skill'
+- hash: sha256:758d5490d766659c
+  rule_id: EA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: ship gstack documentation skill'
+- hash: sha256:fbc113fe0beef811
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: ship gstack documentation skill'
+- hash: sha256:8ec697dbd36544db
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: ship gstack documentation skill'
+- hash: sha256:838091f7ce1e14a8
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: ship gstack documentation skill'
+- hash: sha256:482e6a604c85e9a0
+  rule_id: TR2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: ship gstack documentation skill'
+- hash: sha256:82438bbc50c6ad21
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: ship gstack documentation skill'
+- hash: sha256:d1694a9d9626c987
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:93c621f406b1d4c3
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:2b0e331d71f0b905
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:a59bf2d0008fb0ba
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:5817e78eabe75bf3
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:ed0d17f6aa4ab4a8
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:591314a0389b6671
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:3bd45d4738e35d0d
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:c193cf9ecf91043a
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:76af2c3ae13f352b
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:04fead89061e0dd3
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:c8ff718d17896990
+  rule_id: RA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:65bb2dda4e12ccbc
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:11be2ab45058a170
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:529bccb6bfd4c127
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:2ff2d2fd2398b301
+  rule_id: TM1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:f07747e20823f2f8
+  rule_id: TM3
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:2a9a09f4dfbe6e43
+  rule_id: YR1
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: spec gstack documentation skill'
+- hash: sha256:a3ac854b9feeba42
+  rule_id: TM1
+  file: SKILL.md.tmpl
+  reason: 'Verified FP 2026-06-29: unfreeze gstack documentation skill'
