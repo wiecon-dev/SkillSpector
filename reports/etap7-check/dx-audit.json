@@ -2,7 +2,7 @@
   "skill": {
     "name": "dx-audit",
     "source": "/srv/samba/openclaw/github_forks/gstack/openclaw/skills/dx-audit",
-    "scanned_at": "2026-06-29T14:58:07.494439+00:00"
+    "scanned_at": "2026-06-29T15:00:35.724508+00:00"
   },
   "risk_assessment": {
     "score": 0,
