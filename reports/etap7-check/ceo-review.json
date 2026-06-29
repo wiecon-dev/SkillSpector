@@ -1,0 +1,67 @@
+{
+  "skill": {
+    "name": "ceo-review",
+    "source": "/srv/samba/openclaw/github_forks/gstack/openclaw/skills/ceo-review",
+    "scanned_at": "2026-06-29T14:58:00.966140+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 191,
+      "executable": false,
+      "size_bytes": 10560
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 1,
+  "suppressed": [
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.75,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 87,
+        "end_line": null
+      },
+      "finding": "without approval",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "\n**RECOMMENDATION:** Choose [X] because [reason].\n\nAsk the user which approach to proceed with. Do NOT proceed without approval.\n\n### 0D. Mode-Specific Analysis\n",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: ceo gstack documentation skill"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 1,
+    "scanned_components": 1,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 1,
+    "findings_after_filtering": 1,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

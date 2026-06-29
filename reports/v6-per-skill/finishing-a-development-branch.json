@@ -1,0 +1,79 @@
+{
+  "skill": {
+    "name": "finishing-a-development-branch",
+    "source": "/home/openclaw/.openclaw/workspace/skills/finishing-a-development-branch",
+    "scanned_at": "2026-06-25T19:01:58.837286+00:00"
+  },
+  "risk_assessment": {
+    "score": 8,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 328,
+      "executable": false,
+      "size_bytes": 10631
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 424
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 104,
+      "executable": false,
+      "size_bytes": 3087
+    }
+  ],
+  "issues": [
+    {
+      "id": "AS3",
+      "category": "Agent Snooping",
+      "pattern": "Skill Enumeration",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 11,
+        "end_line": null
+      },
+      "finding": "skills/finishing-a-development-branch/SKILL.md",
+      "explanation": "Skill enumerates or reads other installed skills. Access to other skills' SKILL.md files or the skills directory reveals prompt instructions, capabilities, and secrets that should be invisible to peer skills.",
+      "remediation": "Remove all code or instructions that list or read other skills' files or directories. Skills should operate independently; cross-skill access is a privilege escalation.",
+      "code_snippet": "## Origin\n\n- **Source pinned:** `obra/superpowers` v6.0.3, commit `896224c4b1879920ab573417e68fd51d2ccc9072`, licencja MIT.\n- **Source path:** `skills/finishing-a-development-branch/SKILL.md` (last touched commit `4e3707fbbe648b5599c0b65080f053bfca7552a1`).\n- **OpenClaw adaptation:** 2026-06-24 (Etap 7b unification).\n- **Lokalna kopia referencyjna:** `/srv/samba/openclaw/github_forks/obra-superpowers-reference`.\n- **Typ:** instruction-only rigid skill (4 opcje, \u015bcis\u0142a kolejno\u015b\u0107 krok\u00f3w).",
+      "intent": null,
+      "tags": [
+        "Agent Snooping"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 3,
+    "scanned_components": 3,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 1,
+    "findings_after_filtering": 1,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

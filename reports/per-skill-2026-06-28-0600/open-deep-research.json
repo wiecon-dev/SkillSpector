@@ -1,0 +1,44 @@
+{
+  "skill": {
+    "name": "open-deep-research",
+    "source": "/home/openclaw/.openclaw/workspace/skills/open-deep-research",
+    "scanned_at": "2026-06-28T04:02:04.385414+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 72,
+      "executable": false,
+      "size_bytes": 3644
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": false,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 1,
+    "scanned_components": 1,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 0,
+    "findings_after_filtering": 0,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

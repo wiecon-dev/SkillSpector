@@ -1,0 +1,112 @@
+{
+  "skill": {
+    "name": "nightscout-api",
+    "source": "/home/openclaw/.openclaw/workspace/skills/nightscout-api",
+    "scanned_at": "2026-06-28T04:01:53.127963+00:00"
+  },
+  "risk_assessment": {
+    "score": 46,
+    "severity": "MEDIUM",
+    "recommendation": "CAUTION"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 158,
+      "executable": false,
+      "size_bytes": 5280
+    },
+    {
+      "path": "references/api-full.md",
+      "type": "markdown",
+      "lines": 252,
+      "executable": false,
+      "size_bytes": 6102
+    }
+  ],
+  "issues": [
+    {
+      "id": "E2",
+      "category": "Data Exfiltration",
+      "pattern": "Env Variable Harvesting",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 133,
+        "end_line": null
+      },
+      "finding": "os.environ.get('NIGHTSCOUT_API_KEY",
+      "explanation": "Code accesses environment variables that may contain secrets (API keys, tokens). This is a common pattern for credential theft.",
+      "remediation": "Avoid reading sensitive env vars (API keys, tokens) unless strictly required. Use secrets managers or secure config. Never log or transmit credentials.",
+      "code_snippet": "\n# Use environment variable (from secrets.env) or Vault CLI\nNS_URL = os.environ.get('NIGHTSCOUT_URL', 'https://bsweb.ns.techdiab.pl').rstrip('/')\nTOKEN = os.environ.get('NIGHTSCOUT_API_KEY', '')\n\nr = requests.get(f\"{NS_URL}/api/v1/entries/sgv.json\", params={\"count\": 1, \"token\": TOKEN})\nr.raise_for_status()",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "SC2",
+      "category": "Supply Chain",
+      "pattern": "External Script Fetching",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 77,
+        "end_line": null
+      },
+      "finding": "curl -s -X POST \"$NS_URL/api/v1/treatments\" \\\n  -H \"API-SECRET: $(echo -n $API_SECRET | sh",
+      "explanation": "Remote code is downloaded and executed. This bypasses code review and could introduce malicious code.",
+      "remediation": "Avoid downloading and executing remote scripts. Use trusted packages from PyPI/npm. If remote fetch is required, verify checksums and use HTTPS.",
+      "code_snippet": "  -d '{\"eventType\":\"Carb Correction\",\"carbs\":10,\"notes\":\"dos\u0142adzanie\",\"created_at\":\"'\"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)\"'\"}'\n\n# Add correction bolus note\ncurl -s -X POST \"$NS_URL/api/v1/treatments\" \\\n  -H \"API-SECRET: $(echo -n $API_SECRET | sha1sum | awk '{print $1}')\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"eventType\":\"Correction Bolus\",\"notes\":\"korekta\",\"created_at\":\"'\"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)\"'\"}'",
+      "intent": null,
+      "tags": [
+        "Supply Chain"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.24,
+      "location": {
+        "file": "references/api-full.md",
+        "start_line": 121,
+        "end_line": null
+      },
+      "finding": "DELETE /devicestatus/{id}**",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\n**POST /devicestatus** \u2014 upload device status\n**DELETE /devicestatus** \u2014 delete matching\n**DELETE /devicestatus/{id}** \u2014 delete by ID\n\n---\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": false,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 2,
+    "scanned_components": 2,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 3,
+    "findings_after_filtering": 3,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

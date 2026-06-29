@@ -1,0 +1,51 @@
+{
+  "skill": {
+    "name": "00_vault_deep",
+    "source": "/home/openclaw/.openclaw/workspace/skills/00_vault_deep",
+    "scanned_at": "2026-06-25T19:13:49.085153+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 40,
+      "executable": false,
+      "size_bytes": 1648
+    },
+    {
+      "path": "scripts/qmd-deep-search.sh",
+      "type": "shell",
+      "lines": 14,
+      "executable": true,
+      "size_bytes": 430
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 2,
+    "scanned_components": 2,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 0,
+    "findings_after_filtering": 0,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

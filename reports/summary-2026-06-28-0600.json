@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-06-28-0600",
+  "duration_seconds": 198,
+  "skill_count": 169,
+  "severity_counts": {"CRITICAL": 0, "HIGH": 0, "MEDIUM": 4, "LOW": 165},
+  "total_active_findings": 288,
+  "per_skill_dir": "/srv/samba/openclaw/github_forks/SkillSpector/reports/per-skill-2026-06-28-0600"
+}

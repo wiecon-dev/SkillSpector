@@ -1,0 +1,115 @@
+{
+  "skill": {
+    "name": "supadata-transcript",
+    "source": "/home/openclaw/.openclaw/workspace/skills/supadata-transcript",
+    "scanned_at": "2026-06-25T20:15:46.711300+00:00"
+  },
+  "risk_assessment": {
+    "score": 5,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 40,
+      "executable": false,
+      "size_bytes": 2020
+    },
+    {
+      "path": "scripts/supadata_transcript.mjs",
+      "type": "other",
+      "lines": 253,
+      "executable": false,
+      "size_bytes": 9077
+    }
+  ],
+  "issues": [
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "scripts/supadata_transcript.mjs",
+        "start_line": 7,
+        "end_line": null
+      },
+      "finding": "https://api.supadata.ai/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": " *\n * Reads API key from /home/openclaw/.openclaw/openclaw.json at skills.entries.supadata.apiKey\n * then calls:\n *   GET https://api.supadata.ai/v1/transcript?url=...&lang=...&text=...&chunkSize=...&mode=...\n * If returns {jobId}, polls GET /transcript/{jobId} until completed.\n */\n",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "scripts/supadata_transcript.mjs",
+        "start_line": 169,
+        "end_line": null
+      },
+      "finding": "https://api.supadata.ai/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "\n  const apiKey = readSupadataApiKey();\n\n  const base = 'https://api.supadata.ai/v1';\n\n  const meta = await fetchMetadata(base, apiKey, args.url);\n  const out = args.save ? computeOutPath({ outRoot: args.outRoot, meta, url: args.url }) : null;",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    }
+  ],
+  "suppressed_count": 1,
+  "suppressed": [
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/supadata_transcript.mjs",
+        "start_line": 73,
+        "end_line": null
+      },
+      "finding": ".env ",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "\n    // Execute provider command to get the secret (do NOT log it)\n    const passEnv = Array.isArray(prov.passEnv) ? prov.passEnv : [];\n    const env = { ...process.env };\n    // Optionally restrict env to passEnv + PATH/HOME, but keep it simple and safe.\n    // (Provider wrapper op-sa needs HOME; OpenClaw config typically sets passEnv=[\"HOME\"].)\n    for (const k of Object.keys(env)) {",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 2,
+    "scanned_components": 2,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 3,
+    "findings_after_filtering": 3,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

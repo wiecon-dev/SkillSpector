@@ -1,0 +1,117 @@
+{
+  "skill": {
+    "name": "openclaw-admin",
+    "source": "/home/openclaw/.openclaw/workspace/skills/openclaw-admin",
+    "scanned_at": "2026-06-25T20:14:38.064134+00:00"
+  },
+  "risk_assessment": {
+    "score": 18,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 231,
+      "executable": false,
+      "size_bytes": 6239
+    },
+    {
+      "path": "SKILL.md.backup.20260518-1815",
+      "type": "other",
+      "lines": 241,
+      "executable": false,
+      "size_bytes": 6549
+    },
+    {
+      "path": "references/cron-jobs.md",
+      "type": "markdown",
+      "lines": 55,
+      "executable": false,
+      "size_bytes": 1532
+    },
+    {
+      "path": "references/models.md",
+      "type": "markdown",
+      "lines": 44,
+      "executable": false,
+      "size_bytes": 1266
+    },
+    {
+      "path": "references/models.md.backup.20260518-1815",
+      "type": "other",
+      "lines": 56,
+      "executable": false,
+      "size_bytes": 2124
+    }
+  ],
+  "issues": [
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'backdoor_persistence': Backdoor persistence with malicious payloads (shell commands, SSH key injection, hidden root users) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "references/cron-jobs.md",
+        "start_line": 3,
+        "end_line": null
+      },
+      "finding": "crontab openc; crontab -l -u openc",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "# Aktywne Cron Joby (stan: 2026-03-28)\n\n## Systemowe (crontab openclaw)\n\nSprawd\u017a: `crontab -l -u openclaw`\n",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ]
+    }
+  ],
+  "suppressed_count": 1,
+  "suppressed": [
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "references/models.md.backup.20260518-1815",
+        "start_line": 39,
+        "end_line": null
+      },
+      "finding": "https://api.kilo.ai/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "\n| Provider | Base URL | Modele |\n|----------|----------|--------|\n| kilocode | `https://api.kilo.ai/api/gateway/` | minimax, claude-sonnet-4.5, gpt-5.2, gemini-3-pro, gemini-3-flash, grok-code-fast-1, kimi-k2.5, **nemotron-3-super-120b:free** |\n| bifrost | `http://127.0.0.1:4001` | 9router + wiele modeli |\n| ollama | `http://127.0.0.1:11434` | glm-5:cloud, kimi-k2.5:cloud |\n| cliproxy | `http://127.0.0.1:8317` | gemini-3-flash, gemini-3-pro, claude-sonnet-4-6 |",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 5,
+    "scanned_components": 5,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 4,
+    "findings_after_filtering": 2,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)",
+      "2 finding(s) filtered by meta-analyzer or heuristics"
+    ],
+    "is_complete": false
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "skill": {
+    "name": "perplexity-router",
+    "source": "/home/openclaw/.openclaw/workspace/skills/perplexity-router",
+    "scanned_at": "2026-06-25T20:14:48.493898+00:00"
+  },
+  "risk_assessment": {
+    "score": 5,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 37,
+      "executable": false,
+      "size_bytes": 1401
+    },
+    {
+      "path": "SKILL.md.backup.20260518-165947",
+      "type": "other",
+      "lines": 37,
+      "executable": false,
+      "size_bytes": 1367
+    },
+    {
+      "path": "router.mjs",
+      "type": "other",
+      "lines": 95,
+      "executable": false,
+      "size_bytes": 2704
+    }
+  ],
+  "issues": [
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "router.mjs",
+        "start_line": 57,
+        "end_line": null
+      },
+      "finding": "https://api.perplexity.ai/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "    const query = getArg('--query');\n    if (!query) usage('Missing --query');\n    const max = Number(getArg('--max', '5'));\n    const url = 'https://api.perplexity.ai/search';\n    const out = await postJson(url, { query, max_results: max });\n    console.log(JSON.stringify(out, null, 2));\n  } else if (cmd === 'sonar') {",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "router.mjs",
+        "start_line": 66,
+        "end_line": null
+      },
+      "finding": "https://api.perplexity.ai/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "    if (!q) usage('Missing --q');\n    const system = getArg('--system', 'You are a helpful assistant. Use web knowledge and include citations when available.');\n\n    const url = 'https://api.perplexity.ai/chat/completions';\n    const body = {\n      model,\n      messages: [",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "router.mjs",
+        "start_line": 82,
+        "end_line": null
+      },
+      "finding": "https://api.perplexity.ai/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "    if (!preset) usage('Missing --preset');\n    if (!input) usage('Missing --input');\n\n    const url = 'https://api.perplexity.ai/v1/responses';\n    const body = { preset, input };\n    const out = await postJson(url, body);\n    console.log(JSON.stringify(out, null, 2));",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 3,
+    "scanned_components": 3,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 3,
+    "findings_after_filtering": 3,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

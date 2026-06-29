@@ -1,0 +1,642 @@
+{
+  "skill": {
+    "name": "backtest-advanced",
+    "source": "/home/openclaw/.openclaw/workspace/skills/backtest-advanced",
+    "scanned_at": "2026-06-25T19:00:56.535279+00:00"
+  },
+  "risk_assessment": {
+    "score": 100,
+    "severity": "CRITICAL",
+    "recommendation": "DO_NOT_INSTALL"
+  },
+  "components": [
+    {
+      "path": "RESULTS.md",
+      "type": "markdown",
+      "lines": 101,
+      "executable": false,
+      "size_bytes": 4454
+    },
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 184,
+      "executable": false,
+      "size_bytes": 8573
+    },
+    {
+      "path": "SKILL.md.bak-20260521T090636+0200",
+      "type": "other",
+      "lines": 78,
+      "executable": false,
+      "size_bytes": 3008
+    },
+    {
+      "path": "SKILL.md.bak-20260521T102230+0200",
+      "type": "other",
+      "lines": 80,
+      "executable": false,
+      "size_bytes": 3314
+    },
+    {
+      "path": "SKILL.md.bak-20260529T123413+0200",
+      "type": "other",
+      "lines": 83,
+      "executable": false,
+      "size_bytes": 3914
+    },
+    {
+      "path": "SKILL.md.bak-20260618-pre-antirational",
+      "type": "other",
+      "lines": 159,
+      "executable": false,
+      "size_bytes": 6371
+    },
+    {
+      "path": "afl_library_20_results.md",
+      "type": "markdown",
+      "lines": 56,
+      "executable": false,
+      "size_bytes": 4317
+    },
+    {
+      "path": "afl_library_20_results_QQQ.md",
+      "type": "markdown",
+      "lines": 32,
+      "executable": false,
+      "size_bytes": 2347
+    },
+    {
+      "path": "equity_momentum_sleeves_results.md",
+      "type": "markdown",
+      "lines": 33,
+      "executable": false,
+      "size_bytes": 2375
+    },
+    {
+      "path": "levered_strategy_portfolio_results.md",
+      "type": "markdown",
+      "lines": 40,
+      "executable": false,
+      "size_bytes": 2650
+    },
+    {
+      "path": "pyproject.toml",
+      "type": "toml",
+      "lines": 22,
+      "executable": false,
+      "size_bytes": 519
+    },
+    {
+      "path": "regime_overlay_results.md",
+      "type": "markdown",
+      "lines": 104,
+      "executable": false,
+      "size_bytes": 9050
+    },
+    {
+      "path": "rotation_20_results.md",
+      "type": "markdown",
+      "lines": 33,
+      "executable": false,
+      "size_bytes": 2431
+    },
+    {
+      "path": "scripts/backtest.py",
+      "type": "python",
+      "lines": 863,
+      "executable": true,
+      "size_bytes": 38455
+    },
+    {
+      "path": "scripts/backtest.py.bak-20260618-pre-critical-fixes",
+      "type": "other",
+      "lines": 755,
+      "executable": false,
+      "size_bytes": 32032
+    },
+    {
+      "path": "scripts/data_providers.py",
+      "type": "python",
+      "lines": 255,
+      "executable": true,
+      "size_bytes": 8073
+    },
+    {
+      "path": "scripts/filters.py",
+      "type": "python",
+      "lines": 250,
+      "executable": true,
+      "size_bytes": 7612
+    },
+    {
+      "path": "scripts/optimizer.py",
+      "type": "python",
+      "lines": 216,
+      "executable": true,
+      "size_bytes": 7770
+    },
+    {
+      "path": "scripts/strategies/__init__.py",
+      "type": "python",
+      "lines": 1,
+      "executable": true,
+      "size_bytes": 29
+    },
+    {
+      "path": "scripts/strategies/adaptive_ma.py",
+      "type": "python",
+      "lines": 62,
+      "executable": true,
+      "size_bytes": 1986
+    },
+    {
+      "path": "scripts/strategies/conservative_dual.py",
+      "type": "python",
+      "lines": 61,
+      "executable": true,
+      "size_bytes": 1892
+    },
+    {
+      "path": "scripts/strategies/daa_canary.py",
+      "type": "python",
+      "lines": 71,
+      "executable": true,
+      "size_bytes": 2238
+    },
+    {
+      "path": "scripts/strategies/defensive_momentum.py",
+      "type": "python",
+      "lines": 91,
+      "executable": true,
+      "size_bytes": 3207
+    },
+    {
+      "path": "scripts/strategies/down_week.py",
+      "type": "python",
+      "lines": 60,
+      "executable": true,
+      "size_bytes": 1964
+    },
+    {
+      "path": "scripts/strategies/dual_momentum.py",
+      "type": "python",
+      "lines": 53,
+      "executable": true,
+      "size_bytes": 1763
+    },
+    {
+      "path": "scripts/strategies/dual_momentum_bonds.py",
+      "type": "python",
+      "lines": 57,
+      "executable": true,
+      "size_bytes": 1831
+    },
+    {
+      "path": "scripts/strategies/dual_momentum_gold.py",
+      "type": "python",
+      "lines": 103,
+      "executable": true,
+      "size_bytes": 3617
+    },
+    {
+      "path": "scripts/strategies/dual_momentum_tlt.py",
+      "type": "python",
+      "lines": 77,
+      "executable": true,
+      "size_bytes": 2491
+    },
+    {
+      "path": "scripts/strategies/dynamic_risk_parity.py",
+      "type": "python",
+      "lines": 108,
+      "executable": true,
+      "size_bytes": 4134
+    },
+    {
+      "path": "scripts/strategies/golden_butterfly.py",
+      "type": "python",
+      "lines": 102,
+      "executable": true,
+      "size_bytes": 3769
+    },
+    {
+      "path": "scripts/strategies/golden_butterfly_tlt.py",
+      "type": "python",
+      "lines": 86,
+      "executable": true,
+      "size_bytes": 2968
+    },
+    {
+      "path": "scripts/strategies/golden_cross.py",
+      "type": "python",
+      "lines": 49,
+      "executable": true,
+      "size_bytes": 1457
+    },
+    {
+      "path": "scripts/strategies/hybrid_5050.py",
+      "type": "python",
+      "lines": 75,
+      "executable": true,
+      "size_bytes": 2703
+    },
+    {
+      "path": "scripts/strategies/ibs_mean_reversion.py",
+      "type": "python",
+      "lines": 70,
+      "executable": true,
+      "size_bytes": 2259
+    },
+    {
+      "path": "scripts/strategies/ma200_cross.py",
+      "type": "python",
+      "lines": 49,
+      "executable": true,
+      "size_bytes": 1348
+    },
+    {
+      "path": "scripts/strategies/momentum.py",
+      "type": "python",
+      "lines": 47,
+      "executable": true,
+      "size_bytes": 1395
+    },
+    {
+      "path": "scripts/strategies/monthly_momentum.py",
+      "type": "python",
+      "lines": 65,
+      "executable": true,
+      "size_bytes": 1946
+    },
+    {
+      "path": "scripts/strategies/portfolio_fixed.py",
+      "type": "python",
+      "lines": 95,
+      "executable": true,
+      "size_bytes": 3281
+    },
+    {
+      "path": "scripts/strategies/risk_parity_gold.py",
+      "type": "python",
+      "lines": 116,
+      "executable": true,
+      "size_bytes": 4215
+    },
+    {
+      "path": "scripts/strategies/rsi_mean_reversion.py",
+      "type": "python",
+      "lines": 46,
+      "executable": true,
+      "size_bytes": 1306
+    },
+    {
+      "path": "scripts/strategies/taa_trailing_stop.py",
+      "type": "python",
+      "lines": 151,
+      "executable": true,
+      "size_bytes": 5534
+    },
+    {
+      "path": "scripts/strategies/tactical_5050.py",
+      "type": "python",
+      "lines": 87,
+      "executable": true,
+      "size_bytes": 2978
+    },
+    {
+      "path": "scripts/strategies/tradepro_trend.py",
+      "type": "python",
+      "lines": 203,
+      "executable": true,
+      "size_bytes": 7252
+    },
+    {
+      "path": "scripts/strategies/trailing_stop_trend.py",
+      "type": "python",
+      "lines": 76,
+      "executable": true,
+      "size_bytes": 2301
+    },
+    {
+      "path": "scripts/strategies/trend_following.py",
+      "type": "python",
+      "lines": 50,
+      "executable": true,
+      "size_bytes": 1577
+    },
+    {
+      "path": "scripts/strategies/triple_rotation.py",
+      "type": "python",
+      "lines": 78,
+      "executable": true,
+      "size_bytes": 2600
+    },
+    {
+      "path": "scripts/strategies/ultra_conservative_taa.py",
+      "type": "python",
+      "lines": 146,
+      "executable": true,
+      "size_bytes": 5547
+    },
+    {
+      "path": "scripts/strategies/vigilant_momentum.py",
+      "type": "python",
+      "lines": 78,
+      "executable": true,
+      "size_bytes": 2541
+    },
+    {
+      "path": "scripts/strategies/vol_target_trend.py",
+      "type": "python",
+      "lines": 88,
+      "executable": true,
+      "size_bytes": 3053
+    },
+    {
+      "path": "scripts/strategies/vol_targeting.py",
+      "type": "python",
+      "lines": 77,
+      "executable": true,
+      "size_bytes": 2644
+    },
+    {
+      "path": "scripts/test_20_rotation_variants.py",
+      "type": "python",
+      "lines": 201,
+      "executable": true,
+      "size_bytes": 10761
+    },
+    {
+      "path": "scripts/test_afl_library_strategies.py",
+      "type": "python",
+      "lines": 289,
+      "executable": true,
+      "size_bytes": 12830
+    },
+    {
+      "path": "scripts/test_equity_momentum_sleeves.py",
+      "type": "python",
+      "lines": 207,
+      "executable": true,
+      "size_bytes": 8687
+    },
+    {
+      "path": "scripts/test_levered_strategy_portfolios.py",
+      "type": "python",
+      "lines": 187,
+      "executable": true,
+      "size_bytes": 6915
+    },
+    {
+      "path": "scripts/test_regime_overlays.py",
+      "type": "python",
+      "lines": 261,
+      "executable": true,
+      "size_bytes": 11558
+    },
+    {
+      "path": "scripts/test_sp500_point_in_time_momentum.py",
+      "type": "python",
+      "lines": 276,
+      "executable": true,
+      "size_bytes": 11655
+    },
+    {
+      "path": "scripts/test_strategy_portfolios.py",
+      "type": "python",
+      "lines": 181,
+      "executable": true,
+      "size_bytes": 10162
+    },
+    {
+      "path": "scripts/test_yahoo_30_next_strategies.py",
+      "type": "python",
+      "lines": 278,
+      "executable": true,
+      "size_bytes": 12231
+    },
+    {
+      "path": "sp500_point_in_time_momentum_results.md",
+      "type": "markdown",
+      "lines": 34,
+      "executable": false,
+      "size_bytes": 2551
+    },
+    {
+      "path": "strategy_portfolio_random_search.md",
+      "type": "markdown",
+      "lines": 19,
+      "executable": false,
+      "size_bytes": 1334
+    },
+    {
+      "path": "strategy_portfolio_results.md",
+      "type": "markdown",
+      "lines": 33,
+      "executable": false,
+      "size_bytes": 2249
+    },
+    {
+      "path": "uv.lock",
+      "type": "other",
+      "lines": 1221,
+      "executable": false,
+      "size_bytes": 271913
+    },
+    {
+      "path": "yahoo_next_30_results.md",
+      "type": "markdown",
+      "lines": 43,
+      "executable": false,
+      "size_bytes": 3879
+    }
+  ],
+  "issues": [
+    {
+      "id": "TT3",
+      "category": "Data Flow",
+      "pattern": "Tainted flow: 'params' from os.environ.get (line 65, credential/environment) \u2192 requests.get (network output)",
+      "severity": "CRITICAL",
+      "confidence": 0.9,
+      "location": {
+        "file": "scripts/data_providers.py",
+        "start_line": 73,
+        "end_line": 73
+      },
+      "finding": "            resp = requests.get(url, params=params, timeout=30)",
+      "explanation": "Credentials or environment variables flow to a network sink. This is a high-confidence indicator of credential exfiltration.",
+      "remediation": "Never send credentials or environment variables over the network. Use secure credential stores and avoid transmitting secrets in request bodies or URLs.",
+      "code_snippet": "        }\n\n        try:\n            resp = requests.get(url, params=params, timeout=30)\n            if resp.status_code == 429:\n                # Rate limited, try next key\n                time.sleep(1)",
+      "intent": null,
+      "tags": [
+        "Data Flow"
+      ]
+    },
+    {
+      "id": "TT3",
+      "category": "Data Flow",
+      "pattern": "Tainted flow: 'params' from os.environ.get (line 65, credential/environment) \u2192 requests.get (network output)",
+      "severity": "CRITICAL",
+      "confidence": 0.9,
+      "location": {
+        "file": "scripts/data_providers.py",
+        "start_line": 81,
+        "end_line": 81
+      },
+      "finding": "                resp = requests.get(url, params=params, timeout=30)",
+      "explanation": "Credentials or environment variables flow to a network sink. This is a high-confidence indicator of credential exfiltration.",
+      "remediation": "Never send credentials or environment variables over the network. Use secure credential stores and avoid transmitting secrets in request bodies or URLs.",
+      "code_snippet": "                if not key:\n                    return None\n                params[\"token\"] = key\n                resp = requests.get(url, params=params, timeout=30)\n\n            if resp.status_code != 200:\n                return None",
+      "intent": null,
+      "tags": [
+        "Data Flow"
+      ]
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/data_providers.py",
+        "start_line": 41,
+        "end_line": null
+      },
+      "finding": "https://api.tiingo.com/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "class TiingoProvider:\n    \"\"\"Tiingo REST API with multi-key rotation.\"\"\"\n\n    BASE_URL = \"https://api.tiingo.com/tiingo/daily\"\n\n    def __init__(self, api_keys: list[str] | None = None):\n        self.api_keys = api_keys or []",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "E2",
+      "category": "Data Exfiltration",
+      "pattern": "Env Variable Harvesting",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/data_providers.py",
+        "start_line": 246,
+        "end_line": null
+      },
+      "finding": "os.environ.get(f\"TIINGO_API_KEY",
+      "explanation": "Code accesses environment variables that may contain secrets (API keys, tokens). This is a common pattern for credential theft.",
+      "remediation": "Avoid reading sensitive env vars (API keys, tokens) unless strictly required. Use secrets managers or secure config. Never log or transmit credentials.",
+      "code_snippet": "    keys = []\n    # Check for TIINGO_API_KEY, TIINGO_API_KEY2, etc.\n    for i in range(1, 11):\n        key = os.environ.get(f\"TIINGO_API_KEY{i}\", \"\")\n        if key:\n            keys.append(key)\n",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "E2",
+      "category": "Data Exfiltration",
+      "pattern": "Env Variable Harvesting",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/data_providers.py",
+        "start_line": 251,
+        "end_line": null
+      },
+      "finding": "os.environ.get(\"TIINGO_API_KEY",
+      "explanation": "Code accesses environment variables that may contain secrets (API keys, tokens). This is a common pattern for credential theft.",
+      "remediation": "Avoid reading sensitive env vars (API keys, tokens) unless strictly required. Use secrets managers or secure config. Never log or transmit credentials.",
+      "code_snippet": "            keys.append(key)\n\n    # Also check single key\n    key = os.environ.get(\"TIINGO_API_KEY\", \"\")\n    if key and key not in keys:\n        keys.insert(0, key)\n",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "SC4",
+      "category": "Supply Chain",
+      "pattern": "Known Vulnerable Dependency: lxml \u2014 10 advisory(ies): CVE-2021-43818 (lxml's HTML Cleaner allows crafted and SVG embedded scripts to pass through); CVE-2014-3146 (lxml Cross-site Scripting Via Control Characters); CVE-2021-28957 (lxml vulnerable to Cross-Site Scripting ) +7 more",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "pyproject.toml",
+        "start_line": 8,
+        "end_line": null
+      },
+      "finding": "lxml",
+      "explanation": "Dependency has known vulnerabilities (CVEs). Using packages with unpatched security flaws exposes the environment to known exploits.",
+      "remediation": "Update the dependency to a patched version that addresses the known CVE. Check OSV (osv.dev) or NVD for details on the vulnerability.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "Supply Chain"
+      ]
+    },
+    {
+      "id": "SC4",
+      "category": "Supply Chain",
+      "pattern": "Known Vulnerable Dependency: pandas \u2014 1 advisory(ies): CVE-2020-13091 (** DISPUTED ** pandas through 1.0.3 can unserialize and execute commands from an)",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "pyproject.toml",
+        "start_line": 10,
+        "end_line": null
+      },
+      "finding": "pandas",
+      "explanation": "Dependency has known vulnerabilities (CVEs). Using packages with unpatched security flaws exposes the environment to known exploits.",
+      "remediation": "Update the dependency to a patched version that addresses the known CVE. Check OSV (osv.dev) or NVD for details on the vulnerability.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "Supply Chain"
+      ]
+    }
+  ],
+  "suppressed_count": 1,
+  "suppressed": [
+    {
+      "id": "LP3",
+      "category": "MCP Least Privilege",
+      "pattern": null,
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1,
+        "end_line": null
+      },
+      "finding": null,
+      "explanation": "Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "remediation": "Add a 'permissions' field to SKILL.md listing the capabilities this skill requires.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "ASI02"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: SKILL.md header noise, no context to evaluate"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 63,
+    "scanned_components": 63,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 8,
+    "findings_after_filtering": 8,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

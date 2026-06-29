@@ -1,0 +1,95 @@
+{
+  "skill": {
+    "name": "freeze",
+    "source": "/srv/samba/openclaw/github_forks/gstack/openclaw/skills/freeze",
+    "scanned_at": "2026-06-29T14:58:06.530881+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 212,
+      "executable": false,
+      "size_bytes": 8951
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 29,
+      "executable": false,
+      "size_bytes": 695
+    },
+    {
+      "path": "bin/check-freeze.sh",
+      "type": "shell",
+      "lines": 88,
+      "executable": true,
+      "size_bytes": 2936
+    },
+    {
+      "path": "bin/freeze-set.sh",
+      "type": "shell",
+      "lines": 45,
+      "executable": true,
+      "size_bytes": 1453
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 111,
+      "executable": false,
+      "size_bytes": 3569
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 1,
+  "suppressed": [
+    {
+      "id": "PE2",
+      "category": "Privilege Escalation",
+      "pattern": "Sudo/Root Execution",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 177,
+        "end_line": null
+      },
+      "finding": "chmod 600",
+      "explanation": "Commands invoke sudo or root privileges. Verify this elevated access is necessary and justified.",
+      "remediation": "Avoid sudo/root unless strictly required. Prefer least-privilege patterns. If elevation is needed, document the justification and scope.",
+      "code_snippet": "\n## Security Audit\n\n- **State file location**: `~/.openclaw/state/freeze-dir.txt`. User-writable. Should be `chmod 600` to prevent other users from setting boundaries.\n- **Path resolution**: uses `cd` + `pwd` (safe). No shell expansion of user input.\n- **Symlink handling**: resolves symlinks before comparison. Prevents symlink-based escape.\n- **No network calls**: fully offline.",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: freeze gstack guardrail/documentation skill"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 5,
+    "scanned_components": 5,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 1,
+    "findings_after_filtering": 1,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

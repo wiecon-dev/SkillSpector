@@ -1,0 +1,330 @@
+{
+  "skill": {
+    "name": "skill-guard",
+    "source": "/home/openclaw/.openclaw/workspace/skills/skill-guard",
+    "scanned_at": "2026-06-25T18:56:41.334680+00:00"
+  },
+  "risk_assessment": {
+    "score": 100,
+    "severity": "CRITICAL",
+    "recommendation": "DO_NOT_INSTALL"
+  },
+  "components": [
+    {
+      "path": ".clawhub/origin.json",
+      "type": "json",
+      "lines": 7,
+      "executable": false,
+      "size_bytes": 143
+    },
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 105,
+      "executable": false,
+      "size_bytes": 3796
+    },
+    {
+      "path": "_meta.json",
+      "type": "json",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 130
+    },
+    {
+      "path": "scripts/safe-install.sh",
+      "type": "shell",
+      "lines": 211,
+      "executable": true,
+      "size_bytes": 6291
+    }
+  ],
+  "issues": [
+    {
+      "id": "P1",
+      "category": "Prompt Injection",
+      "pattern": "Instruction Override",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 22,
+        "end_line": null
+      },
+      "finding": "IGNORE PREVIOUS INSTRUCTIONS",
+      "explanation": "This pattern attempts to override system instructions or ignore safety constraints. Without LLM analysis, manual review is recommended.",
+      "remediation": "Remove or rewrite any text that instructs the agent to ignore prompts, override safety rules, or trust unverified content. Ensure skill content cannot be injected to alter agent behavior.",
+      "code_snippet": "| **AI-specific threats** | \u274c | \u274c | \u2705 |\n| **Install blocking** | \u274c | \u274c | \u2705 |\n\n**VirusTotal** catches known malware binaries \u2014 but won't flag `<!-- IGNORE PREVIOUS INSTRUCTIONS -->`.\n\n**skillscanner** checks if Gen Digital has reviewed it \u2014 but can't scan new or updated skills.\n",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ]
+    },
+    {
+      "id": "P1",
+      "category": "Prompt Injection",
+      "pattern": "Instruction Override",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 31,
+        "end_line": null
+      },
+      "finding": "ignore previous instructions",
+      "explanation": "This pattern attempts to override system instructions or ignore safety constraints. Without LLM analysis, manual review is recommended.",
+      "remediation": "Remove or rewrite any text that instructs the agent to ignore prompts, override safety rules, or trust unverified content. Ensure skill content cannot be injected to alter agent behavior.",
+      "code_snippet": "## The Problem\n\nSkills can contain:\n- \ud83c\udfad **Prompt injections** \u2014 hidden \"ignore previous instructions\" attacks\n- \ud83d\udc80 **Malware payloads** \u2014 dangerous commands disguised in natural language  \n- \ud83d\udd11 **Hardcoded secrets** \u2014 API keys, tokens in plain text\n- \ud83d\udce4 **Data exfiltration** \u2014 URLs that leak your conversations, memory, files",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ]
+    },
+    {
+      "id": "P2",
+      "category": "Prompt Injection",
+      "pattern": "Hidden Instructions",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 22,
+        "end_line": null
+      },
+      "finding": "<!-- IGNORE PREVIOUS INSTRUCTIONS -->",
+      "explanation": "Hidden instructions were detected in comments or invisible text. These could contain malicious directives. Manual review is recommended.",
+      "remediation": "Audit all comments and invisible characters. Remove any instructions that direct the agent to perform unauthorized actions. Use plain, reviewable content.",
+      "code_snippet": "| **AI-specific threats** | \u274c | \u274c | \u2705 |\n| **Install blocking** | \u274c | \u274c | \u2705 |\n\n**VirusTotal** catches known malware binaries \u2014 but won't flag `<!-- IGNORE PREVIOUS INSTRUCTIONS -->`.\n\n**skillscanner** checks if Gen Digital has reviewed it \u2014 but can't scan new or updated skills.\n",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/safe-install.sh",
+        "start_line": 48,
+        "end_line": null
+      },
+      "finding": "write existing installation\"\n            echo \"  --skip-scan      Skip security scan (not recommended)\"\n            echo \"  --help           Show this help\"\n            echo \"\"\n            echo \"Envir",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "            echo \"\"\n            echo \"Options:\"\n            echo \"  --version <ver>  Install specific version\"\n            echo \"  --force          Overwrite existing installation\"\n            echo \"  --skip-scan      Skip security scan (not recommended)\"\n            echo \"  --help           Show this help\"\n            echo \"\"",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 91,
+        "end_line": null
+      },
+      "finding": "rm -rf /",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "Skill stays in `/tmp/skill-guard-staging/skills/<slug>/` (quarantined). You can:\n1. **Review** \u2014 read the scan output, inspect the files\n2. **Install anyway** \u2014 `mv /tmp/skill-guard-staging/skills/<slug> ~/.openclaw/workspace/skills/`\n3. **Discard** \u2014 `rm -rf /tmp/skill-guard-staging/`\n\n## Requirements\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 91,
+        "end_line": null
+      },
+      "finding": "rm -rf /tmp/skill-guard-staging/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "Skill stays in `/tmp/skill-guard-staging/skills/<slug>/` (quarantined). You can:\n1. **Review** \u2014 read the scan output, inspect the files\n2. **Install anyway** \u2014 `mv /tmp/skill-guard-staging/skills/<slug> ~/.openclaw/workspace/skills/`\n3. **Discard** \u2014 `rm -rf /tmp/skill-guard-staging/`\n\n## Requirements\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/safe-install.sh",
+        "start_line": 96,
+        "end_line": null
+      },
+      "finding": "rm -rf \"$STAGING_DIR/skills/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "stage_skill() {\n    print_info \"Fetching $SKILL_SLUG to staging area...\"\n    \n    rm -rf \"$STAGING_DIR/skills/$SKILL_SLUG\"\n    mkdir -p \"$STAGING_DIR\"\n    \n    # Install to staging directory (clawhub creates skills/<slug> under workdir)",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/safe-install.sh",
+        "start_line": 151,
+        "end_line": null
+      },
+      "finding": "rm -rf \"$SKILLS_DIR/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "    \n    if [[ -d \"$SKILLS_DIR/$SKILL_SLUG\" ]]; then\n        if [[ -n \"$FORCE_ARG\" ]]; then\n            rm -rf \"$SKILLS_DIR/$SKILL_SLUG\"\n        else\n            print_error \"Skill already exists at $SKILLS_DIR/$SKILL_SLUG (use --force to overwrite)\"\n            exit 1",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/safe-install.sh",
+        "start_line": 165,
+        "end_line": null
+      },
+      "finding": "rm -rf \"$STAGING_DIR/skills/$SKILL_SLUG\" 2>/dev/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\n# Cleanup staging\ncleanup() {\n    rm -rf \"$STAGING_DIR/skills/$SKILL_SLUG\" 2>/dev/null || true\n}\n\n# Main flow",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/safe-install.sh",
+        "start_line": 205,
+        "end_line": null
+      },
+      "finding": "rm -rf $STAGING_DIR/skills/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "        echo \"Options:\"\n        echo \"  1. Review the issues above and decide if they're acceptable\"\n        echo \"  2. Run: mv $STAGING_DIR/skills/$SKILL_SLUG $SKILLS_DIR/ to install anyway\"\n        echo \"  3. Run: rm -rf $STAGING_DIR/skills/$SKILL_SLUG to discard\"\n        echo \"\"\n        exit 2  # Exit code 2 = issues found, not installed\n    fi",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "YR4",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'agent_skill_prompt_injection_hidden_instructions': Prompt injection or hidden instructions embedded in AI agent skill text [agent_skills]",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 49,
+        "end_line": null
+      },
+      "finding": "AI agent; IGNORE PREVIOUS INSTRUCTIONS; ignore previous instructions",
+      "explanation": "YARA rule matched a hack tool or exploit indicator (offensive tools, reconnaissance, privilege escalation, or exploit frameworks).",
+      "remediation": "Remove offensive tool references and exploit code. Legitimate agent skills should not contain penetration testing tools, exploit frameworks, or reconnaissance utilities.",
+      "code_snippet": "skill-guard:\n1. **Downloads to staging** (`/tmp/`) \u2014 never touches your real skills folder\n2. **Scans with mcp-scan** \u2014 Invariant/Snyk's security scanner for AI agents\n3. **Blocks or installs** \u2014 clean skills get installed, threats get quarantined\n\n## What It Catches\n",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ]
+    },
+    {
+      "id": "YR4",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'agent_skill_mcp_tool_poisoning_metadata': MCP/tool metadata poisoning indicators in tool schemas or skill manifests [agent_skills]",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 3,
+        "end_line": null
+      },
+      "finding": "description:; <!-- IGNORE PREVIOUS INSTRUCTIONS -->",
+      "explanation": "YARA rule matched a hack tool or exploit indicator (offensive tools, reconnaissance, privilege escalation, or exploit frameworks).",
+      "remediation": "Remove offensive tool references and exploit code. Legitimate agent skills should not contain penetration testing tools, exploit frameworks, or reconnaissance utilities.",
+      "code_snippet": "---\nname: skill-guard\ndescription: Scan ClawHub skills for security vulnerabilities BEFORE installing. Use when installing new skills from ClawHub to detect prompt injections, malware payloads, hardcoded secrets, and other threats. Wraps clawhub install with mcp-scan pre-flight checks.\n---\n\n# skill-guard",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ]
+    }
+  ],
+  "suppressed_count": 1,
+  "suppressed": [
+    {
+      "id": "LP3",
+      "category": "MCP Least Privilege",
+      "pattern": null,
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1,
+        "end_line": null
+      },
+      "finding": null,
+      "explanation": "Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "remediation": "Add a 'permissions' field to SKILL.md listing the capabilities this skill requires.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "ASI02"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: SKILL.md header noise, no context to evaluate"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 4,
+    "scanned_components": 4,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 15,
+    "findings_after_filtering": 13,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)",
+      "2 finding(s) filtered by meta-analyzer or heuristics"
+    ],
+    "is_complete": false
+  }
+}

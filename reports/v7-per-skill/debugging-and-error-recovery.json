@@ -1,0 +1,146 @@
+{
+  "skill": {
+    "name": "debugging-and-error-recovery",
+    "source": "/home/openclaw/.openclaw/workspace/skills/debugging-and-error-recovery",
+    "scanned_at": "2026-06-25T19:14:41.541568+00:00"
+  },
+  "risk_assessment": {
+    "score": 41,
+    "severity": "MEDIUM",
+    "recommendation": "CAUTION"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 190,
+      "executable": false,
+      "size_bytes": 8796
+    },
+    {
+      "path": "SKILL.md.bak-20260618-pre-antirational",
+      "type": "other",
+      "lines": 319,
+      "executable": false,
+      "size_bytes": 11451
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 358
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 73,
+      "executable": false,
+      "size_bytes": 3090
+    }
+  ],
+  "issues": [
+    {
+      "id": "AS3",
+      "category": "Agent Snooping",
+      "pattern": "Skill Enumeration",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 11,
+        "end_line": null
+      },
+      "finding": "skills/debugging-and-error-recovery/SKILL.md",
+      "explanation": "Skill enumerates or reads other installed skills. Access to other skills' SKILL.md files or the skills directory reveals prompt instructions, capabilities, and secrets that should be invisible to peer skills.",
+      "remediation": "Remove all code or instructions that list or read other skills' files or directories. Skills should operate independently; cross-skill access is a privilege escalation.",
+      "code_snippet": "## Origin\n\n- **Source pinned:** `addyosmani/agent-skills` commit `ea12d4dcd1a796be278309ec97e1a5cf3c683b49` (MIT).\n- **Source path:** `skills/debugging-and-error-recovery/SKILL.md` (addyosmani snapshot 2026-06-18).\n- **OpenClaw adaptation:** 2026-06-23 (Etap 6 unification); Format A migration 2026-06-24 (Etap 8).\n- **Lokalna kopia referencyjna:** dost\u0119pna przez `gh repo view addyosmani/agent-skills` lub commit hash.\n- **Typ:** instruction-only flexible skill (5-step triage + stop-the-line).",
+      "intent": null,
+      "tags": [
+        "Agent Snooping"
+      ]
+    },
+    {
+      "id": "AS3",
+      "category": "Agent Snooping",
+      "pattern": "Skill Enumeration",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "tests/smoke-test.md",
+        "start_line": 12,
+        "end_line": null
+      },
+      "finding": "skills/debugging-and-error-recovery/SKILL.md",
+      "explanation": "Skill enumerates or reads other installed skills. Access to other skills' SKILL.md files or the skills directory reveals prompt instructions, capabilities, and secrets that should be invisible to peer skills.",
+      "remediation": "Remove all code or instructions that list or read other skills' files or directories. Skills should operate independently; cross-skill access is a privilege escalation.",
+      "code_snippet": "- czy root cause nie jest pomijany\n\n## Setup\n- Skill installed: `~/.openclaw/workspace/skills/debugging-and-error-recovery/SKILL.md`\n- Agent: `techleader-developer-reviewer`, `failover1-developer-reviewer`, `ops-sre`\n- Tools: `exec`, `read`, `process`\n",
+      "intent": null,
+      "tags": [
+        "Agent Snooping"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "tests/smoke-test.md",
+        "start_line": 34,
+        "end_line": null
+      },
+      "finding": "rm -rf /",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "**Verify:** `tests/regression/test_<bug>.py` jest ma\u0142y.\n\n### T4: Stop-the-line dla operacji nieodwracalnej\n**Scenario:** Bug znaleziony w `rm -rf /path/to/data`. Fix wymaga usuni\u0119cia plik\u00f3w.\n**Expected:** Skill blokuje i wymaga zgody Adama PRZED wykonaniem.\n**Verify:** Brak destrukcyjnej operacji bez `trash` lub backup.\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "tests/smoke-test.md",
+        "start_line": 34,
+        "end_line": null
+      },
+      "finding": "rm -rf /path/to/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "**Verify:** `tests/regression/test_<bug>.py` jest ma\u0142y.\n\n### T4: Stop-the-line dla operacji nieodwracalnej\n**Scenario:** Bug znaleziony w `rm -rf /path/to/data`. Fix wymaga usuni\u0119cia plik\u00f3w.\n**Expected:** Skill blokuje i wymaga zgody Adama PRZED wykonaniem.\n**Verify:** Brak destrukcyjnej operacji bez `trash` lub backup.\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 4,
+    "scanned_components": 4,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 4,
+    "findings_after_filtering": 4,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

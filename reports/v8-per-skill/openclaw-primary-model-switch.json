@@ -1,0 +1,85 @@
+{
+  "skill": {
+    "name": "openclaw-primary-model-switch",
+    "source": "/home/openclaw/.openclaw/workspace/skills/openclaw-primary-model-switch",
+    "scanned_at": "2026-06-25T20:14:42.059270+00:00"
+  },
+  "risk_assessment": {
+    "score": 16,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 124,
+      "executable": false,
+      "size_bytes": 6828
+    }
+  ],
+  "issues": [
+    {
+      "id": "PE2",
+      "category": "Privilege Escalation",
+      "pattern": "Sudo/Root Execution",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 124,
+        "end_line": null
+      },
+      "finding": "sudo ",
+      "explanation": "Commands invoke sudo or root privileges. Verify this elevated access is necessary and justified.",
+      "remediation": "Avoid sudo/root unless strictly required. Prefer least-privilege patterns. If elevation is needed, document the justification and scope.",
+      "code_snippet": "\n## Security Audit Notes\n\nThis skill is instruction-only. It contains no scripts, hooks, binaries, network exfiltration, credential access, package installation, destructive commands, or sudo usage. Decision: `PASS` for creation/update as a pending proposal. Residual risk: the workflow touches critical OpenClaw config, so backup, validation, and explicit restart approval are mandatory.",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ]
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'backdoor_persistence': Backdoor persistence with malicious payloads (shell commands, SSH key injection, hidden root users) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.375,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 78,
+        "end_line": null
+      },
+      "finding": "crontab -l 2>/dev/null | rg -n 'model|--model|agentTurn|gpt|grok|minimax|ollama|glm|qwen|mem0|openc",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "\n8. **Check system crontab**\n   ```bash\n   crontab -l 2>/dev/null | rg -n 'model|--model|agentTurn|gpt|grok|minimax|ollama|glm|qwen|mem0|openclaw'\n   ```\n   Deterministic cron jobs should not consume LLM tokens. If a cron invokes `openclaw infer --model ...`, decide whether it should inherit default or use the new model explicitly.\n",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 1,
+    "scanned_components": 1,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 2,
+    "findings_after_filtering": 2,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

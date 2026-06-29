@@ -1,0 +1,67 @@
+{
+  "skill": {
+    "name": "office-hours",
+    "source": "/srv/samba/openclaw/github_forks/gstack/openclaw/skills/office-hours",
+    "scanned_at": "2026-06-29T14:58:02.736807+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 373,
+      "executable": false,
+      "size_bytes": 16948
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 1,
+  "suppressed": [
+    {
+      "id": "MP3",
+      "category": "Memory Poisoning",
+      "pattern": "Memory Manipulation",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 229,
+        "end_line": null
+      },
+      "finding": "clear state",
+      "explanation": "Skill manipulates agent memory, state, or stored context. Memory corruption can alter personality, override safety rules, or cause unpredictable behavior.",
+      "remediation": "Protect agent memory and state from modification by untrusted content. Use read-only memory for critical instructions and validate all state changes.",
+      "code_snippet": "3. **What existing code already partially solves this?** Map existing patterns, utilities, and flows that could be reused.\n4. **Startup mode only:** Synthesize the diagnostic evidence from Phase 2A. Does it support this direction?\n\nOutput premises as clear statements the user must agree with:\n\n> **PREMISES:**\n> 1. [statement] ... agree/disagree?",
+      "intent": null,
+      "tags": [
+        "Memory Poisoning"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: office-hours gstack documentation skill"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 1,
+    "scanned_components": 1,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 1,
+    "findings_after_filtering": 1,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

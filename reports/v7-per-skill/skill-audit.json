@@ -1,0 +1,1715 @@
+{
+  "skill": {
+    "name": "skill-audit",
+    "source": "/home/openclaw/.openclaw/workspace/skills/skill-audit",
+    "scanned_at": "2026-06-25T19:17:02.307924+00:00"
+  },
+  "risk_assessment": {
+    "score": 100,
+    "severity": "CRITICAL",
+    "recommendation": "DO_NOT_INSTALL"
+  },
+  "components": [
+    {
+      "path": "LICENSE",
+      "type": "other",
+      "lines": 21,
+      "executable": false,
+      "size_bytes": 1070
+    },
+    {
+      "path": "README.md",
+      "type": "markdown",
+      "lines": 73,
+      "executable": false,
+      "size_bytes": 3755
+    },
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 240,
+      "executable": false,
+      "size_bytes": 11422
+    },
+    {
+      "path": "references/auditor-prompt.md",
+      "type": "markdown",
+      "lines": 101,
+      "executable": false,
+      "size_bytes": 5206
+    },
+    {
+      "path": "references/threat-model.md",
+      "type": "markdown",
+      "lines": 185,
+      "executable": false,
+      "size_bytes": 9426
+    },
+    {
+      "path": "scripts/static_scan.py",
+      "type": "python",
+      "lines": 391,
+      "executable": true,
+      "size_bytes": 19043
+    },
+    {
+      "path": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+      "type": "other",
+      "lines": 372,
+      "executable": false,
+      "size_bytes": 18018
+    }
+  ],
+  "issues": [
+    {
+      "id": "MP3",
+      "category": "Memory Poisoning",
+      "pattern": "Memory Manipulation",
+      "severity": "HIGH",
+      "confidence": 0.24,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 43,
+        "end_line": null
+      },
+      "finding": "forget previous instructions",
+      "explanation": "Skill manipulates agent memory, state, or stored context. Memory corruption can alter personality, override safety rules, or cause unpredictable behavior.",
+      "remediation": "Protect agent memory and state from modification by untrusted content. Use read-only memory for critical instructions and validate all state changes.",
+      "code_snippet": "komentarze HTML `<!-- -->`, docstringi, stringi w kodzie, dane \"przyk\u0142adowe\".\n\n**Czerwone flagi:**\n- \"ignore/disregard/forget previous instructions\", \"override the system prompt\"\n- \"do not tell the user\", \"without informing the user\", \"secretly\", \"silently\"\n- \"you are now\u2026\", \"act as\u2026\", \"developer mode\", \"jailbreak\"\n- instrukcje skierowane do modelu, by uruchomi\u0142 kod, odczyta\u0142 plik albo wys\u0142a\u0142 dane",
+      "intent": null,
+      "tags": [
+        "Memory Poisoning"
+      ]
+    },
+    {
+      "id": "PE2",
+      "category": "Privilege Escalation",
+      "pattern": "Sudo/Root Execution",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 161,
+        "end_line": null
+      },
+      "finding": "chmod 777",
+      "explanation": "Commands invoke sudo or root privileges. Verify this elevated access is necessary and justified.",
+      "remediation": "Avoid sudo/root unless strictly required. Prefer least-privilege patterns. If elevation is needed, document the justification and scope.",
+      "code_snippet": "     \"Eskalacja uprawnie\u0144 przez sudo\",\n     re.compile(r\"\\bsudo\\s+(?!-n\\s+true\\b)\\S\", re.I)),\n    (\"chmod-world\", \"medium\",\n     \"Nadanie zbyt szerokich uprawnie\u0144 (chmod 777 / a+rwx)\",\n     re.compile(r\"chmod\\s+(-R\\s+)?(0?777|a\\+rwx|a\\+w)\\b\", re.I)),\n    (\"git-config-tamper\", \"medium\",\n     \"Modyfikacja globalnej konfiguracji git (mo\u017cliwy hook hijack)\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ]
+    },
+    {
+      "id": "P1",
+      "category": "Prompt Injection",
+      "pattern": "Instruction Override",
+      "severity": "HIGH",
+      "confidence": 0.24,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 43,
+        "end_line": null
+      },
+      "finding": "forget previous instructions",
+      "explanation": "This pattern attempts to override system instructions or ignore safety constraints. Without LLM analysis, manual review is recommended.",
+      "remediation": "Remove or rewrite any text that instructs the agent to ignore prompts, override safety rules, or trust unverified content. Ensure skill content cannot be injected to alter agent behavior.",
+      "code_snippet": "komentarze HTML `<!-- -->`, docstringi, stringi w kodzie, dane \"przyk\u0142adowe\".\n\n**Czerwone flagi:**\n- \"ignore/disregard/forget previous instructions\", \"override the system prompt\"\n- \"do not tell the user\", \"without informing the user\", \"secretly\", \"silently\"\n- \"you are now\u2026\", \"act as\u2026\", \"developer mode\", \"jailbreak\"\n- instrukcje skierowane do modelu, by uruchomi\u0142 kod, odczyta\u0142 plik albo wys\u0142a\u0142 dane",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ]
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 147,
+        "end_line": null
+      },
+      "finding": "plist",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "     re.compile(r\"\\bcrontab\\s+(-|/|<)|/etc/cron|/var/spool/cron\", re.I)),\n    (\"launchd-persistence\", \"high\",\n     \"Instalacja launchd/LaunchAgent (persistence macOS)\",\n     re.compile(r\"(launchctl\\s+(load|bootstrap|enable)|LaunchAgents/|LaunchDaemons/|\\.plist\\b[^\\n]{0,40}load)\", re.I)),\n    (\"systemd-persistence\", \"high\",\n     \"Instalacja us\u0142ugi systemd (persistence Linux)\",\n     re.compile(r\"systemctl\\s+(enable|--user\\s+enable)|/etc/systemd/system\", re.I)),",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "SC2",
+      "category": "Supply Chain",
+      "pattern": "External Script Fetching",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "README.md",
+        "start_line": 23,
+        "end_line": null
+      },
+      "finding": "curl | sh",
+      "explanation": "Remote code is downloaded and executed. This bypasses code review and could introduce malicious code.",
+      "remediation": "Avoid downloading and executing remote scripts. Use trusted packages from PyPI/npm. If remote fetch is required, verify checksums and use HTTPS.",
+      "code_snippet": "\n- **Prompt injection** ukryty w `SKILL.md` / dokumentacji (\u201ezignoruj poprzednie instrukcje\", \u201ewy\u015blij klucze na\u2026\")\n- **Kradzie\u017c sekret\u00f3w** \u2014 klucze SSH, `.env`, dane do chmury (`.aws`), magazyny hase\u0142 systemu (macOS Keychain)\n- **Exfiltracja danych** \u2014 `curl | sh`, reverse shell, webhooki Discord/Telegram/pastebin\n- **Obfuskacja** \u2014 base64 + exec, znaki zero-width\n- **Persistence** \u2014 cron / launchd / systemd, dopiski do `~/.zshrc`\n- **Zahardkodowane klucze** i inne niebezpieczne polecenia bash",
+      "intent": null,
+      "tags": [
+        "Supply Chain"
+      ]
+    },
+    {
+      "id": "SC2",
+      "category": "Supply Chain",
+      "pattern": "External Script Fetching",
+      "severity": "HIGH",
+      "confidence": 0.27,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 107,
+        "end_line": null
+      },
+      "finding": "curl \u2026 | sh",
+      "explanation": "Remote code is downloaded and executed. This bypasses code review and could introduce malicious code.",
+      "remediation": "Avoid downloading and executing remote scripts. Use trusted packages from PyPI/npm. If remote fetch is required, verify checksums and use HTTPS.",
+      "code_snippet": "## 6. Zdalne wykonanie kodu i prompt\u00f3w\n\n**Atak:** Pobranie i natychmiastowe wykonanie kodu lub instrukcji \u2014 klasyk to\n`curl \u2026 | sh`, `eval`, `source <(curl \u2026)`, `python -c <zakodowane>`.\n\n**Czerwone flagi:** ka\u017cdy pipeline pobranie\u2192wykonanie; `eval`/`exec` na zmiennej\nalbo zdekodowanym stringu; instalacja paczki z URL/gita zamiast oficjalnego",
+      "intent": null,
+      "tags": [
+        "Supply Chain"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.255,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 59,
+        "end_line": null
+      },
+      "finding": "rm -rf` na `~`, `/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "**Atak:** Logika, kt\u00f3rej jedynym celem jest szkoda \u2014 kasowanie danych, szyfrowanie\n(ransomware), sabota\u017c, ukryte modyfikacje innych plik\u00f3w/skilli.\n\n**Czerwone flagi:** `rm -rf` na `~`, `/`, `$HOME`; nadpisywanie plik\u00f3w poza\nworkspace'em skilla; modyfikowanie innych skilli w `~/.claude/skills`; p\u0119tle\nzapisuj\u0105ce \u015bmieci; szyfrowanie plik\u00f3w u\u017cytkownika.\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.24,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 157,
+        "end_line": null
+      },
+      "finding": "chmod 777",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "przej\u0119cie aliasu lub hooka gita.\n\n**Czerwone flagi:** `crontab`, `launchctl load`, pliki w `LaunchAgents/`,\n`systemctl enable`, `>> ~/.zshrc`, `git config --global core.hookspath`, `chmod 777`,\nzb\u0119dne `sudo`.\n\n**Uzasadnione u\u017cycie:** skill, kt\u00f3rego *jawnym celem* jest np. ustawienie cyklicznego",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 155,
+        "end_line": null
+      },
+      "finding": "rm -rf na \u015bcie\u017cce systemowej/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "     \"Dopisywanie do plik\u00f3w startowych pow\u0142oki (persistence/hijack)\",\n     re.compile(r\">>\\s*~?/?(\\.(bash|zsh)rc|\\.bash_profile|\\.zprofile|\\.profile|\\.zshenv)\", re.I)),\n    (\"destructive-rm\", \"high\",\n     \"Destrukcyjne rm -rf na \u015bcie\u017cce systemowej/domowej\",\n     re.compile(r\"rm\\s+-[rf]{1,2}\\s+(-[rf]{1,2}\\s+)?(~|/|\\$HOME|/Users|/etc|/var|\\*)\", re.I)),\n    (\"sudo-escalation\", \"medium\",\n     \"Eskalacja uprawnie\u0144 przez sudo\",",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 161,
+        "end_line": null
+      },
+      "finding": "chmod 777 / a+rwx)\",\n     re.compile(r\"chmod\\s+(-R\\s+)?(0?777",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "     \"Eskalacja uprawnie\u0144 przez sudo\",\n     re.compile(r\"\\bsudo\\s+(?!-n\\s+true\\b)\\S\", re.I)),\n    (\"chmod-world\", \"medium\",\n     \"Nadanie zbyt szerokich uprawnie\u0144 (chmod 777 / a+rwx)\",\n     re.compile(r\"chmod\\s+(-R\\s+)?(0?777|a\\+rwx|a\\+w)\\b\", re.I)),\n    (\"git-config-tamper\", \"medium\",\n     \"Modyfikacja globalnej konfiguracji git (mo\u017cliwy hook hijack)\",",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 150,
+        "end_line": null
+      },
+      "finding": "wallet.dat",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "**Uzasadnione u\u017cycie:** skill jawnie finansowy/krypto, kt\u00f3rego to jest deklarowanym\ncelem. W innym wypadku \u2014 czerwona flaga.\n\n## 10. Modyfikacja systemu i trwa\u0142o\u015b\u0107 (persistence)\n\n**Atak:** Skill instaluje co\u015b, co prze\u017cyje jego wykonanie i odpala si\u0119 p\u00f3\u017aniej \u2014\ncron, launchd/LaunchAgent, us\u0142uga systemd, dopisek do `~/.zshrc`/`~/.bashrc`,",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ]
+    },
+    {
+      "id": "YR4",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'agent_skill_mcp_tool_poisoning_metadata': MCP/tool metadata poisoning indicators in tool schemas or skill manifests [agent_skills]",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 334,
+        "end_line": null
+      },
+      "finding": "description=; \u200b; \u200c; \u200d",
+      "explanation": "YARA rule matched a hack tool or exploit indicator (offensive tools, reconnaissance, privilege escalation, or exploit frameworks).",
+      "remediation": "Remove offensive tool references and exploit code. Legitimate agent skills should not contain penetration testing tools, exploit frameworks, or reconnaissance utilities.",
+      "code_snippet": "\ndef main():\n    ap = argparse.ArgumentParser(description=\"Statyczny skaner heurystyk audytu skilli.\")\n    ap.add_argument(\"path\", help=\"\u015acie\u017cka do katalogu ze skillem\")\n    ap.add_argument(\"--json\", action=\"store_true\", help=\"Wypisz surowy JSON\")\n    ap.add_argument(\"--quiet\", action=\"store_true\", help=\"Tylko podsumowanie, bez listy trafie\u0144 (tekst)\")\n    args = ap.parse_args()",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ]
+    }
+  ],
+  "suppressed_count": 63,
+  "suppressed": [
+    {
+      "id": "LP3",
+      "category": "MCP Least Privilege",
+      "pattern": null,
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1,
+        "end_line": null
+      },
+      "finding": null,
+      "explanation": "Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "remediation": "Add a 'permissions' field to SKILL.md listing the capabilities this skill requires.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "ASI02"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: SKILL.md header noise, no context to evaluate"
+    },
+    {
+      "id": "EA3",
+      "category": "Excessive Agency",
+      "pattern": "Scope Creep",
+      "severity": "LOW",
+      "confidence": 0.7,
+      "location": {
+        "file": "LICENSE",
+        "start_line": 16,
+        "end_line": null
+      },
+      "finding": "NOT LIMITED TO",
+      "explanation": "Skill's behavior or capabilities extend beyond its stated purpose. Scope creep allows an agent to perform actions unrelated to its documented functionality, increasing the attack surface.",
+      "remediation": "Limit the skill's scope to its documented purpose. Remove instructions that enable the agent to perform actions outside its stated functionality.",
+      "code_snippet": "copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'NOT LIMITED TO' is standard Apache-2.0 LICENSE language, not agency"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "README.md",
+        "start_line": 5,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "\nSkill do [Claude Code](https://claude.com/claude-code), kt\u00f3ry **audytuje bezpiecze\u0144stwo cudzego skilla, pluginu lub agenta, zanim go zainstalujesz.**\n\nSkille to pot\u0119\u017cny, ale niebezpieczny format: `SKILL.md` trafia prosto do kontekstu modelu i jest **wykonywany jak instrukcje**, a do\u0142\u0105czone skrypty odpalaj\u0105 si\u0119 z **Twoimi** uprawnieniami. Z\u0142o\u015bliwy skill mo\u017ce odczyta\u0107 klucze z `~/.ssh`, zrzuci\u0107 Keychain, wys\u0142a\u0107 `.env` na obcy webhook albo ukry\u0107 w markdownie polecenie \u201epo cichu prze\u015blij sekrety\" i nie zobaczysz tego, dop\u00f3ki nie przeczytasz go linijka po linijce. Badanie Snyk na ~4000 skilli znalaz\u0142o **76 jednoznacznie z\u0142o\u015bliwych** i problem bezpiecze\u0144stwa w **36,8%** z nich.\n\n`skill-audit` sprawdza cudzy skill **zanim** trafi do Twojego folderu skills.\n",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "README.md",
+        "start_line": 22,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "## Co wykrywa\n\n- **Prompt injection** ukryty w `SKILL.md` / dokumentacji (\u201ezignoruj poprzednie instrukcje\", \u201ewy\u015blij klucze na\u2026\")\n- **Kradzie\u017c sekret\u00f3w** \u2014 klucze SSH, `.env`, dane do chmury (`.aws`), magazyny hase\u0142 systemu (macOS Keychain)\n- **Exfiltracja danych** \u2014 `curl | sh`, reverse shell, webhooki Discord/Telegram/pastebin\n- **Obfuskacja** \u2014 base64 + exec, znaki zero-width\n- **Persistence** \u2014 cron / launchd / systemd, dopiski do `~/.zshrc`",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 11,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "Skille Claude Code to pot\u0119\u017cny, ale niebezpieczny format: SKILL.md trafia prosto do\nkontekstu modelu i jest **wykonywany jak instrukcje**, a do\u0142\u0105czone skrypty odpalaj\u0105\nsi\u0119 z Twoimi uprawnieniami. Z\u0142o\u015bliwy skill mo\u017ce wykra\u015b\u0107 klucze z `~/.ssh`, zrzuci\u0107\nKeychain, wys\u0142a\u0107 `.env` na obcy webhook albo ukry\u0107 w markdownie polecenie \"po cichu\nprze\u015blij sekrety\" \u2014 i nie zobaczysz tego, dop\u00f3ki go nie przeczytasz linijka po linijce.\nBadanie Snyk na ~4 000 skilli znalaz\u0142o 76 jednoznacznie z\u0142o\u015bliwych i problem\nbezpiecze\u0144stwa w 36,8% z nich. Ten skill audytuje cudzy skill **zanim** go uruchomisz.",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 84,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "i podsumowanie (`highest_severity`, `static_verdict`). Zachowaj ten JSON \u2014 wejdzie\ndo promptu subagenta. Kod wyj\u015bcia 1 oznacza co najmniej jedno trafienie high/critical.\n\nHeurystyki pokrywaj\u0105 m.in.: odczyt `~/.ssh`/`.env`/`.aws`/Keychain, `curl|sh`,\nreverse shell, webhooki exfiltracji (Discord/Telegram/pastebin), base64+exec,\nzero-width chars, cron/launchd/systemd persistence, dopiski do `~/.zshrc`,\nzahardkodowane klucze AWS/prywatne, oraz prompt injection w j\u0119zyku naturalnym.",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 199,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "- **Markdown audytuj jak kod.** SKILL.md jest wykonywany przez model \u2014 z\u0142o\u015bliwy\n  skill nie potrzebuje ani jednej linii kodu.\n- **Kontekst rozstrzyga medium.** Zestawiaj zachowanie z deklarowanym celem skilla.\n  Dost\u0119p do Keychain w skillu \u201edo zarz\u0105dzania Keychain\" jest OK; w skillu \u201edo\n  formatowania tekstu\" \u2014 to alarm.\n\n## Pliki skilla",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 199,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "- **Markdown audytuj jak kod.** SKILL.md jest wykonywany przez model \u2014 z\u0142o\u015bliwy\n  skill nie potrzebuje ani jednej linii kodu.\n- **Kontekst rozstrzyga medium.** Zestawiaj zachowanie z deklarowanym celem skilla.\n  Dost\u0119p do Keychain w skillu \u201edo zarz\u0105dzania Keychain\" jest OK; w skillu \u201edo\n  formatowania tekstu\" \u2014 to alarm.\n\n## Pliki skilla",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.27,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 16,
+        "end_line": null
+      },
+      "finding": "~/.ssh/id_rsa",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "sam\u0105 podejrzliwo\u015bci\u0105 jak skrypty.\n\nDruga zasada: **oceniaj intencj\u0119, nie tylko obecno\u015b\u0107 wzorca.** `curl` do API\npogody jest niewinny; `curl` wysy\u0142aj\u0105cy zawarto\u015b\u0107 `~/.ssh/id_rsa` na obcy host to\nexfiltracja. Warstwa statyczna (static_scan.py) zg\u0142asza wzorce; Twoj\u0105 rol\u0105 jest\nrozstrzygn\u0105\u0107, czy w tym kontek\u015bcie wzorzec jest atakiem.\n",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.27,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 92,
+        "end_line": null
+      },
+      "finding": "~/.aws/credentials",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "## 5. Niew\u0142a\u015bciwe obchodzenie si\u0119 z po\u015bwiadczeniami\n\n**Atak:** Skill si\u0119ga po cudze sekrety, kt\u00f3rych nie potrzebuje \u2014 czyta `~/.ssh`,\n`~/.aws/credentials`, `.env`, Keychain, histori\u0119 pow\u0142oki, ciasteczka/has\u0142a\nprzegl\u0105darki, pliki GPG.\n\n**Czerwone flagi:** odczyt kt\u00f3rejkolwiek wra\u017cliwej \u015bcie\u017cki (static_scan ma ich",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.21,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 92,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "## 5. Niew\u0142a\u015bciwe obchodzenie si\u0119 z po\u015bwiadczeniami\n\n**Atak:** Skill si\u0119ga po cudze sekrety, kt\u00f3rych nie potrzebuje \u2014 czyta `~/.ssh`,\n`~/.aws/credentials`, `.env`, Keychain, histori\u0119 pow\u0142oki, ciasteczka/has\u0142a\nprzegl\u0105darki, pliki GPG.\n\n**Czerwone flagi:** odczyt kt\u00f3rejkolwiek wra\u017cliwej \u015bcie\u017cki (static_scan ma ich",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.21,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 96,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "przegl\u0105darki, pliki GPG.\n\n**Czerwone flagi:** odczyt kt\u00f3rejkolwiek wra\u017cliwej \u015bcie\u017cki (static_scan ma ich\nlist\u0119); `security find-generic-password`/`dump-keychain`; masowy `printenv`/`env`\nprzekierowany do pliku lub sieci; czytanie `Login Data`/`Cookies` przegl\u0105darki.\n\n**Uzasadnione u\u017cycie:** skill, kt\u00f3ry *jawnie* zarz\u0105dza danym sekretem za zgod\u0105",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.21,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 100,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "przekierowany do pliku lub sieci; czytanie `Login Data`/`Cookies` przegl\u0105darki.\n\n**Uzasadnione u\u017cycie:** skill, kt\u00f3ry *jawnie* zarz\u0105dza danym sekretem za zgod\u0105\nu\u017cytkownika (np. wrapper do Keychain, kt\u00f3ry Kris sam napisa\u0142 \u2014 patrz skill\n`keychain-keys`). Pytanie: czy dost\u0119p do sekretu jest **celem** skilla zgodnym z\nopisem, czy **pobocznym** si\u0119gni\u0119ciem, o kt\u00f3rym opis milczy.\n",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.21,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 101,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "\n**Uzasadnione u\u017cycie:** skill, kt\u00f3ry *jawnie* zarz\u0105dza danym sekretem za zgod\u0105\nu\u017cytkownika (np. wrapper do Keychain, kt\u00f3ry Kris sam napisa\u0142 \u2014 patrz skill\n`keychain-keys`). Pytanie: czy dost\u0119p do sekretu jest **celem** skilla zgodnym z\nopisem, czy **pobocznym** si\u0119gni\u0119ciem, o kt\u00f3rym opis milczy.\n\n## 6. Zdalne wykonanie kodu i prompt\u00f3w",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.21,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 172,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "  atak \u2014 to przedmiot opisu. Sprawd\u017a, czy wzorce s\u0105 *danymi* skanera, czy *s\u0105\n  wykonywane*. (Ten w\u0142a\u015bnie skill, skill-audit, jest tego przyk\u0142adem.)\n- **Placeholder \u2260 sekret.** `YOUR_KEY` to nie wyciek.\n- **Deklarowany cel rozgrzesza dost\u0119p.** Je\u015bli opis skilla m\u00f3wi \"zarz\u0105dza Keychain\",\n  dost\u0119p do Keychain jest spodziewany. Je\u015bli opis m\u00f3wi \"formatuje markdown\", a kod\n  czyta Keychain \u2014 to alarm. Zawsze zestawiaj zachowanie z deklarowanym celem.\n- **Jeden sygna\u0142 medium to zwykle szum; trzy sygna\u0142y medium uk\u0142adaj\u0105ce si\u0119 w \u0142a\u0144cuch",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.21,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 173,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "  wykonywane*. (Ten w\u0142a\u015bnie skill, skill-audit, jest tego przyk\u0142adem.)\n- **Placeholder \u2260 sekret.** `YOUR_KEY` to nie wyciek.\n- **Deklarowany cel rozgrzesza dost\u0119p.** Je\u015bli opis skilla m\u00f3wi \"zarz\u0105dza Keychain\",\n  dost\u0119p do Keychain jest spodziewany. Je\u015bli opis m\u00f3wi \"formatuje markdown\", a kod\n  czyta Keychain \u2014 to alarm. Zawsze zestawiaj zachowanie z deklarowanym celem.\n- **Jeden sygna\u0142 medium to zwykle szum; trzy sygna\u0142y medium uk\u0142adaj\u0105ce si\u0119 w \u0142a\u0144cuch\n  (czytaj sekret \u2192 zakoduj \u2192 wy\u015blij) to critical.** Patrz na \u0142a\u0144cuchy, nie tylko",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.21,
+      "location": {
+        "file": "references/threat-model.md",
+        "start_line": 174,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "- **Placeholder \u2260 sekret.** `YOUR_KEY` to nie wyciek.\n- **Deklarowany cel rozgrzesza dost\u0119p.** Je\u015bli opis skilla m\u00f3wi \"zarz\u0105dza Keychain\",\n  dost\u0119p do Keychain jest spodziewany. Je\u015bli opis m\u00f3wi \"formatuje markdown\", a kod\n  czyta Keychain \u2014 to alarm. Zawsze zestawiaj zachowanie z deklarowanym celem.\n- **Jeden sygna\u0142 medium to zwykle szum; trzy sygna\u0142y medium uk\u0142adaj\u0105ce si\u0119 w \u0142a\u0144cuch\n  (czytaj sekret \u2192 zakoduj \u2192 wy\u015blij) to critical.** Patrz na \u0142a\u0144cuchy, nie tylko\n  pojedyncze linie.",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 51,
+        "end_line": null
+      },
+      "finding": ".aws/credentials",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# Paths/credentials whose reading by a skill is classic exfiltration.\nSENSITIVE_PATHS = [\n    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 65,
+        "end_line": null
+      },
+      "finding": ".aws/credentials",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# there is no legitimate reason for a skill to even name an SSH key or a credentials file.\nHIGH_SIGNAL_SECRETS = [\n    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 51,
+        "end_line": null
+      },
+      "finding": ".kube/config",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# Paths/credentials whose reading by a skill is classic exfiltration.\nSENSITIVE_PATHS = [\n    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 65,
+        "end_line": null
+      },
+      "finding": ".kube/config",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# there is no legitimate reason for a skill to even name an SSH key or a credentials file.\nHIGH_SIGNAL_SECRETS = [\n    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 52,
+        "end_line": null
+      },
+      "finding": ".npmrc",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "SENSITIVE_PATHS = [\n    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 52,
+        "end_line": null
+      },
+      "finding": ".netrc",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "SENSITIVE_PATHS = [\n    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 65,
+        "end_line": null
+      },
+      "finding": ".netrc",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# there is no legitimate reason for a skill to even name an SSH key or a credentials file.\nHIGH_SIGNAL_SECRETS = [\n    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 53,
+        "end_line": null
+      },
+      "finding": "/etc/passwd",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",\n    r\"\\.gnupg\", r\"secring\", r\"wallet\\.dat\", r\"\\.mozilla\", r\"Library/Keychains\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 53,
+        "end_line": null
+      },
+      "finding": "/etc/shadow",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",\n    r\"\\.gnupg\", r\"secring\", r\"wallet\\.dat\", r\"\\.mozilla\", r\"Library/Keychains\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 67,
+        "end_line": null
+      },
+      "finding": "/etc/shadow",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]\n\nRULES = [",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 56,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",\n    r\"\\.gnupg\", r\"secring\", r\"wallet\\.dat\", r\"\\.mozilla\", r\"Library/Keychains\",\n]\n\n# Each rule: (id, severity, description, regex). The regex is applied line by line,",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 66,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "HIGH_SIGNAL_SECRETS = [\n    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]\n",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 73,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "RULES = [\n    # ---- Data exfiltration / secret access -------------------------------------\n    (\"private-credential-ref\", \"high\",\n     \"Odwo\u0142anie do sekretu wysokiego ryzyka (klucz SSH / credentials / keychain)\",\n     re.compile(r\"(\" + \"|\".join(HIGH_SIGNAL_SECRETS) + r\")\", re.I)),\n    (\"secret-file-read\", \"high\",\n     \"Odczyt pliku z po\u015bwiadczeniami/sekretami\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 82,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    (\"sensitive-path-ref\", \"medium\",\n     \"Odwo\u0142anie do wra\u017cliwej \u015bcie\u017cki (kontekst rozstrzyga)\",\n     re.compile(r\"(\" + \"|\".join(SENSITIVE_PATHS) + r\")\", re.I)),\n    (\"macos-keychain-dump\", \"critical\",\n     \"Zrzut/odczyt macOS Keychain\",\n     re.compile(r\"security\\s+(find-(generic|internet)-password|dump-keychain|export)\", re.I)),\n    (\"env-harvest\", \"high\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 83,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "     \"Odwo\u0142anie do wra\u017cliwej \u015bcie\u017cki (kontekst rozstrzyga)\",\n     re.compile(r\"(\" + \"|\".join(SENSITIVE_PATHS) + r\")\", re.I)),\n    (\"macos-keychain-dump\", \"critical\",\n     \"Zrzut/odczyt macOS Keychain\",\n     re.compile(r\"security\\s+(find-(generic|internet)-password|dump-keychain|export)\", re.I)),\n    (\"env-harvest\", \"high\",\n     \"Masowy zrzut zmiennych \u015brodowiskowych (cz\u0119sto z sekretami)\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 84,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "     re.compile(r\"(\" + \"|\".join(SENSITIVE_PATHS) + r\")\", re.I)),\n    (\"macos-keychain-dump\", \"critical\",\n     \"Zrzut/odczyt macOS Keychain\",\n     re.compile(r\"security\\s+(find-(generic|internet)-password|dump-keychain|export)\", re.I)),\n    (\"env-harvest\", \"high\",\n     \"Masowy zrzut zmiennych \u015brodowiskowych (cz\u0119sto z sekretami)\",\n     re.compile(r\"\\b(printenv|env)\\b[^\\n|]{0,40}(\\||>|curl|nc|http)\", re.I)),",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 189,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    (\"pi-exfil-instruction\", \"critical\",\n     \"Instrukcja exfiltracji sekret\u00f3w skierowana do modelu\",\n     re.compile(r\"(send|upload|post|exfiltrate|leak|transmit|email)\\s+[^\\n]{0,60}\"\n                r\"(\\.env|\\.ssh|credential|secret|api[_-]?key|password|token|private\\s+key|keychain)\", re.I)),\n    (\"pi-roleplay-escape\", \"medium\",\n     \"Pr\u00f3ba zmiany roli/ogranicze\u0144 modelu\",\n     re.compile(r\"(you\\s+are\\s+now|act\\s+as|pretend\\s+to\\s+be|from\\s+now\\s+on\\s+you)\\b[^\\n]{0,60}\"",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py",
+        "start_line": 214,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    (\"pi-exfil-instruction-pl\", \"critical\",\n     \"Instrukcja exfiltracji sekret\u00f3w skierowana do modelu (PL)\",\n     re.compile(r\"(wy[\u015bs]lij|prze[\u015bs]lij|przeka[\u017cz]|wyciekni|za[\u0142l]aduj|wgraj|opublikuj)\\s+[^\\n]{0,60}\"\n                r\"(\\.env|\\.ssh|credential|sekret|klucz|has[\u0142l]o|token|prywatn|keychain|po[\u015bs]wiadcz)\", re.I)),\n    (\"pi-assistant-directive-pl\", \"high\",\n     \"Tekst w pliku skierowany jako polecenie do asystenta/AI (no\u015bnik iniekcji)\",\n     re.compile(r\"(instrukcj[ae]\\s+(systemowa\\s+)?dla\\s+(asystent|ai|modelu|claude)\"",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE2",
+      "category": "Privilege Escalation",
+      "pattern": "Sudo/Root Execution",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 161,
+        "end_line": null
+      },
+      "finding": "chmod 777",
+      "explanation": "Commands invoke sudo or root privileges. Verify this elevated access is necessary and justified.",
+      "remediation": "Avoid sudo/root unless strictly required. Prefer least-privilege patterns. If elevation is needed, document the justification and scope.",
+      "code_snippet": "     \"Eskalacja uprawnie\u0144 przez sudo\",\n     re.compile(r\"\\bsudo\\s+(?!-n\\s+true\\b)\\S\", re.I)),\n    (\"chmod-world\", \"medium\",\n     \"Nadanie zbyt szerokich uprawnie\u0144 (chmod 777 / a+rwx)\",\n     re.compile(r\"chmod\\s+(-R\\s+)?(0?777|a\\+rwx|a\\+w)\\b\", re.I)),\n    (\"git-config-tamper\", \"medium\",\n     \"Modyfikacja globalnej konfiguracji git (mo\u017cliwy hook hijack)\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 51,
+        "end_line": null
+      },
+      "finding": ".aws/credentials",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# Paths/credentials whose reading by a skill is classic exfiltration.\nSENSITIVE_PATHS = [\n    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 65,
+        "end_line": null
+      },
+      "finding": ".aws/credentials",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# there is no legitimate reason for a skill to even name an SSH key or a credentials file.\nHIGH_SIGNAL_SECRETS = [\n    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 51,
+        "end_line": null
+      },
+      "finding": ".kube/config",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# Paths/credentials whose reading by a skill is classic exfiltration.\nSENSITIVE_PATHS = [\n    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 65,
+        "end_line": null
+      },
+      "finding": ".kube/config",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# there is no legitimate reason for a skill to even name an SSH key or a credentials file.\nHIGH_SIGNAL_SECRETS = [\n    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 52,
+        "end_line": null
+      },
+      "finding": ".npmrc",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "SENSITIVE_PATHS = [\n    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 52,
+        "end_line": null
+      },
+      "finding": ".netrc",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "SENSITIVE_PATHS = [\n    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 65,
+        "end_line": null
+      },
+      "finding": ".netrc",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "# there is no legitimate reason for a skill to even name an SSH key or a credentials file.\nHIGH_SIGNAL_SECRETS = [\n    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 53,
+        "end_line": null
+      },
+      "finding": "/etc/passwd",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",\n    r\"\\.gnupg\", r\"secring\", r\"wallet\\.dat\", r\"\\.mozilla\", r\"Library/Keychains\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 53,
+        "end_line": null
+      },
+      "finding": "/etc/shadow",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    r\"~/\\.ssh\", r\"\\.ssh/id_\", r\"id_rsa\", r\"id_ed25519\", r\"\\.ssh/config\",\n    r\"~/\\.aws\", r\"\\.aws/credentials\", r\"~/\\.config/gcloud\", r\"~/\\.kube/config\",\n    r\"~/\\.netrc\", r\"\\.npmrc\", r\"\\.pypirc\", r\"~/\\.docker/config\",\n    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",\n    r\"\\.gnupg\", r\"secring\", r\"wallet\\.dat\", r\"\\.mozilla\", r\"Library/Keychains\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 67,
+        "end_line": null
+      },
+      "finding": "/etc/shadow",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]\n\nRULES = [",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 56,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    r\"\\.env\\b\", r\"\\.env\\.\", r\"/etc/passwd\", r\"/etc/shadow\",\n    r\"\\.bash_history\", r\"\\.zsh_history\", r\"\\.python_history\",\n    r\"\\bLogin Data\\b\", r\"\\bCookies\\b\", r\"key(chain|store)\", r\"Local Storage\",\n    r\"\\.gnupg\", r\"secring\", r\"wallet\\.dat\", r\"\\.mozilla\", r\"Library/Keychains\",\n]\n\n# Each rule: (id, severity, description, regex). The regex is applied line by line,",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 66,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "HIGH_SIGNAL_SECRETS = [\n    r\"id_rsa\", r\"id_ed25519\", r\"id_ecdsa\", r\"id_dsa\", r\"\\.ssh/id_\",\n    r\"\\.aws/credentials\", r\"\\.config/gcloud\", r\"\\.kube/config\", r\"\\.netrc\",\n    r\"secring\", r\"wallet\\.dat\", r\"Library/Keychains\", r\"\\bLogin Data\\b\",\n    r\"/etc/shadow\", r\"\\.docker/config\",\n]\n",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 73,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "RULES = [\n    # ---- Data exfiltration / secret access -------------------------------------\n    (\"private-credential-ref\", \"high\",\n     \"Odwo\u0142anie do sekretu wysokiego ryzyka (klucz SSH / credentials / keychain)\",\n     re.compile(r\"(\" + \"|\".join(HIGH_SIGNAL_SECRETS) + r\")\", re.I)),\n    (\"secret-file-read\", \"high\",\n     \"Odczyt pliku z po\u015bwiadczeniami/sekretami\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 82,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    (\"sensitive-path-ref\", \"medium\",\n     \"Odwo\u0142anie do wra\u017cliwej \u015bcie\u017cki (kontekst rozstrzyga)\",\n     re.compile(r\"(\" + \"|\".join(SENSITIVE_PATHS) + r\")\", re.I)),\n    (\"macos-keychain-dump\", \"critical\",\n     \"Zrzut/odczyt macOS Keychain\",\n     re.compile(r\"security\\s+(find-(generic|internet)-password|dump-keychain|export)\", re.I)),\n    (\"env-harvest\", \"high\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 83,
+        "end_line": null
+      },
+      "finding": "Keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "     \"Odwo\u0142anie do wra\u017cliwej \u015bcie\u017cki (kontekst rozstrzyga)\",\n     re.compile(r\"(\" + \"|\".join(SENSITIVE_PATHS) + r\")\", re.I)),\n    (\"macos-keychain-dump\", \"critical\",\n     \"Zrzut/odczyt macOS Keychain\",\n     re.compile(r\"security\\s+(find-(generic|internet)-password|dump-keychain|export)\", re.I)),\n    (\"env-harvest\", \"high\",\n     \"Masowy zrzut zmiennych \u015brodowiskowych (cz\u0119sto z sekretami)\",",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 84,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "     re.compile(r\"(\" + \"|\".join(SENSITIVE_PATHS) + r\")\", re.I)),\n    (\"macos-keychain-dump\", \"critical\",\n     \"Zrzut/odczyt macOS Keychain\",\n     re.compile(r\"security\\s+(find-(generic|internet)-password|dump-keychain|export)\", re.I)),\n    (\"env-harvest\", \"high\",\n     \"Masowy zrzut zmiennych \u015brodowiskowych (cz\u0119sto z sekretami)\",\n     re.compile(r\"\\b(printenv|env)\\b[^\\n|]{0,40}(\\||>|curl|nc|http)\", re.I)),",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 189,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    (\"pi-exfil-instruction\", \"critical\",\n     \"Instrukcja exfiltracji sekret\u00f3w skierowana do modelu\",\n     re.compile(r\"(send|upload|post|exfiltrate|leak|transmit|email)\\s+[^\\n]{0,60}\"\n                r\"(\\.env|\\.ssh|credential|secret|api[_-]?key|password|token|private\\s+key|keychain)\", re.I)),\n    (\"pi-roleplay-escape\", \"medium\",\n     \"Pr\u00f3ba zmiany roli/ogranicze\u0144 modelu\",\n     re.compile(r\"(you\\s+are\\s+now|act\\s+as|pretend\\s+to\\s+be|from\\s+now\\s+on\\s+you)\\b[^\\n]{0,60}\"",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 214,
+        "end_line": null
+      },
+      "finding": "keychain",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "    (\"pi-exfil-instruction-pl\", \"critical\",\n     \"Instrukcja exfiltracji sekret\u00f3w skierowana do modelu (PL)\",\n     re.compile(r\"(wy[\u015bs]lij|prze[\u015bs]lij|przeka[\u017cz]|wyciekni|za[\u0142l]aduj|wgraj|opublikuj)\\s+[^\\n]{0,60}\"\n                r\"(\\.env|\\.ssh|credential|sekret|klucz|has[\u0142l]o|token|prywatn|keychain|po[\u015bs]wiadcz)\", re.I)),\n    (\"pi-assistant-directive-pl\", \"high\",\n     \"Tekst w pliku skierowany jako polecenie do asystenta/AI (no\u015bnik iniekcji)\",\n     re.compile(r\"(instrukcj[ae]\\s+(systemowa\\s+)?dla\\s+(asystent|ai|modelu|claude)\"",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "P2",
+      "category": "Prompt Injection",
+      "pattern": "Hidden Instructions",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 125,
+        "end_line": null
+      },
+      "finding": "\u200b",
+      "explanation": "Hidden instructions were detected in comments or invisible text. These could contain malicious directives. Manual review is recommended.",
+      "remediation": "Audit all comments and invisible characters. Remove any instructions that direct the agent to perform unauthorized actions. Use plain, reviewable content.",
+      "code_snippet": "     re.compile(r\"(\\\\x[0-9a-fA-F]{2}){8,}|(\\\\u[0-9a-fA-F]{4}){6,}\")),\n    (\"zero-width-chars\", \"high\",\n     \"Znaki zero-width / niewidoczne (ukryta tre\u015b\u0107 lub iniekcja)\",\n     re.compile(r\"[\u200b\u200c\u200d\u2060\ufeff\u00ad]\")),\n    (\"encoded-blob\", \"low\",\n     \"D\u0142ugi blok zakodowanych danych (base64-podobny)\",\n     re.compile(r\"[A-Za-z0-9+/]{120,}={0,2}\")),",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "P2",
+      "category": "Prompt Injection",
+      "pattern": "Hidden Instructions",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 125,
+        "end_line": null
+      },
+      "finding": "\u200c",
+      "explanation": "Hidden instructions were detected in comments or invisible text. These could contain malicious directives. Manual review is recommended.",
+      "remediation": "Audit all comments and invisible characters. Remove any instructions that direct the agent to perform unauthorized actions. Use plain, reviewable content.",
+      "code_snippet": "     re.compile(r\"(\\\\x[0-9a-fA-F]{2}){8,}|(\\\\u[0-9a-fA-F]{4}){6,}\")),\n    (\"zero-width-chars\", \"high\",\n     \"Znaki zero-width / niewidoczne (ukryta tre\u015b\u0107 lub iniekcja)\",\n     re.compile(r\"[\u200b\u200c\u200d\u2060\ufeff\u00ad]\")),\n    (\"encoded-blob\", \"low\",\n     \"D\u0142ugi blok zakodowanych danych (base64-podobny)\",\n     re.compile(r\"[A-Za-z0-9+/]{120,}={0,2}\")),",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "P2",
+      "category": "Prompt Injection",
+      "pattern": "Hidden Instructions",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 125,
+        "end_line": null
+      },
+      "finding": "\u200d",
+      "explanation": "Hidden instructions were detected in comments or invisible text. These could contain malicious directives. Manual review is recommended.",
+      "remediation": "Audit all comments and invisible characters. Remove any instructions that direct the agent to perform unauthorized actions. Use plain, reviewable content.",
+      "code_snippet": "     re.compile(r\"(\\\\x[0-9a-fA-F]{2}){8,}|(\\\\u[0-9a-fA-F]{4}){6,}\")),\n    (\"zero-width-chars\", \"high\",\n     \"Znaki zero-width / niewidoczne (ukryta tre\u015b\u0107 lub iniekcja)\",\n     re.compile(r\"[\u200b\u200c\u200d\u2060\ufeff\u00ad]\")),\n    (\"encoded-blob\", \"low\",\n     \"D\u0142ugi blok zakodowanych danych (base64-podobny)\",\n     re.compile(r\"[A-Za-z0-9+/]{120,}={0,2}\")),",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "P2",
+      "category": "Prompt Injection",
+      "pattern": "Hidden Instructions",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 125,
+        "end_line": null
+      },
+      "finding": "\u2060",
+      "explanation": "Hidden instructions were detected in comments or invisible text. These could contain malicious directives. Manual review is recommended.",
+      "remediation": "Audit all comments and invisible characters. Remove any instructions that direct the agent to perform unauthorized actions. Use plain, reviewable content.",
+      "code_snippet": "     re.compile(r\"(\\\\x[0-9a-fA-F]{2}){8,}|(\\\\u[0-9a-fA-F]{4}){6,}\")),\n    (\"zero-width-chars\", \"high\",\n     \"Znaki zero-width / niewidoczne (ukryta tre\u015b\u0107 lub iniekcja)\",\n     re.compile(r\"[\u200b\u200c\u200d\u2060\ufeff\u00ad]\")),\n    (\"encoded-blob\", \"low\",\n     \"D\u0142ugi blok zakodowanych danych (base64-podobny)\",\n     re.compile(r\"[A-Za-z0-9+/]{120,}={0,2}\")),",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "P2",
+      "category": "Prompt Injection",
+      "pattern": "Hidden Instructions",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 125,
+        "end_line": null
+      },
+      "finding": "\ufeff",
+      "explanation": "Hidden instructions were detected in comments or invisible text. These could contain malicious directives. Manual review is recommended.",
+      "remediation": "Audit all comments and invisible characters. Remove any instructions that direct the agent to perform unauthorized actions. Use plain, reviewable content.",
+      "code_snippet": "     re.compile(r\"(\\\\x[0-9a-fA-F]{2}){8,}|(\\\\u[0-9a-fA-F]{4}){6,}\")),\n    (\"zero-width-chars\", \"high\",\n     \"Znaki zero-width / niewidoczne (ukryta tre\u015b\u0107 lub iniekcja)\",\n     re.compile(r\"[\u200b\u200c\u200d\u2060\ufeff\u00ad]\")),\n    (\"encoded-blob\", \"low\",\n     \"D\u0142ugi blok zakodowanych danych (base64-podobny)\",\n     re.compile(r\"[A-Za-z0-9+/]{120,}={0,2}\")),",
+      "intent": null,
+      "tags": [
+        "Prompt Injection"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 147,
+        "end_line": null
+      },
+      "finding": "plist",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "     re.compile(r\"\\bcrontab\\s+(-|/|<)|/etc/cron|/var/spool/cron\", re.I)),\n    (\"launchd-persistence\", \"high\",\n     \"Instalacja launchd/LaunchAgent (persistence macOS)\",\n     re.compile(r\"(launchctl\\s+(load|bootstrap|enable)|LaunchAgents/|LaunchDaemons/|\\.plist\\b[^\\n]{0,40}load)\", re.I)),\n    (\"systemd-persistence\", \"high\",\n     \"Instalacja us\u0142ugi systemd (persistence Linux)\",\n     re.compile(r\"systemctl\\s+(enable|--user\\s+enable)|/etc/systemd/system\", re.I)),",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 155,
+        "end_line": null
+      },
+      "finding": "rm -rf na \u015bcie\u017cce systemowej/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "     \"Dopisywanie do plik\u00f3w startowych pow\u0142oki (persistence/hijack)\",\n     re.compile(r\">>\\s*~?/?(\\.(bash|zsh)rc|\\.bash_profile|\\.zprofile|\\.profile|\\.zshenv)\", re.I)),\n    (\"destructive-rm\", \"high\",\n     \"Destrukcyjne rm -rf na \u015bcie\u017cce systemowej/domowej\",\n     re.compile(r\"rm\\s+-[rf]{1,2}\\s+(-[rf]{1,2}\\s+)?(~|/|\\$HOME|/Users|/etc|/var|\\*)\", re.I)),\n    (\"sudo-escalation\", \"medium\",\n     \"Eskalacja uprawnie\u0144 przez sudo\",",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 161,
+        "end_line": null
+      },
+      "finding": "chmod 777 / a+rwx)\",\n     re.compile(r\"chmod\\s+(-R\\s+)?(0?777",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "     \"Eskalacja uprawnie\u0144 przez sudo\",\n     re.compile(r\"\\bsudo\\s+(?!-n\\s+true\\b)\\S\", re.I)),\n    (\"chmod-world\", \"medium\",\n     \"Nadanie zbyt szerokich uprawnie\u0144 (chmod 777 / a+rwx)\",\n     re.compile(r\"chmod\\s+(-R\\s+)?(0?777|a\\+rwx|a\\+w)\\b\", re.I)),\n    (\"git-config-tamper\", \"medium\",\n     \"Modyfikacja globalnej konfiguracji git (mo\u017cliwy hook hijack)\",",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "YR4",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'agent_skill_mcp_tool_poisoning_metadata': MCP/tool metadata poisoning indicators in tool schemas or skill manifests [agent_skills]",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "scripts/static_scan.py.bak-20260622-pre-fp-fix",
+        "start_line": 315,
+        "end_line": null
+      },
+      "finding": "description=; \u200b; \u200c; \u200d",
+      "explanation": "YARA rule matched a hack tool or exploit indicator (offensive tools, reconnaissance, privilege escalation, or exploit frameworks).",
+      "remediation": "Remove offensive tool references and exploit code. Legitimate agent skills should not contain penetration testing tools, exploit frameworks, or reconnaissance utilities.",
+      "code_snippet": "\ndef main():\n    ap = argparse.ArgumentParser(description=\"Statyczny skaner heurystyk audytu skilli.\")\n    ap.add_argument(\"path\", help=\"\u015acie\u017cka do katalogu ze skillem\")\n    ap.add_argument(\"--json\", action=\"store_true\", help=\"Wypisz surowy JSON\")\n    ap.add_argument(\"--quiet\", action=\"store_true\", help=\"Tylko podsumowanie, bez listy trafie\u0144 (tekst)\")\n    args = ap.parse_args()",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 7,
+    "scanned_components": 7,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 79,
+    "findings_after_filtering": 75,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)",
+      "4 finding(s) filtered by meta-analyzer or heuristics"
+    ],
+    "is_complete": false
+  }
+}

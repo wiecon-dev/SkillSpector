@@ -1,0 +1,219 @@
+{
+  "skill": {
+    "name": "writing-skills",
+    "source": "/home/openclaw/.openclaw/workspace/skills/writing-skills",
+    "scanned_at": "2026-06-25T19:04:36.380189+00:00"
+  },
+  "risk_assessment": {
+    "score": 39,
+    "severity": "MEDIUM",
+    "recommendation": "CAUTION"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 375,
+      "executable": false,
+      "size_bytes": 16907
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 436
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 148,
+      "executable": false,
+      "size_bytes": 4677
+    }
+  ],
+  "issues": [
+    {
+      "id": "AS3",
+      "category": "Agent Snooping",
+      "pattern": "Skill Enumeration",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 11,
+        "end_line": null
+      },
+      "finding": "skills/writing-skills/SKILL.md",
+      "explanation": "Skill enumerates or reads other installed skills. Access to other skills' SKILL.md files or the skills directory reveals prompt instructions, capabilities, and secrets that should be invisible to peer skills.",
+      "remediation": "Remove all code or instructions that list or read other skills' files or directories. Skills should operate independently; cross-skill access is a privilege escalation.",
+      "code_snippet": "## Origin\n\n- **Source pinned:** `obra/superpowers` v6.0.3, commit `896224c4b1879920ab573417e68fd51d2ccc9072`, licencja MIT.\n- **Source path:** `skills/writing-skills/SKILL.md` (last touched commit `1aa45d20d25a1db2cfa114a48c313c44839e875b`).\n- **OpenClaw adaptation:** 2026-06-24 (Etap 7b Sesja 3 unification).\n- **Lokalna kopia referencyjna:** `/srv/samba/openclaw/github_forks/obra-superpowers-reference`.\n- **Typ:** instruction-only rigid skill (Iron Law, no exceptions).",
+      "intent": null,
+      "tags": [
+        "Agent Snooping"
+      ]
+    },
+    {
+      "id": "RA1",
+      "category": "Rogue Agent",
+      "pattern": "Self-Modification",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 60,
+        "end_line": null
+      },
+      "finding": "Write skill",
+      "explanation": "Skill modifies its own code, configuration, or behavior at runtime. Self-modification enables an agent to escalate privileges, disable safety constraints, or install persistent backdoors.",
+      "remediation": "Prevent the skill from modifying its own code, SKILL.md, or configuration files. Treat skill files as read-only at runtime.",
+      "code_snippet": "\nThis applies to **NEW skills AND EDITS** to existing skills. Same as code TDD.\n\nWrite skill before testing? Delete it. Start over.\nEdit skill without testing? Same violation.\n\n**No exceptions:**",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA1",
+      "category": "Rogue Agent",
+      "pattern": "Self-Modification",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 61,
+        "end_line": null
+      },
+      "finding": "Edit skill",
+      "explanation": "Skill modifies its own code, configuration, or behavior at runtime. Self-modification enables an agent to escalate privileges, disable safety constraints, or install persistent backdoors.",
+      "remediation": "Prevent the skill from modifying its own code, SKILL.md, or configuration files. Treat skill files as read-only at runtime.",
+      "code_snippet": "This applies to **NEW skills AND EDITS** to existing skills. Same as code TDD.\n\nWrite skill before testing? Delete it. Start over.\nEdit skill without testing? Same violation.\n\n**No exceptions:**\n- Not for \"simple additions\"",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA1",
+      "category": "Rogue Agent",
+      "pattern": "Self-Modification",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 80,
+        "end_line": null
+      },
+      "finding": "Write skill",
+      "explanation": "Skill modifies its own code, configuration, or behavior at runtime. Self-modification enables an agent to escalate privileges, disable safety constraints, or install persistent backdoors.",
+      "remediation": "Prevent the skill from modifying its own code, SKILL.md, or configuration files. Treat skill files as read-only at runtime.",
+      "code_snippet": "- Which pressures triggered violations (time, sunk cost, authority, exhaustion)?\n\n**GREEN \u2014 Write Minimal Skill:**\n- Write skill that addresses those specific rationalizations.\n- Don't add extra content for hypothetical cases.\n- Run same scenarios WITH skill. Agent should now comply.\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA1",
+      "category": "Rogue Agent",
+      "pattern": "Self-Modification",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 300,
+        "end_line": null
+      },
+      "finding": "Write skill",
+      "explanation": "Skill modifies its own code, configuration, or behavior at runtime. Self-modification enables an agent to escalate privileges, disable safety constraints, or install persistent backdoors.",
+      "remediation": "Prevent the skill from modifying its own code, SKILL.md, or configuration files. Treat skill files as read-only at runtime.",
+      "code_snippet": "\n1. **RED:** Spawn sub-agent, give them topic \"TDD for shell scripts\". Document what they do without skill. They: write script, test manually, claim \"works\". Rationalizations: \"Shell scripts are too simple for TDD\", \"Manual testing is fine\".\n\n2. **GREEN:** Write skill `tdd-shell-scripts` addressing specific rationalizations. Pressure scenarios: \"5min deadline\", \"Customer waiting\". Bulletproofing: explicit \"no manual testing\", red flags list, rationalization table.\n\n3. **REFACTOR:** New rationalization found (\"But I ran the script and output looks right\"). Add explicit counter: \"Visual inspection \u2260 evidence. Test = evidence.\"\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA1",
+      "category": "Rogue Agent",
+      "pattern": "Self-Modification",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 352,
+        "end_line": null
+      },
+      "finding": "Write skill",
+      "explanation": "Skill modifies its own code, configuration, or behavior at runtime. Self-modification enables an agent to escalate privileges, disable safety constraints, or install persistent backdoors.",
+      "remediation": "Prevent the skill from modifying its own code, SKILL.md, or configuration files. Treat skill files as read-only at runtime.",
+      "code_snippet": "\n| Failure | Przyczyna | Mitigacja |\n|---|---|---|\n| Write skill before test | \"Skill is clear\" | Iron Law: NO SKILL WITHOUT A FAILING TEST FIRST |\n| Edit skill without test | \"Just adding section\" | Iron Law applies to edits too |\n| Workflow summary in description | \"Help agent understand\" | Description = When to Use only, NOT What |\n| Narrative example | \"Real session story\" | Reusable pattern, not story |",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA1",
+      "category": "Rogue Agent",
+      "pattern": "Self-Modification",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 353,
+        "end_line": null
+      },
+      "finding": "Edit skill",
+      "explanation": "Skill modifies its own code, configuration, or behavior at runtime. Self-modification enables an agent to escalate privileges, disable safety constraints, or install persistent backdoors.",
+      "remediation": "Prevent the skill from modifying its own code, SKILL.md, or configuration files. Treat skill files as read-only at runtime.",
+      "code_snippet": "| Failure | Przyczyna | Mitigacja |\n|---|---|---|\n| Write skill before test | \"Skill is clear\" | Iron Law: NO SKILL WITHOUT A FAILING TEST FIRST |\n| Edit skill without test | \"Just adding section\" | Iron Law applies to edits too |\n| Workflow summary in description | \"Help agent understand\" | Description = When to Use only, NOT What |\n| Narrative example | \"Real session story\" | Reusable pattern, not story |\n| Multi-language dilution | \"Cover all audiences\" | One excellent example, agents port |",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    },
+    {
+      "id": "RA1",
+      "category": "Rogue Agent",
+      "pattern": "Self-Modification",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "tests/smoke-test.md",
+        "start_line": 23,
+        "end_line": null
+      },
+      "finding": "Write skill",
+      "explanation": "Skill modifies its own code, configuration, or behavior at runtime. Self-modification enables an agent to escalate privileges, disable safety constraints, or install persistent backdoors.",
+      "remediation": "Prevent the skill from modifying its own code, SKILL.md, or configuration files. Treat skill files as read-only at runtime.",
+      "code_snippet": "Expected behavior:\n\n- **RED first:** Run pressure scenario WITHOUT skill (sub-agent dostaje topic + pressure, np. \"5min deadline\"). Document rationalizations verbatim.\n- **GREEN:** Write skill addressing those specific rationalizations. Minimal.\n- **REFACTOR:** Re-test. New rationalizations \u2192 add explicit counter.\n- **Deploy:** SKILL.md (Format A 12/12) + agents/openai.yaml + tests/smoke-test.md.\n",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 3,
+    "scanned_components": 3,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 8,
+    "findings_after_filtering": 8,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

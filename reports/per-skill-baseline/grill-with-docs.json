@@ -1,0 +1,58 @@
+{
+  "skill": {
+    "name": "grill-with-docs",
+    "source": "/home/openclaw/.openclaw/workspace/skills/grill-with-docs",
+    "scanned_at": "2026-06-25T18:21:56.454474+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 167,
+      "executable": false,
+      "size_bytes": 6672
+    },
+    {
+      "path": "SKILL.md.bak-20260612T140440+0200-pre-description-fix",
+      "type": "other",
+      "lines": 133,
+      "executable": false,
+      "size_bytes": 4905
+    },
+    {
+      "path": "SKILL.md.bak-20260612T143528+0200-pre-description-fix",
+      "type": "other",
+      "lines": 160,
+      "executable": false,
+      "size_bytes": 6173
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 3,
+    "scanned_components": 3,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 0,
+    "findings_after_filtering": 0,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

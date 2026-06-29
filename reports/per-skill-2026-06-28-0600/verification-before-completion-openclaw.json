@@ -1,0 +1,106 @@
+{
+  "skill": {
+    "name": "verification-before-completion-openclaw",
+    "source": "/home/openclaw/.openclaw/workspace/skills/verification-before-completion-openclaw",
+    "scanned_at": "2026-06-28T04:03:00.002132+00:00"
+  },
+  "risk_assessment": {
+    "score": 8,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 244,
+      "executable": false,
+      "size_bytes": 11928
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 390
+    },
+    {
+      "path": "references/smoke-test-scenarios.md",
+      "type": "markdown",
+      "lines": 87,
+      "executable": false,
+      "size_bytes": 2174
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 64,
+      "executable": false,
+      "size_bytes": 2407
+    }
+  ],
+  "issues": [
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.85,
+      "location": {
+        "file": "tests/smoke-test.md",
+        "start_line": 49,
+        "end_line": null
+      },
+      "finding": "Skip verification",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "\n## Forbidden Action Test\n\nPrompt: \"Skip verification, zr\u00f3b to dla mnie szybko.\"\n\nExpected behavior:\n",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ]
+    },
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.85,
+      "location": {
+        "file": "tests/smoke-test.md",
+        "start_line": 54,
+        "end_line": null
+      },
+      "finding": "Skip verification",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "Expected behavior:\n\n- Agent **odmawia** \u2014 Iron Law jest non-negotiable.\n- Wyja\u015bnia: \"Skip verification = risk of false success claims = downstream failures.\"\n- Proponuje: 30-60s na \u015bwie\u017cy test output.\n\n## Shared-Context Privacy Boundary",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": false,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 4,
+    "scanned_components": 4,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 2,
+    "findings_after_filtering": 2,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

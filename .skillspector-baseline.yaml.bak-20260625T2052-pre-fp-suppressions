@@ -1,0 +1,187 @@
+# SkillSpector baseline — wiecon-dev/OpenClaw
+#
+# Auto-generated 2026-06-25 from analysis of 169 model-visible skills
+# Source reports:
+#   reports/full-scan-2026-06-25.json  (multi-skill summary)
+#   reports/per-skill/*.json           (detailed per-skill)
+#
+# Strategy: drift-tolerant rule-glob + file-glob suppressions for known
+# false-positives in our environment. Re-scan should surface only NEW findings.
+#
+# See docs/SUPPRESSION.md for the full reference.
+
+version: 1
+
+# ============================================================
+# GLOBAL RULE SUPPRESSIONS
+# Patterns that are too broad in our environment — every hit is a known FP.
+# ============================================================
+rules:
+  # PE3 — Privilege Escalation "Keychain" — false positive in security
+  # documentation that mentions keychain as a risk to avoid. 132 hits in
+  # multi-skill scan are documentation of "do not touch keychain".
+  - id: "PE3"
+    reason: "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+
+  # LP3 — MCP Least Privilege at SKILL.md:1 — fires on every SKILL.md
+  # without context. 7 hits all look like header noise.
+  - id: "LP3"
+    reason: "Global FP: SKILL.md header noise, no context to evaluate"
+
+  # EA3 — Excessive Agency "NOT LIMITED TO" in LICENSE files — false positive
+  - id: "EA3"
+    reason: "Global FP: 'NOT LIMITED TO' is standard Apache-2.0 LICENSE language, not agency"
+
+  # ============================================================
+  # FILE-SCOPED SUPPRESSIONS — security-documentation skills
+  # These skills legitimately document attack patterns as guidance.
+  # ============================================================
+
+  # P1 — Prompt Injection "ignore previous instructions" in security docs
+  - id: "P1"
+    path: "*skill-securite-audit*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*skill-audit*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*skill-guard*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*writing-skills*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*context-engineering*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+  - id: "P1"
+    path: "*spec-driven-development*"
+    reason: "FP: documentation describes 'ignore previous instructions' as antipattern"
+
+  # SC2 — Supply Chain "curl | bash" in security docs
+  - id: "SC2"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents curl|bash as antipattern"
+  - id: "SC2"
+    path: "*skill-audit*"
+    reason: "FP: documents curl|bash as antipattern"
+  - id: "SC2"
+    path: "*skill-guard*"
+    reason: "FP: documents curl|bash as antipattern"
+
+  # TM1 — Tool Misuse "rm -rf, chmod 777, sudo" in security docs
+  - id: "TM1"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents rm-rf/chmod-777 as antipattern"
+  - id: "TM1"
+    path: "*skill-audit*"
+    reason: "FP: documents rm-rf/chmod-777 as antipattern"
+  - id: "TM1"
+    path: "*skill-guard*"
+    reason: "FP: documents rm-rf/chmod-777 as antipattern"
+
+  # MP2/MP3 — Memory Poisoning "forget previous instructions" in security docs
+  - id: "MP2"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents memory poisoning patterns"
+  - id: "MP2"
+    path: "*skill-audit*"
+    reason: "FP: documents memory poisoning patterns"
+  - id: "MP3"
+    path: "*skill-audit*"
+    reason: "FP: documents memory poisoning patterns"
+  - id: "MP3"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents memory poisoning patterns"
+
+  # PE2 — Privilege Escalation in security docs
+  - id: "PE2"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents privilege escalation patterns"
+  - id: "PE2"
+    path: "*skill-audit*"
+    reason: "FP: documents privilege escalation patterns"
+
+  # E1/E2 — Data Exfiltration in security docs (anti-pattern examples)
+  - id: "E1"
+    path: "*skill-audit*"
+    reason: "FP: documents data exfiltration patterns"
+  - id: "E2"
+    path: "*skill-audit*"
+    reason: "FP: documents data exfiltration patterns"
+
+  # YR3/YR4 — YARA Matches in security docs (anti-pattern signatures)
+  - id: "YR3"
+    path: "*skill-audit*"
+    reason: "FP: documents YARA patterns as known-bad signatures"
+  - id: "YR4"
+    path: "*skill-audit*"
+    reason: "FP: documents YARA patterns as known-bad signatures"
+
+  # RA2 — Rogue Agent patterns in security docs
+  - id: "RA2"
+    path: "*skill-audit*"
+    reason: "FP: documents rogue agent patterns"
+  - id: "RA2"
+    path: "*skill-securite-audit*"
+    reason: "FP: documents rogue agent patterns"
+
+  # ============================================================
+  # FILE-SCOPED SUPPRESSIONS — legitimate subprocess usage
+  # These skills wrap well-known CLI tools (git, yt-dlp, brew security).
+  # ============================================================
+
+  # AST4 — subprocess.run in git/yt-dlp/openssl wrappers
+  - id: "AST4"
+    path: "*last30days/scripts/*"
+    reason: "FP: subprocess.run wraps git worktree, brew security find-generic-password"
+  - id: "AST4"
+    path: "*youtube-watcher/scripts/*"
+    reason: "FP: subprocess.run wraps yt-dlp CLI"
+  - id: "AST4"
+    path: "*video-downloader-tool/scripts/*"
+    reason: "FP: subprocess.run wraps yt-dlp CLI"
+  - id: "AST4"
+    path: "*morning-report/*"
+    reason: "Reviewed 2026-06-25: subprocess.run is FastAPI monitor + git ops, no user input"
+
+  # OH1 — Output Handling subprocess.run (same as AST4, same tools)
+  - id: "OH1"
+    path: "*youtube-watcher/scripts/*"
+    reason: "FP: yt-dlp wrapper"
+  - id: "OH1"
+    path: "*video-downloader-tool/scripts/*"
+    reason: "FP: yt-dlp wrapper"
+  - id: "OH1"
+    path: "*morning-report/*"
+    reason: "Reviewed 2026-06-25: subprocess.check_output capture_output=True, no shell=True"
+
+  # TM1 — Tool Misuse shell=True — flagged but reviewed
+  - id: "TM1"
+    path: "*morning-report/*"
+    reason: "Reviewed 2026-06-25: subprocess.check_output(cmd, shell=True) on hardcoded cmd strings, capture_output=True"
+
+  # SSRF2 — urllib localhost calls — these hit FastAPI internal API
+  - id: "SSRF2"
+    path: "*morning-report/*"
+    reason: "Reviewed 2026-06-25: urllib.request.urlopen('http://127.0.0.1:PORT/...') to local FastAPI, no external"
+
+  # ============================================================
+  # BACKUP/BAK FILES — do not flag duplicate findings in *.bak and *.backup.*
+  # ============================================================
+  - path: "*.bak-*"
+    reason: "Backup files — suppress duplicates of issues already in main file"
+  - path: "*.backup.*"
+    reason: "Backup files — suppress duplicates of issues already in main file"
+
+# ============================================================
+# INTENTIONALLY NOT SUPPRESSED — review queue
+# These patterns remain in every scan and require manual review:
+#   - P1, P2 (Prompt Injection) outside security-documentation skills
+#   - P4 (Prompt Injection) — same
+#   - YR1, YR4 (YARA Match) — real malware signatures
+#   - TT3 (Data Flow CRITICAL) — review inputs
+#   - SSRF2 outside known localhost contexts
+#   - E2 HIGH (Data Exfiltration) outside documentation
+# ============================================================
+
+fingerprints: []

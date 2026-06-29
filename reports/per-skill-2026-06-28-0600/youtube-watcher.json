@@ -1,0 +1,875 @@
+{
+  "skill": {
+    "name": "youtube-watcher",
+    "source": "/home/openclaw/.openclaw/workspace/skills/youtube-watcher",
+    "scanned_at": "2026-06-28T04:03:16.469085+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": ".clawhub/origin.json",
+      "type": "json",
+      "lines": 7,
+      "executable": false,
+      "size_bytes": 147
+    },
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 152,
+      "executable": false,
+      "size_bytes": 4675
+    },
+    {
+      "path": "SKILL.md.backup.20260518130047",
+      "type": "other",
+      "lines": 84,
+      "executable": false,
+      "size_bytes": 3107
+    },
+    {
+      "path": "SKILL.md.backup.20260522-175326",
+      "type": "other",
+      "lines": 112,
+      "executable": false,
+      "size_bytes": 3770
+    },
+    {
+      "path": "_meta.json",
+      "type": "json",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 134
+    },
+    {
+      "path": "pyproject.toml",
+      "type": "toml",
+      "lines": 13,
+      "executable": false,
+      "size_bytes": 295
+    },
+    {
+      "path": "scripts/get_channel_transcripts.py",
+      "type": "python",
+      "lines": 351,
+      "executable": true,
+      "size_bytes": 11738
+    },
+    {
+      "path": "scripts/get_channel_transcripts.py.backup.20260518-1513",
+      "type": "other",
+      "lines": 351,
+      "executable": false,
+      "size_bytes": 11699
+    },
+    {
+      "path": "scripts/get_channel_transcripts.py.bak-20260611-232725-pre-speed-optimize",
+      "type": "other",
+      "lines": 351,
+      "executable": false,
+      "size_bytes": 11738
+    },
+    {
+      "path": "scripts/get_channel_transcripts.py.bak.20260518-142848",
+      "type": "other",
+      "lines": 345,
+      "executable": false,
+      "size_bytes": 11566
+    },
+    {
+      "path": "scripts/get_transcript.py",
+      "type": "python",
+      "lines": 450,
+      "executable": true,
+      "size_bytes": 14789
+    },
+    {
+      "path": "scripts/get_transcript.py.bak.20260518-142848",
+      "type": "other",
+      "lines": 447,
+      "executable": false,
+      "size_bytes": 14694
+    },
+    {
+      "path": "scripts/run_health_channels.sh",
+      "type": "shell",
+      "lines": 160,
+      "executable": true,
+      "size_bytes": 5557
+    },
+    {
+      "path": "scripts/run_health_channels.sh.bak-20260605T153000-pre-model-migration-and-cron-cleanup",
+      "type": "other",
+      "lines": 105,
+      "executable": false,
+      "size_bytes": 3497
+    },
+    {
+      "path": "scripts/run_health_channels.sh.bak-20260611-232725-pre-speed-optimize",
+      "type": "other",
+      "lines": 130,
+      "executable": false,
+      "size_bytes": 4557
+    },
+    {
+      "path": "scripts/run_trading_quant_channels.sh",
+      "type": "shell",
+      "lines": 137,
+      "executable": true,
+      "size_bytes": 5323
+    },
+    {
+      "path": "scripts/run_trading_quant_channels.sh.backup.20260522-175702",
+      "type": "other",
+      "lines": 128,
+      "executable": false,
+      "size_bytes": 4865
+    },
+    {
+      "path": "scripts/run_trading_quant_channels.sh.bak-20260611-232725-pre-speed-optimize",
+      "type": "other",
+      "lines": 130,
+      "executable": false,
+      "size_bytes": 5012
+    },
+    {
+      "path": "uv.lock",
+      "type": "other",
+      "lines": 8,
+      "executable": false,
+      "size_bytes": 136
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 32,
+  "suppressed": [
+    {
+      "id": "AST4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py",
+        "start_line": 101,
+        "end_line": 101
+      },
+      "finding": "    r = subprocess.run(cmd, capture_output=True, text=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "        \"-J\",\n        channel_videos_url,\n    ]\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        raise RuntimeError(r.stderr.strip() or \"yt-dlp failed listing channel\")\n",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "AST4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py",
+        "start_line": 135,
+        "end_line": 135
+      },
+      "finding": "    r = subprocess.run(cmd, capture_output=True, text=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "        cmd += [\"--cookies-from-browser\", cookies_from_browser]\n    cmd.append(video_url)\n\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    combined = (r.stdout or \"\") + (\"\\n\" if r.stdout and r.stderr else \"\") + (r.stderr or \"\")\n    return r.returncode, combined.strip()\n",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "AST4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/get_transcript.py",
+        "start_line": 211,
+        "end_line": 211
+      },
+      "finding": "    r = subprocess.run(cmd, check=True, capture_output=True, text=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "        \"id=%(id)s\\ntitle=%(title)s\\nchannel=%(channel)s\\nuploader=%(uploader)s\\nwebpage_url=%(webpage_url)s\\n\",\n        url,\n    ]\n    r = subprocess.run(cmd, check=True, capture_output=True, text=True)\n    meta = {}\n    for line in r.stdout.splitlines():\n        if \"=\" in line:",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "AST4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/get_transcript.py",
+        "start_line": 251,
+        "end_line": 251
+      },
+      "finding": "    subprocess.run(cmd, cwd=cwd, check=True, capture_output=True, text=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "    if cookies_from_browser:\n        cmd[1:1] = [\"--cookies-from-browser\", cookies_from_browser]\n\n    subprocess.run(cmd, cwd=cwd, check=True, capture_output=True, text=True)\n\n\ndef get_transcript(",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "LP3",
+      "category": "MCP Least Privilege",
+      "pattern": null,
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1,
+        "end_line": null
+      },
+      "finding": null,
+      "explanation": "Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "remediation": "Add a 'permissions' field to SKILL.md listing the capabilities this skill requires.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "ASI02"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: SKILL.md header noise, no context to evaluate"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py",
+        "start_line": 101,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        \"-J\",\n        channel_videos_url,\n    ]\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        raise RuntimeError(r.stderr.strip() or \"yt-dlp failed listing channel\")\n",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py",
+        "start_line": 135,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        cmd += [\"--cookies-from-browser\", cookies_from_browser]\n    cmd.append(video_url)\n\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    combined = (r.stdout or \"\") + (\"\\n\" if r.stdout and r.stderr else \"\") + (r.stderr or \"\")\n    return r.returncode, combined.strip()\n",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.backup.20260518-1513",
+        "start_line": 101,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        \"-J\",\n        channel_videos_url,\n    ]\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        raise RuntimeError(r.stderr.strip() or \"yt-dlp failed listing channel\")\n",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.backup.20260518-1513",
+        "start_line": 135,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        cmd += [\"--cookies-from-browser\", cookies_from_browser]\n    cmd.append(video_url)\n\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    combined = (r.stdout or \"\") + (\"\\n\" if r.stdout and r.stderr else \"\") + (r.stderr or \"\")\n    return r.returncode, combined.strip()\n",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.bak-20260611-232725-pre-speed-optimize",
+        "start_line": 101,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        \"-J\",\n        channel_videos_url,\n    ]\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        raise RuntimeError(r.stderr.strip() or \"yt-dlp failed listing channel\")\n",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.bak-20260611-232725-pre-speed-optimize",
+        "start_line": 135,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        cmd += [\"--cookies-from-browser\", cookies_from_browser]\n    cmd.append(video_url)\n\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    combined = (r.stdout or \"\") + (\"\\n\" if r.stdout and r.stderr else \"\") + (r.stderr or \"\")\n    return r.returncode, combined.strip()\n",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.bak.20260518-142848",
+        "start_line": 101,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        \"-J\",\n        channel_videos_url,\n    ]\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    if r.returncode != 0:\n        raise RuntimeError(r.stderr.strip() or \"yt-dlp failed listing channel\")\n",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.bak.20260518-142848",
+        "start_line": 135,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        cmd += [\"--cookies-from-browser\", cookies_from_browser]\n    cmd.append(video_url)\n\n    r = subprocess.run(cmd, capture_output=True, text=True)\n    combined = (r.stdout or \"\") + (\"\\n\" if r.stdout and r.stderr else \"\") + (r.stderr or \"\")\n    return r.returncode, combined.strip()\n",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/get_transcript.py",
+        "start_line": 211,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, check=True, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        \"id=%(id)s\\ntitle=%(title)s\\nchannel=%(channel)s\\nuploader=%(uploader)s\\nwebpage_url=%(webpage_url)s\\n\",\n        url,\n    ]\n    r = subprocess.run(cmd, check=True, capture_output=True, text=True)\n    meta = {}\n    for line in r.stdout.splitlines():\n        if \"=\" in line:",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "scripts/get_transcript.py",
+        "start_line": 251,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, cwd=cwd, check=True, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "    if cookies_from_browser:\n        cmd[1:1] = [\"--cookies-from-browser\", cookies_from_browser]\n\n    subprocess.run(cmd, cwd=cwd, check=True, capture_output=True, text=True)\n\n\ndef get_transcript(",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/get_transcript.py.bak.20260518-142848",
+        "start_line": 211,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, check=True, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "        \"id=%(id)s\\ntitle=%(title)s\\nchannel=%(channel)s\\nuploader=%(uploader)s\\nwebpage_url=%(webpage_url)s\\n\",\n        url,\n    ]\n    r = subprocess.run(cmd, check=True, capture_output=True, text=True)\n    meta = {}\n    for line in r.stdout.splitlines():\n        if \"=\" in line:",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "scripts/get_transcript.py.bak.20260518-142848",
+        "start_line": 251,
+        "end_line": null
+      },
+      "finding": "subprocess.run(cmd, cwd=cwd, check=True, capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "    if cookies_from_browser:\n        cmd[1:1] = [\"--cookies-from-browser\", cookies_from_browser]\n\n    subprocess.run(cmd, cwd=cwd, check=True, capture_output=True, text=True)\n\n\ndef get_transcript(",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.375,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 26,
+        "end_line": null
+      },
+      "finding": "cookies-from-browser firefox; cookies-from-browser firefox; cookies-from-browser firefox; COOKIES_FROM_BROWSER=firefox|chrome|...` (default: firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "Retrieve the transcript of a video (Polish + English when available).\n\n```bash\nuv run python {baseDir}/scripts/get_transcript.py --cookies-from-browser firefox \"https://www.youtube.com/watch?v=VIDEO_ID\"\n```\n\n### Get Transcripts (whole channel /videos)",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.375,
+      "location": {
+        "file": "SKILL.md.backup.20260518130047",
+        "start_line": 26,
+        "end_line": null
+      },
+      "finding": "cookies-from-browser firefox; cookies-from-browser firefox; cookies-from-browser firefox; COOKIES_FROM_BROWSER=firefox|chrome|...` (default: firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "Retrieve the transcript of a video (Polish + English when available).\n\n```bash\npython3 {baseDir}/scripts/get_transcript.py --cookies-from-browser firefox \"https://www.youtube.com/watch?v=VIDEO_ID\"\n```\n\n### Get Transcripts (whole channel /videos)",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.375,
+      "location": {
+        "file": "SKILL.md.backup.20260522-175326",
+        "start_line": 26,
+        "end_line": null
+      },
+      "finding": "cookies-from-browser firefox; cookies-from-browser firefox; cookies-from-browser firefox; COOKIES_FROM_BROWSER=firefox|chrome|...` (default: firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "Retrieve the transcript of a video (Polish + English when available).\n\n```bash\nuv run python {baseDir}/scripts/get_transcript.py --cookies-from-browser firefox \"https://www.youtube.com/watch?v=VIDEO_ID\"\n```\n\n### Get Transcripts (whole channel /videos)",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py",
+        "start_line": 181,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER\", \"firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "    )\n    ap.add_argument(\n        \"--cookies-from-browser\",\n        default=os.environ.get(\"YT_COOKIES_FROM_BROWSER\", \"firefox\"),\n        help=\"firefox|chrome|... (recommended; default firefox)\",\n    )\n    ap.add_argument(",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.backup.20260518-1513",
+        "start_line": 181,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER\", \"firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "    )\n    ap.add_argument(\n        \"--cookies-from-browser\",\n        default=os.environ.get(\"YT_COOKIES_FROM_BROWSER\", \"firefox\"),\n        help=\"firefox|chrome|... (recommended; default firefox)\",\n    )\n    ap.add_argument(",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.bak-20260611-232725-pre-speed-optimize",
+        "start_line": 181,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER\", \"firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "    )\n    ap.add_argument(\n        \"--cookies-from-browser\",\n        default=os.environ.get(\"YT_COOKIES_FROM_BROWSER\", \"firefox\"),\n        help=\"firefox|chrome|... (recommended; default firefox)\",\n    )\n    ap.add_argument(",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/get_channel_transcripts.py.bak.20260518-142848",
+        "start_line": 175,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER\", \"firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "    )\n    ap.add_argument(\n        \"--cookies-from-browser\",\n        default=os.environ.get(\"YT_COOKIES_FROM_BROWSER\", \"firefox\"),\n        help=\"firefox|chrome|... (recommended; default firefox)\",\n    )\n    ap.add_argument(",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.375,
+      "location": {
+        "file": "scripts/get_transcript.py",
+        "start_line": 441,
+        "end_line": null
+      },
+      "finding": "cookies from a local browser profile (e.g. firefox, chrome",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "    parser.add_argument(\n        \"--cookies-from-browser\",\n        default=os.environ.get(\"YT_COOKIES_FROM_BROWSER\", \"\"),\n        help=\"Pass cookies from a local browser profile (e.g. firefox, chrome). Can also be set via $YT_COOKIES_FROM_BROWSER.\",\n    )\n    args = parser.parse_args()\n",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.375,
+      "location": {
+        "file": "scripts/get_transcript.py.bak.20260518-142848",
+        "start_line": 438,
+        "end_line": null
+      },
+      "finding": "cookies from a local browser profile (e.g. firefox, chrome",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "    parser.add_argument(\n        \"--cookies-from-browser\",\n        default=os.environ.get(\"YT_COOKIES_FROM_BROWSER\", \"\"),\n        help=\"Pass cookies from a local browser profile (e.g. firefox, chrome). Can also be set via $YT_COOKIES_FROM_BROWSER.\",\n    )\n    args = parser.parse_args()\n",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/run_health_channels.sh",
+        "start_line": 8,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox; COOKIES_FROM_BROWSER:-firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "WORKSPACE=\"${OPENCLAW_WORKSPACE:-/home/openclaw/.openclaw/workspace}\"\nVAULT=\"${OPENCLAW_VAULT:-/srv/samba/openclaw/data/openclaw_data}\"\nPYTHON_BIN=\"${PYTHON_BIN:-python3}\"\nCOOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox}\"\nLIMIT=\"${YT_CHANNEL_LIMIT:-0}\"\nSLEEP_SECONDS=\"${YT_CHANNEL_SLEEP:-0.5}\"\nMODE=\"systemd\"",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/run_health_channels.sh.bak-20260605T153000-pre-model-migration-and-cron-cleanup",
+        "start_line": 8,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox; COOKIES_FROM_BROWSER:-firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "WORKSPACE=\"${OPENCLAW_WORKSPACE:-/home/openclaw/.openclaw/workspace}\"\nVAULT=\"${OPENCLAW_VAULT:-/srv/samba/openclaw/data/openclaw_data}\"\nPYTHON_BIN=\"${PYTHON_BIN:-python3}\"\nCOOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox}\"\nLIMIT=\"${YT_CHANNEL_LIMIT:-0}\"\nSLEEP_SECONDS=\"${YT_CHANNEL_SLEEP:-1}\"\nMODE=\"systemd\"",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/run_health_channels.sh.bak-20260611-232725-pre-speed-optimize",
+        "start_line": 8,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox; COOKIES_FROM_BROWSER:-firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "WORKSPACE=\"${OPENCLAW_WORKSPACE:-/home/openclaw/.openclaw/workspace}\"\nVAULT=\"${OPENCLAW_VAULT:-/srv/samba/openclaw/data/openclaw_data}\"\nPYTHON_BIN=\"${PYTHON_BIN:-python3}\"\nCOOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox}\"\nLIMIT=\"${YT_CHANNEL_LIMIT:-0}\"\nSLEEP_SECONDS=\"${YT_CHANNEL_SLEEP:-1}\"\nMODE=\"systemd\"",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/run_trading_quant_channels.sh",
+        "start_line": 9,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox; COOKIES_FROM_BROWSER:-firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "WORKSPACE=\"${OPENCLAW_WORKSPACE:-/home/openclaw/.openclaw/workspace}\"\nVAULT=\"${OPENCLAW_VAULT:-/srv/samba/openclaw/data/openclaw_data}\"\nPYTHON_BIN=\"${PYTHON_BIN:-python3}\"\nCOOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox}\"\nLIMIT=\"${YT_CHANNEL_LIMIT:-0}\"\nSLEEP_SECONDS=\"${YT_CHANNEL_SLEEP:-5}\"\nMAX_RETRIES_429=\"${YT_CHANNEL_MAX_RETRIES_429:-6}\"",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/run_trading_quant_channels.sh.backup.20260522-175702",
+        "start_line": 8,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox; COOKIES_FROM_BROWSER:-firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "WORKSPACE=\"${OPENCLAW_WORKSPACE:-/home/openclaw/.openclaw/workspace}\"\nVAULT=\"${OPENCLAW_VAULT:-/srv/samba/openclaw/data/openclaw_data}\"\nPYTHON_BIN=\"${PYTHON_BIN:-python3}\"\nCOOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox}\"\nLIMIT=\"${YT_CHANNEL_LIMIT:-0}\"\nSLEEP_SECONDS=\"${YT_CHANNEL_SLEEP:-30}\"\nMAX_RETRIES_429=\"${YT_CHANNEL_MAX_RETRIES_429:-6}\"",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'info_stealer': Information stealer patterns (credential harvesting, browser data theft) [malware]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "scripts/run_trading_quant_channels.sh.bak-20260611-232725-pre-speed-optimize",
+        "start_line": 9,
+        "end_line": null
+      },
+      "finding": "COOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox; COOKIES_FROM_BROWSER:-firefox",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "WORKSPACE=\"${OPENCLAW_WORKSPACE:-/home/openclaw/.openclaw/workspace}\"\nVAULT=\"${OPENCLAW_VAULT:-/srv/samba/openclaw/data/openclaw_data}\"\nPYTHON_BIN=\"${PYTHON_BIN:-python3}\"\nCOOKIES_FROM_BROWSER=\"${YT_COOKIES_FROM_BROWSER:-firefox}\"\nLIMIT=\"${YT_CHANNEL_LIMIT:-0}\"\nSLEEP_SECONDS=\"${YT_CHANNEL_SLEEP:-30}\"\nMAX_RETRIES_429=\"${YT_CHANNEL_MAX_RETRIES_429:-6}\"",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": false,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 19,
+    "scanned_components": 19,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 32,
+    "findings_after_filtering": 32,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

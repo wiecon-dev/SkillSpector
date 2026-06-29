@@ -1,0 +1,93 @@
+{
+  "skill": {
+    "name": "unknown",
+    "source": "/home/openclaw/.openclaw/workspace/skills/markitdown",
+    "scanned_at": "2026-06-25T18:22:19.832810+00:00"
+  },
+  "risk_assessment": {
+    "score": 9,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 55,
+      "executable": false,
+      "size_bytes": 1806
+    },
+    {
+      "path": "SKILL.md.backup.20260518-161909",
+      "type": "other",
+      "lines": 54,
+      "executable": false,
+      "size_bytes": 1815
+    },
+    {
+      "path": "pyproject.toml",
+      "type": "toml",
+      "lines": 8,
+      "executable": false,
+      "size_bytes": 138
+    },
+    {
+      "path": "scripts/batch_convert.py",
+      "type": "python",
+      "lines": 243,
+      "executable": true,
+      "size_bytes": 6818
+    },
+    {
+      "path": "uv.lock",
+      "type": "other",
+      "lines": 763,
+      "executable": false,
+      "size_bytes": 146696
+    }
+  ],
+  "issues": [
+    {
+      "id": "AST4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/batch_convert.py",
+        "start_line": 158,
+        "end_line": 161
+      },
+      "finding": "        result = subprocess.run(\n            ['markitdown', str(pdf_path), '-o', str(md_path)],\n            capture_output=True, text=True, timeout=300\n        )",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "def convert_one(pdf_path, md_path):\n    \"\"\"Convert a single PDF to markdown. Returns True on success.\"\"\"\n    try:\n        result = subprocess.run(\n            ['markitdown', str(pdf_path), '-o', str(md_path)],\n            capture_output=True, text=True, timeout=300\n        )",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 5,
+    "scanned_components": 5,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 1,
+    "findings_after_filtering": 1,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

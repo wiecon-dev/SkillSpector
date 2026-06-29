@@ -1,0 +1,147 @@
+{
+  "skill": {
+    "name": "subagent-driven-development",
+    "source": "/home/openclaw/.openclaw/workspace/skills/subagent-driven-development",
+    "scanned_at": "2026-06-28T04:02:46.323932+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 341,
+      "executable": false,
+      "size_bytes": 16817
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 468
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 138,
+      "executable": false,
+      "size_bytes": 4427
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 4,
+  "suppressed": [
+    {
+      "id": "AS3",
+      "category": "Agent Snooping",
+      "pattern": "Skill Enumeration",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 11,
+        "end_line": null
+      },
+      "finding": "skills/subagent-driven-development/SKILL.md",
+      "explanation": "Skill enumerates or reads other installed skills. Access to other skills' SKILL.md files or the skills directory reveals prompt instructions, capabilities, and secrets that should be invisible to peer skills.",
+      "remediation": "Remove all code or instructions that list or read other skills' files or directories. Skills should operate independently; cross-skill access is a privilege escalation.",
+      "code_snippet": "## Origin\n\n- **Source pinned:** `obra/superpowers` v6.0.3, commit `896224c4b1879920ab573417e68fd51d2ccc9072`, licencja MIT.\n- **Source path:** `skills/subagent-driven-development/SKILL.md` (last touched commit `caf14aac6693ed3604439eb67f55becca23ad995`).\n- **OpenClaw adaptation:** 2026-06-24 (Etap 7b Sesja 2 unification).\n- **Lokalna kopia referencyjna:** `/srv/samba/openclaw/github_forks/obra-superpowers-reference`.\n- **Typ:** instruction-only flexible skill (orchestration + per-task discipline).",
+      "intent": null,
+      "tags": [
+        "Agent Snooping"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced: ticker validation added (regex ^[A-Z0-9^.\\-]{1,15}$) eliminates SSRF risk."
+    },
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.75,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 329,
+        "end_line": null
+      },
+      "finding": "without consent",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "| Reviewer told what not to flag | Pre-judging | Constraint: never instruct reviewer |\n| Parallel implementation subagents | Conflicts | Constraint: sequential dispatch |\n| Ledger skipped | \"Internal memory enough\" | Constraint: ledger entry in same message as completion |\n| Main/master without consent | \"It's the base\" | Constraint: explicit consent required |\n\n## Security Audit\n",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced: ticker validation added (regex ^[A-Z0-9^.\\-]{1,15}$) eliminates SSRF risk."
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 188,
+        "end_line": null
+      },
+      "finding": "git clean -fdx",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "**Rules:**\n- One line per completed task in same message as other bookkeeping.\n- After compaction: trust ledger + `git log` over your own recollection.\n- `git clean -fdx` destroys ledger (it's git-ignored scratch) \u2014 recover from `git log`.\n\n## Continuous Execution (NOWE)\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced: ticker validation added (regex ^[A-Z0-9^.\\-]{1,15}$) eliminates SSRF risk."
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'agent_skill_destructive_autonomous_actions': Autonomous destructive filesystem, shell history, or repository actions in AI agent skills [agent_skills]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 192,
+        "end_line": null
+      },
+      "finding": "git clean -fdx; silently",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "\n## Continuous Execution (NOWE)\n\nDo NOT pause to check in with Adam between tasks. Execute all tasks without stopping. **Only stop for:**\n- BLOCKED status you cannot resolve\n- Ambiguity that genuinely prevents progress\n- All tasks complete",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Accepted by Robbo 2026-06-25 (Opcja 4 naprawa). For backtest-advanced: ticker validation added (regex ^[A-Z0-9^.\\-]{1,15}$) eliminates SSRF risk."
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": false,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 3,
+    "scanned_components": 3,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 4,
+    "findings_after_filtering": 4,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

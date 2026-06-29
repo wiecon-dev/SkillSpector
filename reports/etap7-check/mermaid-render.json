@@ -1,0 +1,138 @@
+{
+  "skill": {
+    "name": "mermaid-render",
+    "source": "/srv/samba/openclaw/github_forks/gstack/openclaw/skills/mermaid-render",
+    "scanned_at": "2026-06-29T14:58:08.937273+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 225,
+      "executable": false,
+      "size_bytes": 8685
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 36,
+      "executable": false,
+      "size_bytes": 907
+    },
+    {
+      "path": "bin/mermaid-generate.sh",
+      "type": "shell",
+      "lines": 103,
+      "executable": true,
+      "size_bytes": 3103
+    },
+    {
+      "path": "bin/render-diagram.py",
+      "type": "python",
+      "lines": 191,
+      "executable": true,
+      "size_bytes": 6723
+    },
+    {
+      "path": "lib/BUILD_INFO.json",
+      "type": "json",
+      "lines": 14,
+      "executable": false,
+      "size_bytes": 429
+    },
+    {
+      "path": "lib/diagram-render.html",
+      "type": "other",
+      "lines": 5137,
+      "executable": false,
+      "size_bytes": 9645479
+    },
+    {
+      "path": "pyproject.toml",
+      "type": "toml",
+      "lines": 13,
+      "executable": false,
+      "size_bytes": 245
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 76,
+      "executable": false,
+      "size_bytes": 1561
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 2,
+  "suppressed": [
+    {
+      "id": "LP3",
+      "category": "MCP Least Privilege",
+      "pattern": null,
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1,
+        "end_line": null
+      },
+      "finding": null,
+      "explanation": "Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "remediation": "Add a 'permissions' field to SKILL.md listing the capabilities this skill requires.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "ASI02"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: SKILL.md header noise, no context to evaluate"
+    },
+    {
+      "id": "RA2",
+      "category": "Rogue Agent",
+      "pattern": "Session Persistence",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 8,
+        "end_line": null
+      },
+      "finding": "create a flowchart\"\n  - \"diagram this\"\n  - \"visualize this flow\"\n  - \"architecture diagram\"\nallowed-tools:\n  - Read\n  - Write\n  - Bash\n  - message\norigin: gstack/diagram (commit 11de390, v1.58.5.0) \u2192 ",
+      "explanation": "Skill establishes unauthorized persistence across sessions via cron jobs, startup scripts, or state files. Session persistence allows an attacker to maintain access beyond the current interaction.",
+      "remediation": "Remove any persistence mechanisms (cron jobs, startup scripts, state files). Skills should not maintain state across sessions without explicit user consent.",
+      "code_snippet": "triggers:\n  - \"make a diagram\"\n  - \"draw a diagram\"\n  - \"create a flowchart\"\n  - \"diagram this\"\n  - \"visualize this flow\"\n  - \"architecture diagram\"",
+      "intent": null,
+      "tags": [
+        "Rogue Agent"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: mermaid-render gstack guardrail/documentation skill"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 8,
+    "scanned_components": 8,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 2,
+    "findings_after_filtering": 2,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

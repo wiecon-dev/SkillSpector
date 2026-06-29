@@ -1,0 +1,116 @@
+{
+  "skill": {
+    "name": "ontology",
+    "source": "/home/openclaw/.openclaw/workspace/skills/ontology",
+    "scanned_at": "2026-06-25T18:22:34.169804+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": ".clawhub/origin.json",
+      "type": "json",
+      "lines": 7,
+      "executable": false,
+      "size_bytes": 140
+    },
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 232,
+      "executable": false,
+      "size_bytes": 6757
+    },
+    {
+      "path": "_meta.json",
+      "type": "json",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 127
+    },
+    {
+      "path": "pyproject.toml",
+      "type": "toml",
+      "lines": 13,
+      "executable": false,
+      "size_bytes": 287
+    },
+    {
+      "path": "references/queries.md",
+      "type": "markdown",
+      "lines": 211,
+      "executable": false,
+      "size_bytes": 5471
+    },
+    {
+      "path": "references/schema.md",
+      "type": "markdown",
+      "lines": 322,
+      "executable": false,
+      "size_bytes": 6650
+    },
+    {
+      "path": "scripts/ontology.py",
+      "type": "python",
+      "lines": 580,
+      "executable": true,
+      "size_bytes": 21596
+    },
+    {
+      "path": "uv.lock",
+      "type": "other",
+      "lines": 8,
+      "executable": false,
+      "size_bytes": 129
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 1,
+  "suppressed": [
+    {
+      "id": "LP3",
+      "category": "MCP Least Privilege",
+      "pattern": null,
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1,
+        "end_line": null
+      },
+      "finding": null,
+      "explanation": "Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "remediation": "Add a 'permissions' field to SKILL.md listing the capabilities this skill requires.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "ASI02"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: SKILL.md header noise, no context to evaluate"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 8,
+    "scanned_components": 8,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 1,
+    "findings_after_filtering": 1,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

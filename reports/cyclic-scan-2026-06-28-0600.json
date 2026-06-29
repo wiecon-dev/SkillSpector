@@ -1,0 +1,1190 @@
+{
+  "multi_skill": true,
+  "skill_count": 169,
+  "max_risk_score": 100,
+  "skills": [
+    {
+      "name": "00-x-search-commands",
+      "path": "00-x-search-commands",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "00_kb_commands",
+      "path": "00_kb_commands",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "00_vault_deep",
+      "path": "00_vault_deep",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "00_vault_search",
+      "path": "00_vault_search",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "00_vault_semantic",
+      "path": "00_vault_semantic",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "ab-health",
+      "path": "ab-health",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "agent-orchestrator-oc",
+      "path": "agent-orchestrator-oc",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "agentmail",
+      "path": "agentmail",
+      "risk_score": 100,
+      "risk_severity": "CRITICAL",
+      "finding_count": 10
+    },
+    {
+      "name": "api-design",
+      "path": "api-design",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "architecture-review",
+      "path": "architecture-review",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "backtest-advanced",
+      "path": "backtest-advanced",
+      "risk_score": 100,
+      "risk_severity": "CRITICAL",
+      "finding_count": 11
+    },
+    {
+      "name": "backup-validate",
+      "path": "backup-validate",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "brainstorming",
+      "path": "brainstorming",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "c4-diagrams",
+      "path": "c4-diagrams",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "certification-tracker",
+      "path": "certification-tracker",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "code-review-and-quality",
+      "path": "code-review-and-quality",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "code-reviewer",
+      "path": "code-reviewer",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "code-simplification",
+      "path": "code-simplification",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "cohort-analysis",
+      "path": "cohort-analysis",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "compliance-check",
+      "path": "compliance-check",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "context-compress",
+      "path": "context-compress",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 7
+    },
+    {
+      "name": "context-engineering",
+      "path": "context-engineering",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 2
+    },
+    {
+      "name": "context-guardian",
+      "path": "context-guardian",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "cost-optimizer",
+      "path": "cost-optimizer",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "cron-monitor",
+      "path": "cron-monitor",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "daily-briefing",
+      "path": "daily-briefing",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "data-engineer",
+      "path": "data-engineer",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "data-pipeline",
+      "path": "data-pipeline",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "data-quality",
+      "path": "data-quality",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "data-viz",
+      "path": "data-viz",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "databricks-notebook",
+      "path": "databricks-notebook",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "dbt-patterns",
+      "path": "dbt-patterns",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "ddd-patterns",
+      "path": "ddd-patterns",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "debug-toolkit",
+      "path": "debug-toolkit",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "debugging-and-error-recovery",
+      "path": "debugging-and-error-recovery",
+      "risk_score": 41,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "deep-research",
+      "path": "deep-research",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "diabetes-tracker",
+      "path": "diabetes-tracker",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "diary-system",
+      "path": "diary-system",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "dispatching-parallel-agents",
+      "path": "dispatching-parallel-agents",
+      "risk_score": 16,
+      "risk_severity": "LOW",
+      "finding_count": 2
+    },
+    {
+      "name": "dividend-tracker",
+      "path": "dividend-tracker",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 6
+    },
+    {
+      "name": "docker-pro",
+      "path": "docker-pro",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "docs-architect",
+      "path": "docs-architect",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "doubt-driven-development",
+      "path": "doubt-driven-development",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "email-sequences",
+      "path": "email-sequences",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "embedding-strategies",
+      "path": "embedding-strategies",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "env-setup",
+      "path": "env-setup",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "error-detective",
+      "path": "error-detective",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "etf-compare",
+      "path": "etf-compare",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 6
+    },
+    {
+      "name": "event-sourcing",
+      "path": "event-sourcing",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "executing-plans",
+      "path": "executing-plans",
+      "risk_score": 22,
+      "risk_severity": "MEDIUM",
+      "finding_count": 6
+    },
+    {
+      "name": "experiment-tracker",
+      "path": "experiment-tracker",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "explain-socrates",
+      "path": "explain-socrates",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "family-calendar",
+      "path": "family-calendar",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "family-health",
+      "path": "family-health",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "feature-store",
+      "path": "feature-store",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "file-organizer",
+      "path": "file-organizer",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "find-skills",
+      "path": "find-skills",
+      "risk_score": 31,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "finishing-a-development-branch",
+      "path": "finishing-a-development-branch",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "fitness-adam",
+      "path": "fitness-adam",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "food-db-gf",
+      "path": "food-db-gf",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "gdpr-handler",
+      "path": "gdpr-handler",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "gemma-3model-guide",
+      "path": "gemma-3model-guide",
+      "risk_score": 6,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "gha-security",
+      "path": "gha-security",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "git-workflows",
+      "path": "git-workflows",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "goal-tracker",
+      "path": "goal-tracker",
+      "risk_score": 22,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "grill-with-docs",
+      "path": "grill-with-docs",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "health-trends",
+      "path": "health-trends",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "investment-thesis",
+      "path": "investment-thesis",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 7
+    },
+    {
+      "name": "k8s-patterns",
+      "path": "k8s-patterns",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "kpi-dashboards",
+      "path": "kpi-dashboards",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "last30days",
+      "path": "last30days",
+      "risk_score": 100,
+      "risk_severity": "CRITICAL",
+      "finding_count": 173
+    },
+    {
+      "name": "learning-path",
+      "path": "learning-path",
+      "risk_score": 13,
+      "risk_severity": "LOW",
+      "finding_count": 2
+    },
+    {
+      "name": "linkedin-pro",
+      "path": "linkedin-pro",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "linux-troubleshoot",
+      "path": "linux-troubleshoot",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "llm-patterns",
+      "path": "llm-patterns",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "market-data",
+      "path": "market-data",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 6
+    },
+    {
+      "name": "market-sentiment-daily",
+      "path": "market-sentiment-daily",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "markitdown",
+      "path": "markitdown",
+      "risk_score": 9,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "meal-planner-adam",
+      "path": "meal-planner-adam",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "memories",
+      "path": "memories",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "memory-systems",
+      "path": "memory-systems",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "mental-wellness",
+      "path": "mental-wellness",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "microservices",
+      "path": "microservices",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "ml-pipeline",
+      "path": "ml-pipeline",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "morning-report",
+      "path": "morning-report",
+      "risk_score": 97,
+      "risk_severity": "CRITICAL",
+      "finding_count": 15
+    },
+    {
+      "name": "network-engineer",
+      "path": "network-engineer",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "news-sentiment",
+      "path": "news-sentiment",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "nightscout-api",
+      "path": "nightscout-api",
+      "risk_score": 46,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "nightscout-enhanced",
+      "path": "nightscout-enhanced",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "nutrition-adam",
+      "path": "nutrition-adam",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "occupational-health",
+      "path": "occupational-health",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "ontology",
+      "path": "ontology",
+      "risk_score": 9,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "open-deep-research",
+      "path": "open-deep-research",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "openclaw-admin",
+      "path": "openclaw-admin",
+      "risk_score": 23,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "openclaw-backup-restore",
+      "path": "openclaw-backup-restore",
+      "risk_score": 7,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "openclaw-config-change",
+      "path": "openclaw-config-change",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "openclaw-primary-model-switch",
+      "path": "openclaw-primary-model-switch",
+      "risk_score": 16,
+      "risk_severity": "LOW",
+      "finding_count": 2
+    },
+    {
+      "name": "openclaw-self-docs",
+      "path": "openclaw-self-docs",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "openclaw-upgrade",
+      "path": "openclaw-upgrade",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "options-flow",
+      "path": "options-flow",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "perplexity-router",
+      "path": "perplexity-router",
+      "risk_score": 5,
+      "risk_severity": "LOW",
+      "finding_count": 3
+    },
+    {
+      "name": "Playwright (Automation + MCP + Scraper)",
+      "path": "playwright",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "portfolio-risk",
+      "path": "portfolio-risk",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "postgres-optimize",
+      "path": "postgres-optimize",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "power-bi-patterns",
+      "path": "power-bi-patterns",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "privacy-design",
+      "path": "privacy-design",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "professional-bio",
+      "path": "professional-bio",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "prompt-engineer",
+      "path": "prompt-engineer",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "prototype-lab",
+      "path": "prototype-lab",
+      "risk_score": 7,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "python-pro",
+      "path": "python-pro",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "qmd-add-collection",
+      "path": "qmd-add-collection",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "qmd-safe-refresh",
+      "path": "qmd-safe-refresh",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "quant-backtest",
+      "path": "quant-backtest",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 6
+    },
+    {
+      "name": "rag-engineer",
+      "path": "rag-engineer",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "receiving-code-review",
+      "path": "receiving-code-review",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "rehab-knee",
+      "path": "rehab-knee",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "reminders-telegram",
+      "path": "reminders-telegram",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "requesting-code-review",
+      "path": "requesting-code-review",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "risk-metrics",
+      "path": "risk-metrics",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "sas-modernize",
+      "path": "sas-modernize",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "school-planner",
+      "path": "school-planner",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "scikit-health",
+      "path": "scikit-health",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "secrets-audit",
+      "path": "secrets-audit",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "sector-rotation",
+      "path": "sector-rotation",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "security-audit",
+      "path": "security-audit",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "sentiment-analysis",
+      "path": "sentiment-analysis",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "server-monitor",
+      "path": "server-monitor",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "skill-audit",
+      "path": "skill-audit",
+      "risk_score": 100,
+      "risk_severity": "CRITICAL",
+      "finding_count": 75
+    },
+    {
+      "name": "skill-audit-escalation",
+      "path": "skill-audit-escalation",
+      "risk_score": 25,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "skill-audit-oc",
+      "path": "skill-audit-oc",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "skill-detector",
+      "path": "skill-detector",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "skill-guard",
+      "path": "skill-guard",
+      "risk_score": 100,
+      "risk_severity": "CRITICAL",
+      "finding_count": 13
+    },
+    {
+      "name": "skill-import-ledger",
+      "path": "skill-import-ledger",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "skill-securite-audit",
+      "path": "skill-securite-audit",
+      "risk_score": 85,
+      "risk_severity": "CRITICAL",
+      "finding_count": 10
+    },
+    {
+      "name": "sleep-adam",
+      "path": "sleep-adam",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "snowflake-dev",
+      "path": "snowflake-dev",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "source-driven-development",
+      "path": "source-driven-development",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "spec-driven-development",
+      "path": "spec-driven-development",
+      "risk_score": 14,
+      "risk_severity": "LOW",
+      "finding_count": 3
+    },
+    {
+      "name": "sql-pro",
+      "path": "sql-pro",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "stock-research",
+      "path": "stock-research",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "strategy-doc",
+      "path": "strategy-doc",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "study-guide-gen",
+      "path": "study-guide-gen",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 3
+    },
+    {
+      "name": "subagent-driven-development",
+      "path": "subagent-driven-development",
+      "risk_score": 51,
+      "risk_severity": "HIGH",
+      "finding_count": 4
+    },
+    {
+      "name": "substack-scraper",
+      "path": "substack-scraper",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "supadata-transcript",
+      "path": "supadata-transcript",
+      "risk_score": 20,
+      "risk_severity": "LOW",
+      "finding_count": 3
+    },
+    {
+      "name": "supplement-advisor",
+      "path": "supplement-advisor",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "systematic-debugging",
+      "path": "systematic-debugging",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "table2img",
+      "path": "table2img",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "task-planning",
+      "path": "task-planning",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "tdd-vertical-slices",
+      "path": "tdd-vertical-slices",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "terraform-skills",
+      "path": "terraform-skills",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "test-driven-development",
+      "path": "test-driven-development",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "using-git-worktrees",
+      "path": "using-git-worktrees",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "using-superpowers",
+      "path": "using-superpowers",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "uv-manager",
+      "path": "uv-manager",
+      "risk_score": 28,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "vault-token-add",
+      "path": "vault-token-add",
+      "risk_score": 17,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "verification-before-completion-openclaw",
+      "path": "verification-before-completion-openclaw",
+      "risk_score": 8,
+      "risk_severity": "LOW",
+      "finding_count": 2
+    },
+    {
+      "name": "video-downloader",
+      "path": "video-downloader-tool",
+      "risk_score": 100,
+      "risk_severity": "CRITICAL",
+      "finding_count": 9
+    },
+    {
+      "name": "warren-buffett",
+      "path": "warren-buffett",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 2
+    },
+    {
+      "name": "weightloss-tracker",
+      "path": "weightloss-tracker",
+      "risk_score": 21,
+      "risk_severity": "MEDIUM",
+      "finding_count": 4
+    },
+    {
+      "name": "wiki-architect-oc",
+      "path": "wiki-architect-oc",
+      "risk_score": 15,
+      "risk_severity": "LOW",
+      "finding_count": 1
+    },
+    {
+      "name": "wiki-capture",
+      "path": "wiki-capture",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "wiki-query",
+      "path": "wiki-query",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "wiki-update",
+      "path": "wiki-update",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    },
+    {
+      "name": "writing-plans",
+      "path": "writing-plans",
+      "risk_score": 14,
+      "risk_severity": "LOW",
+      "finding_count": 2
+    },
+    {
+      "name": "writing-skills",
+      "path": "writing-skills",
+      "risk_score": 39,
+      "risk_severity": "MEDIUM",
+      "finding_count": 8
+    },
+    {
+      "name": "x-search",
+      "path": "x-search",
+      "risk_score": 39,
+      "risk_severity": "MEDIUM",
+      "finding_count": 5
+    },
+    {
+      "name": "youtube-watcher",
+      "path": "youtube-watcher",
+      "risk_score": 100,
+      "risk_severity": "CRITICAL",
+      "finding_count": 32
+    },
+    {
+      "name": "zoom-out",
+      "path": "zoom-out",
+      "risk_score": 0,
+      "risk_severity": "LOW",
+      "finding_count": 0
+    }
+  ]
+}

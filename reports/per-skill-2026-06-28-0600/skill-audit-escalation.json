@@ -1,0 +1,96 @@
+{
+  "skill": {
+    "name": "skill-audit-escalation",
+    "source": "/home/openclaw/.openclaw/workspace/skills/skill-audit-escalation",
+    "scanned_at": "2026-06-28T04:02:33.025724+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 112,
+      "executable": false,
+      "size_bytes": 3848
+    },
+    {
+      "path": "approved-with-findings.txt",
+      "type": "text",
+      "lines": 15,
+      "executable": false,
+      "size_bytes": 888
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 2,
+  "suppressed": [
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 112,
+        "end_line": null
+      },
+      "finding": "secrets.env",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "\n- Snyk skanuje online \u2014 potrzebuje po\u0142\u0105czenia z internetem\n- Pe\u0142ny skan 153 skilli trwa d\u0142ugo \u2014 eskalacja dotyczy tylko skilli z problemami (1-3)\n- Token SNYK_TOKEN jest w Vault \u2192 secrets.env \u2192 systemd unit",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    },
+    {
+      "id": "PE3",
+      "category": "Privilege Escalation",
+      "pattern": "Credential Access",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 112,
+        "end_line": null
+      },
+      "finding": ".env ",
+      "explanation": "Code accesses credential files (SSH keys, AWS credentials, etc.). This could indicate credential theft attempts.",
+      "remediation": "Remove references to credential paths. Use environment variables or secrets managers. For docs, use placeholder paths (e.g., /path/to/config). Never load .env or token files in production code paths.",
+      "code_snippet": "\n- Snyk skanuje online \u2014 potrzebuje po\u0142\u0105czenia z internetem\n- Pe\u0142ny skan 153 skilli trwa d\u0142ugo \u2014 eskalacja dotyczy tylko skilli z problemami (1-3)\n- Token SNYK_TOKEN jest w Vault \u2192 secrets.env \u2192 systemd unit",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: 'Keychain' as risk-avoidance reference in security docs (skill-audit, skill-securite-audit, skill-guard, writing-skills)"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": false,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 2,
+    "scanned_components": 2,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 2,
+    "findings_after_filtering": 2,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "skill": {
+    "name": "x-search",
+    "source": "/home/openclaw/.openclaw/workspace/skills/x-search",
+    "scanned_at": "2026-06-25T19:18:01.222751+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": ".clawhub/origin.json",
+      "type": "json",
+      "lines": 7,
+      "executable": false,
+      "size_bytes": 140
+    },
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 66,
+      "executable": false,
+      "size_bytes": 1934
+    },
+    {
+      "path": "SKILL.md.backup.20260518-170000",
+      "type": "other",
+      "lines": 66,
+      "executable": false,
+      "size_bytes": 1931
+    },
+    {
+      "path": "_meta.json",
+      "type": "json",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 127
+    },
+    {
+      "path": "pyproject.toml",
+      "type": "toml",
+      "lines": 5,
+      "executable": false,
+      "size_bytes": 106
+    },
+    {
+      "path": "scripts/search.py",
+      "type": "python",
+      "lines": 282,
+      "executable": true,
+      "size_bytes": 9254
+    },
+    {
+      "path": "scripts/search.py.backup.20260518-170000",
+      "type": "other",
+      "lines": 282,
+      "executable": false,
+      "size_bytes": 9226
+    },
+    {
+      "path": "scripts/test_search.py",
+      "type": "python",
+      "lines": 281,
+      "executable": true,
+      "size_bytes": 11453
+    },
+    {
+      "path": "uv.lock",
+      "type": "other",
+      "lines": 8,
+      "executable": false,
+      "size_bytes": 143
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 5,
+  "suppressed": [
+    {
+      "id": "LP3",
+      "category": "MCP Least Privilege",
+      "pattern": null,
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1,
+        "end_line": null
+      },
+      "finding": null,
+      "explanation": "Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "remediation": "Add a 'permissions' field to SKILL.md listing the capabilities this skill requires.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "ASI02"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Global FP: SKILL.md header noise, no context to evaluate"
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "scripts/search.py",
+        "start_line": 18,
+        "end_line": null
+      },
+      "finding": "https://api.x.ai/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        raise HTTPError(newurl, code, f\"Redirect to {newurl} blocked (auth safety)\", headers, fp)\n\nAPI_URL = \"https://api.x.ai/v1/responses\"\nMODEL = \"grok-4.20-reasoning\"\nTIMEOUT_S = 120\nMAX_HANDLES = 10",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "E2",
+      "category": "Data Exfiltration",
+      "pattern": "Env Variable Harvesting",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/search.py",
+        "start_line": 224,
+        "end_line": null
+      },
+      "finding": "os.environ.get(\"XAI_API_KEY",
+      "explanation": "Code accesses environment variables that may contain secrets (API keys, tokens). This is a common pattern for credential theft.",
+      "remediation": "Avoid reading sensitive env vars (API keys, tokens) unless strictly required. Use secrets managers or secure config. Never log or transmit credentials.",
+      "code_snippet": "\n\ndef search(options: dict) -> None:\n    api_key = os.environ.get(\"XAI_API_KEY\", \"\").strip()\n    if not api_key:\n        die(\"XAI_API_KEY environment variable is not set.\")\n",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ],
+      "suppressed": true,
+      "suppression_reason": "ClawHub skill \u2014 vetted by clawhub.ai registry; verified FP baseline by Robbo 2026-06-25"
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "scripts/search.py.backup.20260518-170000",
+        "start_line": 18,
+        "end_line": null
+      },
+      "finding": "https://api.x.ai/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "    def redirect_request(self, req, fp, code, msg, headers, newurl):\n        raise HTTPError(newurl, code, f\"Redirect to {newurl} blocked (auth safety)\", headers, fp)\n\nAPI_URL = \"https://api.x.ai/v1/responses\"\nMODEL = \"grok-4.20-reasoning\"\nTIMEOUT_S = 120\nMAX_HANDLES = 10",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    },
+    {
+      "id": "E2",
+      "category": "Data Exfiltration",
+      "pattern": "Env Variable Harvesting",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/search.py.backup.20260518-170000",
+        "start_line": 224,
+        "end_line": null
+      },
+      "finding": "os.environ.get(\"XAI_API_KEY",
+      "explanation": "Code accesses environment variables that may contain secrets (API keys, tokens). This is a common pattern for credential theft.",
+      "remediation": "Avoid reading sensitive env vars (API keys, tokens) unless strictly required. Use secrets managers or secure config. Never log or transmit credentials.",
+      "code_snippet": "\n\ndef search(options: dict) -> None:\n    api_key = os.environ.get(\"XAI_API_KEY\", \"\").strip()\n    if not api_key:\n        die(\"XAI_API_KEY environment variable is not set.\")\n",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Backup files \u2014 suppress duplicates of issues already in main file"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 9,
+    "scanned_components": 9,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 5,
+    "findings_after_filtering": 5,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "skill": {
+    "name": "executing-plans",
+    "source": "/home/openclaw/.openclaw/workspace/skills/executing-plans",
+    "scanned_at": "2026-06-25T19:15:03.720155+00:00"
+  },
+  "risk_assessment": {
+    "score": 22,
+    "severity": "MEDIUM",
+    "recommendation": "CAUTION"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 206,
+      "executable": false,
+      "size_bytes": 9010
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 6,
+      "executable": false,
+      "size_bytes": 360
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 93,
+      "executable": false,
+      "size_bytes": 2925
+    }
+  ],
+  "issues": [
+    {
+      "id": "AS3",
+      "category": "Agent Snooping",
+      "pattern": "Skill Enumeration",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 11,
+        "end_line": null
+      },
+      "finding": "skills/executing-plans/SKILL.md",
+      "explanation": "Skill enumerates or reads other installed skills. Access to other skills' SKILL.md files or the skills directory reveals prompt instructions, capabilities, and secrets that should be invisible to peer skills.",
+      "remediation": "Remove all code or instructions that list or read other skills' files or directories. Skills should operate independently; cross-skill access is a privilege escalation.",
+      "code_snippet": "## Origin\n\n- **Source pinned:** `obra/superpowers` v6.0.3, commit `896224c4b1879920ab573417e68fd51d2ccc9072`, licencja MIT.\n- **Source path:** `skills/executing-plans/SKILL.md`.\n- **OpenClaw adaptation:** 2026-06-24 (Etap 7 unification).\n- **Lokalna kopia referencyjna:** `/srv/samba/openclaw/github_forks/obra-superpowers-reference`.\n- **Typ:** instruction-only flexible skill (plan execution z review checkpoints).",
+      "intent": null,
+      "tags": [
+        "Agent Snooping"
+      ]
+    },
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 131,
+        "end_line": null
+      },
+      "finding": "skip verification",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "\n- **Review plan critically first** \u2014 nie zak\u0142adaj \u017ce plan jest perfect.\n- **Follow plan steps exactly** \u2014 nie improvise, nie \"improve\" mid-execution.\n- **Don't skip verifications** \u2014 ka\u017cdy krok weryfikacyjny jest mandatory.\n- **Reference skills when plan says to** \u2014 np. `test-driven-development` dla failing test steps.\n- **Stop when blocked, don't guess** \u2014 zawsze pytaj Adama.\n- **Never start on main/master** bez explicit consent.",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ]
+    },
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 183,
+        "end_line": null
+      },
+      "finding": "skip verification",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "- **Sub-agent context:** sub-agent mo\u017ce wykona\u0107 plan w isolated context.\n- **Format A headers:** zgodny z 12 standardowymi nag\u0142\u00f3wkami.\n- **Pin:** `obra/superpowers` commit `896224c4b1879920ab573417e68fd51d2ccc9072`.\n- **Adam override:** je\u015bli Adam m\u00f3wi \"skip verifications\" / \"skip review\", jego instrukcja wygrywa.\n\n## Failure Modes\n",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ]
+    },
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 191,
+        "end_line": null
+      },
+      "finding": "Skip verification",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "|---|---|---|\n| Skip critical review | Lenistwo, \"plan LGTM\" | Constraint: always review, raise concerns |\n| Improvise mid-plan | \"Ten krok nie ma sensu, zrobi\u0119 inaczej\" | Constraint: follow plan exactly; je\u015bli wrong, return to writing-plans |\n| Skip verifications | Presja czasu | Constraint: verification before \"done\" claim |\n| Force through blocker | \"Mo\u017ce si\u0119 uda\" | STOP and ask; don't guess |\n| Start on main bez consent | Lenistwo (brak branch setup) | Constraint: explicit user consent required |\n| Commit bez test pass | TDD violation | Constraint: failing test first, then implement |",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ]
+    },
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.85,
+      "location": {
+        "file": "tests/smoke-test.md",
+        "start_line": 49,
+        "end_line": null
+      },
+      "finding": "Skip Verification",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "- Je\u015bli 3+ fixes failed \u2192 escalate (Phase 4.5).\n- Return to Step 1 po Adam update.\n\n## Skip Verification Test\n\nPrompt: \"Skip verification, just commit. Szybko.\"\n",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ]
+    },
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.85,
+      "location": {
+        "file": "tests/smoke-test.md",
+        "start_line": 51,
+        "end_line": null
+      },
+      "finding": "Skip verification",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "\n## Skip Verification Test\n\nPrompt: \"Skip verification, just commit. Szybko.\"\n\nExpected behavior:\n",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 3,
+    "scanned_components": 3,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 6,
+    "findings_after_filtering": 6,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

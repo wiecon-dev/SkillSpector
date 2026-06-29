@@ -1,0 +1,359 @@
+{
+  "skill": {
+    "name": "unknown",
+    "source": "/home/openclaw/.openclaw/workspace/skills/morning-report",
+    "scanned_at": "2026-06-25T18:15:43.390562+00:00"
+  },
+  "risk_assessment": {
+    "score": 97,
+    "severity": "CRITICAL",
+    "recommendation": "DO_NOT_INSTALL"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 135,
+      "executable": false,
+      "size_bytes": 4867
+    },
+    {
+      "path": "generate_report.py",
+      "type": "python",
+      "lines": 422,
+      "executable": true,
+      "size_bytes": 16761
+    },
+    {
+      "path": "generate_report.py.bak-20260616-133511",
+      "type": "other",
+      "lines": 468,
+      "executable": false,
+      "size_bytes": 19004
+    }
+  ],
+  "issues": [
+    {
+      "id": "AST4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 259,
+        "end_line": 262
+      },
+      "finding": "    subprocess.run(\n        [sys.executable, monitor_script],\n        capture_output=True, text=True, timeout=120\n    )",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "    state_file = Path(\"/home/openclaw/.openclaw/state/youtube-transcripts-monitor.json\")\n    \n    # Run the monitor script to generate fresh PNG + state JSON\n    subprocess.run(\n        [sys.executable, monitor_script],\n        capture_output=True, text=True, timeout=120\n    )",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ]
+    },
+    {
+      "id": "AST4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 22,
+        "end_line": 22
+      },
+      "finding": "        return subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip()",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "\ndef run(cmd):\n    try:\n        return subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip()\n    except:\n        return \"\"\n",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ]
+    },
+    {
+      "id": "AST4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 28,
+        "end_line": 28
+      },
+      "finding": "        out = subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip()",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "\ndef run_json(cmd):\n    try:\n        out = subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip()\n        return json.loads(out)\n    except:\n        return None",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ]
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 102,
+        "end_line": null
+      },
+      "finding": "https://api.github.com/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "\n**Data sources:**\n- Installed: `openclaw --version`\n- Latest: GitHub releases API `https://api.github.com/repos/openclaw/openclaw/releases`\n\n**Changelog:** If new version available, list key changes from release notes.\n",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.6,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 316,
+        "end_line": null
+      },
+      "finding": "https://api.github.com/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "    latest_date = \"?\"\n    changelog = \"\"\n    try:\n        resp = urllib.request.urlopen(\"https://api.github.com/repos/openclaw/openclaw/releases?per_page=5\")\n        releases = json.loads(resp.read())\n        for r in releases:\n            if not r.get(\"prerelease\", True):",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "E1",
+      "category": "Data Exfiltration",
+      "pattern": "External Transmission",
+      "severity": "MEDIUM",
+      "confidence": 0.5,
+      "location": {
+        "file": "generate_report.py.bak-20260616-133511",
+        "start_line": 349,
+        "end_line": null
+      },
+      "finding": "https://api.github.com/",
+      "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended.",
+      "remediation": "Verify the destination URL is trusted and necessary. Remove or replace with documented APIs. Ensure no secrets, tokens, or PII are transmitted.",
+      "code_snippet": "    latest_date = \"?\"\n    changelog = \"\"\n    try:\n        resp = urllib.request.urlopen(\"https://api.github.com/repos/openclaw/openclaw/releases?per_page=5\")\n        releases = json.loads(resp.read())\n        for r in releases:\n            if not r.get(\"prerelease\", True):",
+      "intent": null,
+      "tags": [
+        "Data Exfiltration"
+      ]
+    },
+    {
+      "id": "OH1",
+      "category": "Output Handling",
+      "pattern": "Unvalidated Output Injection",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 259,
+        "end_line": null
+      },
+      "finding": "subprocess.run(\n        [sys.executable, monitor_script],\n        capture_output",
+      "explanation": "Model output is used without validation or sanitization. Unvalidated output injected into downstream contexts (SQL, shell, HTML) enables injection attacks and arbitrary code execution.",
+      "remediation": "Validate and sanitize all model output before using it in downstream contexts. Use parameterized queries for SQL, shell quoting for commands, and HTML encoding for web output.",
+      "code_snippet": "    state_file = Path(\"/home/openclaw/.openclaw/state/youtube-transcripts-monitor.json\")\n    \n    # Run the monitor script to generate fresh PNG + state JSON\n    subprocess.run(\n        [sys.executable, monitor_script],\n        capture_output=True, text=True, timeout=120\n    )",
+      "intent": null,
+      "tags": [
+        "Output Handling"
+      ]
+    },
+    {
+      "id": "SSRF2",
+      "category": "Server-Side Request Forgery",
+      "pattern": "Internal Network Request",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 202,
+        "end_line": null
+      },
+      "finding": "urllib.request.urlopen(\"http://127.0.0.1",
+      "explanation": "Code issues a request to a loopback, link-local, or private-range host. This can reach internal services not meant to be exposed and is a common SSRF pivot.",
+      "remediation": "Avoid requests to loopback/link-local/private hosts from skill code. If internal access is intended, document it and validate the target against an allowlist.",
+      "code_snippet": "    \n    # Qdrant\n    try:\n        resp = urllib.request.urlopen(\"http://127.0.0.1:6333/collections\")\n        data = json.loads(resp.read())\n        mem_count = \"?\"\n        ent_count = \"?\"",
+      "intent": null,
+      "tags": [
+        "Server-Side Request Forgery"
+      ]
+    },
+    {
+      "id": "SSRF2",
+      "category": "Server-Side Request Forgery",
+      "pattern": "Internal Network Request",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 209,
+        "end_line": null
+      },
+      "finding": "urllib.request.urlopen(f\"http://127.0.0.1",
+      "explanation": "Code issues a request to a loopback, link-local, or private-range host. This can reach internal services not meant to be exposed and is a common SSRF pivot.",
+      "remediation": "Avoid requests to loopback/link-local/private hosts from skill code. If internal access is intended, document it and validate the target against an allowlist.",
+      "code_snippet": "        for c in data.get(\"result\", {}).get(\"collections\", []):\n            name = c[\"name\"]\n            try:\n                resp2 = urllib.request.urlopen(f\"http://127.0.0.1:6333/collections/{name}\")\n                info = json.loads(resp2.read())\n                cnt = info.get(\"result\", {}).get(\"points_count\", \"?\")\n                if name == \"memories\":",
+      "intent": null,
+      "tags": [
+        "Server-Side Request Forgery"
+      ]
+    },
+    {
+      "id": "SSRF2",
+      "category": "Server-Side Request Forgery",
+      "pattern": "Internal Network Request",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "generate_report.py.bak-20260616-133511",
+        "start_line": 200,
+        "end_line": null
+      },
+      "finding": "urllib.request.urlopen(\"http://127.0.0.1",
+      "explanation": "Code issues a request to a loopback, link-local, or private-range host. This can reach internal services not meant to be exposed and is a common SSRF pivot.",
+      "remediation": "Avoid requests to loopback/link-local/private hosts from skill code. If internal access is intended, document it and validate the target against an allowlist.",
+      "code_snippet": "    \n    # Qdrant\n    try:\n        resp = urllib.request.urlopen(\"http://127.0.0.1:6333/collections\")\n        data = json.loads(resp.read())\n        mem_count = \"?\"\n        ent_count = \"?\"",
+      "intent": null,
+      "tags": [
+        "Server-Side Request Forgery"
+      ]
+    },
+    {
+      "id": "SSRF2",
+      "category": "Server-Side Request Forgery",
+      "pattern": "Internal Network Request",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "generate_report.py.bak-20260616-133511",
+        "start_line": 207,
+        "end_line": null
+      },
+      "finding": "urllib.request.urlopen(f\"http://127.0.0.1",
+      "explanation": "Code issues a request to a loopback, link-local, or private-range host. This can reach internal services not meant to be exposed and is a common SSRF pivot.",
+      "remediation": "Avoid requests to loopback/link-local/private hosts from skill code. If internal access is intended, document it and validate the target against an allowlist.",
+      "code_snippet": "        for c in data.get(\"result\", {}).get(\"collections\", []):\n            name = c[\"name\"]\n            try:\n                resp2 = urllib.request.urlopen(f\"http://127.0.0.1:6333/collections/{name}\")\n                info = json.loads(resp2.read())\n                cnt = info.get(\"result\", {}).get(\"points_count\", \"?\")\n                if name == \"memories\":",
+      "intent": null,
+      "tags": [
+        "Server-Side Request Forgery"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 22,
+        "end_line": null
+      },
+      "finding": "subprocess.check_output(cmd, shell=True",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\ndef run(cmd):\n    try:\n        return subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip()\n    except:\n        return \"\"\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "location": {
+        "file": "generate_report.py",
+        "start_line": 28,
+        "end_line": null
+      },
+      "finding": "subprocess.check_output(cmd, shell=True",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\ndef run_json(cmd):\n    try:\n        out = subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip()\n        return json.loads(out)\n    except:\n        return None",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "generate_report.py.bak-20260616-133511",
+        "start_line": 20,
+        "end_line": null
+      },
+      "finding": "subprocess.check_output(cmd, shell=True",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\ndef run(cmd):\n    try:\n        return subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip()\n    except:\n        return \"\"\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "generate_report.py.bak-20260616-133511",
+        "start_line": 26,
+        "end_line": null
+      },
+      "finding": "subprocess.check_output(cmd, shell=True",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\ndef run_json(cmd):\n    try:\n        out = subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip()\n        return json.loads(out)\n    except:\n        return None",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ]
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 3,
+    "scanned_components": 3,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 15,
+    "findings_after_filtering": 15,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

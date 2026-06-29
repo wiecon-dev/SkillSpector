@@ -1,0 +1,65 @@
+{
+  "skill": {
+    "name": "openclaw-self-docs",
+    "source": "/home/openclaw/.openclaw/workspace/skills/openclaw-self-docs",
+    "scanned_at": "2026-06-25T19:16:20.522217+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 137,
+      "executable": false,
+      "size_bytes": 5030
+    },
+    {
+      "path": "SKILL.md.backup.20260518-1815",
+      "type": "other",
+      "lines": 152,
+      "executable": false,
+      "size_bytes": 5558
+    },
+    {
+      "path": "references/quick-facts.md",
+      "type": "markdown",
+      "lines": 56,
+      "executable": false,
+      "size_bytes": 1962
+    },
+    {
+      "path": "references/quick-facts.md.backup.20260518-1815",
+      "type": "other",
+      "lines": 61,
+      "executable": false,
+      "size_bytes": 2217
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": false,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 4,
+    "scanned_components": 4,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 0,
+    "findings_after_filtering": 0,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

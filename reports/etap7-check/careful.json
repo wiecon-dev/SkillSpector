@@ -1,0 +1,374 @@
+{
+  "skill": {
+    "name": "careful",
+    "source": "/srv/samba/openclaw/github_forks/gstack/openclaw/skills/careful",
+    "scanned_at": "2026-06-29T14:58:05.514672+00:00"
+  },
+  "risk_assessment": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "SAFE"
+  },
+  "components": [
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 212,
+      "executable": false,
+      "size_bytes": 9144
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "lines": 42,
+      "executable": false,
+      "size_bytes": 862
+    },
+    {
+      "path": "bin/check-careful.sh",
+      "type": "shell",
+      "lines": 116,
+      "executable": true,
+      "size_bytes": 4224
+    },
+    {
+      "path": "tests/smoke-test.md",
+      "type": "markdown",
+      "lines": 106,
+      "executable": false,
+      "size_bytes": 3417
+    }
+  ],
+  "issues": [],
+  "suppressed_count": 14,
+  "suppressed": [
+    {
+      "id": "AR2",
+      "category": "Anti-Refusal",
+      "pattern": "Anti-Refusal Statement",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 107,
+        "end_line": null
+      },
+      "finding": "no warning",
+      "explanation": "Skill instructs the agent to omit warnings, disclaimers, or ethical commentary. Stripping safety caveats hides risk from the user and is a common jailbreak preamble.",
+      "remediation": "Remove instructions that suppress warnings, disclaimers, or ethical commentary. Let the agent surface safety-relevant caveats to the user.",
+      "code_snippet": "# Output\n{\"decision\":\"ask\",\"pattern\":\"rm_recursive\",\"warning\":\"Recursive delete (rm -r). This permanently removes files. Confirm with Adam before proceeding.\"}\n\n# Safe build-artifact rm (no warning)\necho '{\"tool\":\"exec\",\"tool_input\":{\"command\":\"rm -rf node_modules\"}}' \\\n  | bash ~/.openclaw/workspace/skills/careful/bin/check-careful.sh\n",
+      "intent": null,
+      "tags": [
+        "Anti-Refusal"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful gstack guardrail/documentation skill"
+    },
+    {
+      "id": "EA2",
+      "category": "Excessive Agency",
+      "pattern": "Autonomous Decision Making",
+      "severity": "MEDIUM",
+      "confidence": 0.75,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 129,
+        "end_line": null
+      },
+      "finding": "without asking",
+      "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+      "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+      "code_snippet": "\nCommand: `rm -rf node_modules`\nOutput: `{\"decision\":\"allow\",\"pattern\":\"rm_safe_artifact\",\"warning\":\"\"}`\nAction: proceed without asking.\n\n### Example 2 \u2014 Destructive rm (ask)\n",
+      "intent": null,
+      "tags": [
+        "Excessive Agency"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful gstack guardrail/documentation skill"
+    },
+    {
+      "id": "PE2",
+      "category": "Privilege Escalation",
+      "pattern": "Sudo/Root Execution",
+      "severity": "MEDIUM",
+      "confidence": 0.8,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 179,
+        "end_line": null
+      },
+      "finding": "chmod 755",
+      "explanation": "Commands invoke sudo or root privileges. Verify this elevated access is necessary and justified.",
+      "remediation": "Avoid sudo/root unless strictly required. Prefer least-privilege patterns. If elevation is needed, document the justification and scope.",
+      "code_snippet": "- **No network calls**: script is fully offline, no telemetry.\n- **No secret logging**: warning text includes pattern name only, never the command itself.\n- **State file**: none (stateless).\n- **Permissions**: script should be `chmod 755`, no write access needed at runtime.\n- **Reviewed**: 2026-06-29 during Etap 7 isolated sub-agent audit.\n\n## OpenClaw Adaptation Notes",
+      "intent": null,
+      "tags": [
+        "Privilege Escalation"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful gstack guardrail/documentation skill"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.85,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 133,
+        "end_line": null
+      },
+      "finding": "rm -rf /var/data/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\n### Example 2 \u2014 Destructive rm (ask)\n\nCommand: `rm -rf /var/data/old-logs`\nOutput: `{\"decision\":\"ask\",\"pattern\":\"rm_recursive\",\"warning\":\"Recursive delete...\"}`\nAction: AskUserQuestion \u2192 Adam: \"yes\" \u2192 proceed.\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful gstack guardrail/documentation skill"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 139,
+        "end_line": null
+      },
+      "finding": "git push --force",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\n### Example 3 \u2014 Force push (ask)\n\nCommand: `git push --force origin main`\nOutput: `{\"decision\":\"ask\",\"pattern\":\"git_force_push\",\"warning\":\"git force-push rewrites remote history...\"}`\nAction: AskUserQuestion \u2192 Adam: \"no\" \u2192 abort, log avoided force-push.\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful gstack guardrail/documentation skill"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 1.0,
+      "location": {
+        "file": "bin/check-careful.sh",
+        "start_line": 62,
+        "end_line": null
+      },
+      "finding": "rm -rf / rm -r /",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "WARN=\"\"\nPATTERN=\"\"\n\n# rm -rf / rm -r / rm --recursive\nif printf '%s' \"$CMD\" | grep -qE 'rm\\s+(-[a-zA-Z]*r|--recursive)'; then\n  WARN=\"Recursive delete (rm -r). This permanently removes files. Confirm with Adam before proceeding.\"\n  PATTERN=\"rm_recursive\"",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful detects rm/git/kubectl destructive commands; examples are intentional"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "bin/check-careful.sh",
+        "start_line": 43,
+        "end_line": null
+      },
+      "finding": "RM_ARGS=$(printf '%s' \"$CMD\" | sed -E 's/",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "# If rm -rf targets ONLY build artifacts, allow silently.\nif printf '%s' \"$CMD\" | grep -qE 'rm\\s+(-[a-zA-Z]*r[a-zA-Z]*\\s+|--recursive\\s+)'; then\n  SAFE_ONLY=true\n  RM_ARGS=$(printf '%s' \"$CMD\" | sed -E 's/.*rm[[:space:]]+(-[a-zA-Z]+[[:space:]]+)*//;s/--recursive[[:space:]]*//')\n  for target in $RM_ARGS; do\n    case \"$target\" in\n      */node_modules|node_modules|*/\\.next|\\.next|*/dist|dist|*/__pycache__|__pycache__|*/\\.cache|\\.cache|*/build|build|*/\\.turbo|\\.turbo|*/coverage|coverage)",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful detects rm/git/kubectl destructive commands; examples are intentional"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "bin/check-careful.sh",
+        "start_line": 62,
+        "end_line": null
+      },
+      "finding": "rm -rf / rm -r / ",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "WARN=\"\"\nPATTERN=\"\"\n\n# rm -rf / rm -r / rm --recursive\nif printf '%s' \"$CMD\" | grep -qE 'rm\\s+(-[a-zA-Z]*r|--recursive)'; then\n  WARN=\"Recursive delete (rm -r). This permanently removes files. Confirm with Adam before proceeding.\"\n  PATTERN=\"rm_recursive\"",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful detects rm/git/kubectl destructive commands; examples are intentional"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.95,
+      "location": {
+        "file": "bin/check-careful.sh",
+        "start_line": 104,
+        "end_line": null
+      },
+      "finding": "rm -f / ",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "  PATTERN=\"kubectl_delete\"\nfi\n\n# docker rm -f / docker system prune\nif [ -z \"$WARN\" ] && printf '%s' \"$CMD\" | grep -qE 'docker\\s+(rm\\s+-f|system\\s+prune)'; then\n  WARN=\"Docker force-remove or prune. May delete running containers or cached images. Confirm with Adam.\"\n  PATTERN=\"docker_destructive\"",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful detects rm/git/kubectl destructive commands; examples are intentional"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.7999999999999999,
+      "location": {
+        "file": "bin/check-careful.sh",
+        "start_line": 80,
+        "end_line": null
+      },
+      "finding": "git push --force",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "  PATTERN=\"truncate\"\nfi\n\n# git push --force / -f\nif [ -z \"$WARN\" ] && printf '%s' \"$CMD\" | grep -qE 'git\\s+push\\s+.*(-f\\b|--force)'; then\n  WARN=\"git force-push rewrites remote history. Other contributors may lose work. Confirm with Adam.\"\n  PATTERN=\"git_force_push\"",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful detects rm/git/kubectl destructive commands; examples are intentional"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "bin/check-careful.sh",
+        "start_line": 86,
+        "end_line": null
+      },
+      "finding": "git reset --hard",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "  PATTERN=\"git_force_push\"\nfi\n\n# git reset --hard\nif [ -z \"$WARN\" ] && printf '%s' \"$CMD\" | grep -qE 'git\\s+reset\\s+--hard'; then\n  WARN=\"git reset --hard discards all uncommitted changes. Confirm with Adam.\"\n  PATTERN=\"git_reset_hard\"",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful detects rm/git/kubectl destructive commands; examples are intentional"
+    },
+    {
+      "id": "TM1",
+      "category": "Tool Misuse",
+      "pattern": "Tool Parameter Abuse",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "bin/check-careful.sh",
+        "start_line": 88,
+        "end_line": null
+      },
+      "finding": "git reset --hard",
+      "explanation": "Tool parameters are crafted to achieve unintended or unsafe behavior. Parameter abuse can bypass intended safety checks (e.g. shell=True, --force, dangerous glob patterns).",
+      "remediation": "Validate all tool parameters against an allowlist. Reject dangerous parameter values (shell=True, --force, -rf /) and use safe defaults.",
+      "code_snippet": "\n# git reset --hard\nif [ -z \"$WARN\" ] && printf '%s' \"$CMD\" | grep -qE 'git\\s+reset\\s+--hard'; then\n  WARN=\"git reset --hard discards all uncommitted changes. Confirm with Adam.\"\n  PATTERN=\"git_reset_hard\"\nfi\n",
+      "intent": null,
+      "tags": [
+        "Tool Misuse"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful detects rm/git/kubectl destructive commands; examples are intentional"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'agent_skill_destructive_autonomous_actions': Autonomous destructive filesystem, shell history, or repository actions in AI agent skills [agent_skills]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 140,
+        "end_line": null
+      },
+      "finding": "git push --force; without asking; silently; silently; silently",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "### Example 3 \u2014 Force push (ask)\n\nCommand: `git push --force origin main`\nOutput: `{\"decision\":\"ask\",\"pattern\":\"git_force_push\",\"warning\":\"git force-push rewrites remote history...\"}`\nAction: AskUserQuestion \u2192 Adam: \"no\" \u2192 abort, log avoided force-push.\n\n### Example 4 \u2014 DROP TABLE (ask)",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: careful gstack guardrail/documentation skill"
+    },
+    {
+      "id": "YR1",
+      "category": "YARA Match",
+      "pattern": "YARA rule 'agent_skill_destructive_autonomous_actions': Autonomous destructive filesystem, shell history, or repository actions in AI agent skills [agent_skills]",
+      "severity": "HIGH",
+      "confidence": 0.75,
+      "location": {
+        "file": "bin/check-careful.sh",
+        "start_line": 62,
+        "end_line": null
+      },
+      "finding": "rm -rf / ; rm -r / ; rm -f / ; git push --force; git reset --hard; git reset --hard; silently",
+      "explanation": "YARA rule matched a known malware signature (reverse shell, backdoor, ransomware, C2 framework, or info stealer).",
+      "remediation": "Remove the malware payload or compromised file entirely. Investigate how it entered the skill and audit all other artifacts for additional indicators of compromise.",
+      "code_snippet": "WARN=\"\"\nPATTERN=\"\"\n\n# rm -rf / rm -r / rm --recursive\nif printf '%s' \"$CMD\" | grep -qE 'rm\\s+(-[a-zA-Z]*r|--recursive)'; then\n  WARN=\"Recursive delete (rm -r). This permanently removes files. Confirm with Adam before proceeding.\"\n  PATTERN=\"rm_recursive\"",
+      "intent": null,
+      "tags": [
+        "YARA Match"
+      ],
+      "suppressed": true,
+      "suppression_reason": "Verified FP 2026-06-29: YARA hits on documented destructive keywords in guardrail examples"
+    }
+  ],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.3.5",
+    "llm_requested": false,
+    "llm_available": true,
+    "meta_analysis_applied": false,
+    "filtering_mode": "heuristic"
+  },
+  "analysis_completeness": {
+    "total_components": 4,
+    "scanned_components": 4,
+    "coverage_percent": 100.0,
+    "llm_analysis": "skipped",
+    "findings_before_filtering": 14,
+    "findings_after_filtering": 14,
+    "limitations": [
+      "LLM meta-analysis was disabled (--no-llm)"
+    ],
+    "is_complete": false
+  }
+}

@@ -2083,3 +2083,11 @@ fingerprints:
   rule_id: RA2
   file: SKILL.md
   reason: 'Verified FP 2026-06-29: mermaid-render gstack guardrail/documentation skill'
+- hash: sha256:934e4680c4dda786
+  rule_id: EA2
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: ceo gstack documentation skill'
+- hash: sha256:e5d5def9c4782120
+  rule_id: MP3
+  file: SKILL.md
+  reason: 'Verified FP 2026-06-29: office-hours gstack documentation skill'
